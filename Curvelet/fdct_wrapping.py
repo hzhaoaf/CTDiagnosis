@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*- 
+
 '''
 % fdct_wrapping.m - Fast Discrete Curvelet Transform via wedge wrapping - Version 1.0
 %
@@ -38,6 +40,29 @@
 %
 % By Laurent Demanet, 2004
 '''
+import math
+import scipy,numpy
+from numpy.fft import fft2,ifftshift,fftshift
+
 def  fdct_wrapping(x, is_real , finest, nbscales, nbangles_coarse):
-    pass
+    print(math.sqrt(x.size))
+    X = fftshift(fft2((ifftshift(x))))/(math.sqrt(x.size)) #fft2 transform
+    N1,N2 = X.shape
+    
+    #------------Initialization: data structure-------------
+    
+    #numpy.arrange类似于python的range：起始，终值，步长来创建数组，注意数组不包括终值
+    tempCeil = numpy.ceil( (nbscales - numpy.arange(nbscales,2-1,-1) )  / 2.0 )
+    nbangles = numpy.insert(nbangles_coarse*2**tempCeil,0,1.0)
+    if finest == 2 : nbangles[nbscales - 1]= 1
+    
+    # initialize C
+    C = [[] for i in range(nbscales)] 
+    for j in range(nbscales):
+        C[j] = [[] for i in range(int(nbangles[j]))]
+        
+    # Loop: pyramidal scale decompositions
+    M1 = N1/3;
+    M2 = N2/3;        
+    return 0
     
