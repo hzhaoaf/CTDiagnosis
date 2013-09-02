@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*- 
 '''
-% fdct_wrapping.m - Fast Discrete Curvelet Transform via wedge wrapping - Version 1.0
+% fdct_wrapping.m - Fast Discrete Curvelet Transform via wedge wrapping - Python
 %
 % Inputs
 %   x           M-by-N matrix
@@ -37,7 +37,7 @@
 %
 % See also ifdct_wrapping.m, fdct_wrapping_param.m
 %
-% By Laurent Demanet, 2004
+% By JZ 2013
 '''
 import math
 import scipy,numpy
@@ -95,6 +95,9 @@ def  fdct_wrapping(x, is_real , finest, nbscales, nbangles_coarse):
         Xlow = (X[ : , Xlow_index_2][Xlow_index_1, : ] ) * lowpass
         Xhi = X.copy()
         temp = Xhi[ : ,Xlow_index_2][Xlow_index_1, : ] * hipass
-        Xhi[ : ,Xlow_index_2][Xlow_index_1, : ] = temp
+        
+        #使用整数序列进行的下标索引和原数据不共享内存地址，所以……
+        Xhi[ : ,Xlow_index_2[0]:Xlow_index_2[-1]+1][Xlow_index_1[0]:Xlow_index_1[-1]+1, : ] = temp
+        
     return 0
     
