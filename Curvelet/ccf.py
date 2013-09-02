@@ -30,7 +30,6 @@
 %   ANGLES - number of angles or sub-band matrice at each level
 %
 % By Kasperl Zhang, 2009
-
 '''
 from scipy import misc
 import matplotlib.pyplot as plt
