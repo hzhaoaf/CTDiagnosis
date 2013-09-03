@@ -34,6 +34,7 @@
 from scipy import misc
 import matplotlib.pyplot as plt
 from fdct_wrapping import *
+
 def ccf( x, graylevel=16, is_real = 1, finest = 2, nbscales = 3, nbangles_coarse = 8 ):
     C = fdct_wrapping(x, is_real, finest, nbscales, nbangles_coarse)
     return C
@@ -42,12 +43,7 @@ if __name__ == "__main__":
     XX = misc.imread('test1.jpg')
     XX= XX[:,:,0] if XX.shape[2] > 1 else XX#if RGB,only tackle R
     
-    print(ccf(XX))
-    
-    #plt.imshow(X)
-    #plt.show()
-
-    
-    
-    
+    ccf(XX)
+    #import cProfile
+    #cProfile.run("ccf(XX)")
     

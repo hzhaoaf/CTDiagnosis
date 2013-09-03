@@ -43,9 +43,9 @@ import math
 import scipy,numpy
 from numpy.fft import fft2,ifftshift,fftshift
 from fdct_wrapping_window import fdct_wrapping_window
+from memory_profiler import profile
 
-#numpy.set_printoptions(threshold='nan')
-
+@profile
 def  fdct_wrapping(x, is_real , finest, nbscales, nbangles_coarse):
     print(math.sqrt(x.size))
     X = fftshift(fft2((ifftshift(x))))/(math.sqrt(x.size)) #fft2 transform
