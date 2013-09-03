@@ -41,11 +41,11 @@
 '''
 import math
 import scipy,numpy
-from numpy.fft import fft2,ifftshift,fftshift
+from numpy.fft import fft2,ifftshift,fftshift,ifft2
 from fdct_wrapping_window import fdct_wrapping_window
 from memory_profiler import profile
 
-@profile
+#@profile
 def  fdct_wrapping(x, is_real , finest, nbscales, nbangles_coarse):
     print(math.sqrt(x.size))
     X = fftshift(fft2((ifftshift(x))))/(math.sqrt(x.size)) #fft2 transform
@@ -58,7 +58,7 @@ def  fdct_wrapping(x, is_real , finest, nbscales, nbangles_coarse):
     nbangles = numpy.insert(nbangles_coarse*2**tempCeil,0,1.0)
     if finest == 2 : nbangles[nbscales - 1]= 1
     
-    # initialize C
+    # initialize C,C is a python list ,like cells of matlab
     C = [[] for i in range(nbscales)] 
     for j in range(nbscales):
         C[j] = [[] for i in range(int(nbangles[j]))]
@@ -94,10 +94,47 @@ def  fdct_wrapping(x, is_real , finest, nbscales, nbangles_coarse):
         Xlow_index_2 = Xlow_index_2.astype(int) - 1#-1 is necessary: matlab starts with 1 ,while python starts with 0
         Xlow = (X[ : , Xlow_index_2][Xlow_index_1, : ] ) * lowpass
         Xhi = X.copy()
-        temp = Xhi[ : ,Xlow_index_2][Xlow_index_1, : ] * hipass
         
         #使用整数序列进行的下标索引和原数据不共享内存地址，所以……
-        Xhi[ : ,Xlow_index_2[0]:Xlow_index_2[-1]+1][Xlow_index_1[0]:Xlow_index_1[-1]+1, : ] = temp
-        
+        Xhi[ : ,Xlow_index_2[0]:Xlow_index_2[-1]+1][Xlow_index_1[0]:Xlow_index_1[-1]+1, : ] = Xhi[ : ,Xlow_index_2][Xlow_index_1, : ] * hipass
+        C[nbscales-1][0] = fftshift(ifft2((ifftshift(Xhi)))) * (math.sqrt(Xhi.size)) #ifft2 transform
+        if is_real: C[nbscales-1][0]  = numpy.real(C[nbscales-1][0] )
+        for j in range(nbscales - 1,2-1,-1):
+            M1 = M1 / 2.0
+            M2 = M2 / 2.0
+            window_length_1 = math.floor(2.0 * M1) - math.floor(M1) - 1
+            window_length_2 = math.floor(2.0 * M2) - math.floor(M2) - 1
+            coord_1 = numpy.arange(0,1+1.0/window_length_1,1.0/window_length_1)
+            coord_2 = numpy.arange(0,1+1.0/window_length_2,1.0/window_length_2)
+            wl_1,wr_1= fdct_wrapping_window(coord_1)
+            wl_2,wr_2 = fdct_wrapping_window(coord_2)
+            lowpass_1 = numpy.concatenate((wl_1 , numpy.ones(2*math.floor(M1)+1) , wr_1))
+            lowpass_2 = numpy.concatenate((wl_2 , numpy.ones(2*math.floor(M2)+1) , wr_2))
+            #transpose的操作依赖于shape参数,对于一维的shape,转置是不起作用的.
+            lowpass_1 = lowpass_1.reshape(-1,1)#变成1-column vector
+            lowpass_2 = lowpass_2.reshape(1,-1)#变成1-row vector
+            lowpass = numpy.dot(lowpass_1,lowpass_2)
+            hipass = numpy.sqrt(1.0 - lowpass**2)
+            
+            Xhi = Xlow.copy()#% size is 2*floor(4*M1)+1 - by - 2*floor(4*M2)+1
+            #matlab Xlow_index_1 is [18,19,...,50] but here [17,18,...,49]
+            Xlow_index_1 = numpy.arange(-math.floor(2.0 * M1),math.floor(2.0 * M1) + 1) + math.floor(4.0 * M1)
+            Xlow_index_1 = Xlow_index_1.astype(int)#类型转换，不理解为什么arange函数不能设置类型
+            Xlow_index_2 = numpy.arange(-math.floor(2.0 * M2),math.floor(2.0 * M2) + 1) + math.floor(4.0 * M2)
+            Xlow_index_2 = Xlow_index_2.astype(int)#-1 is not necessary here: because we pretend miss +1 at the fomer line
+            Xlow = Xlow[ : , Xlow_index_2][Xlow_index_1, : ]
+            Xhi[ : ,Xlow_index_2[0]:Xlow_index_2[-1]+1][Xlow_index_1[0]:Xlow_index_1[-1]+1, : ] = Xlow * hipass
+            Xlow = Xlow * lowpass #% size is 2*floor(2*M1)+1 - by - 2*floor(2*M2)+1
+            
+            #% Loop: angular decomposition
+            lll = 0
+            nbquadrants = 2 + 2 *( not is_real )
+            nbangles_perquad = int(nbangles[j-1] / 4.0)
+            for quadrant in range(1,nbquadrants+1):
+                M_horiz = M2 * ((quadrant % 2)==1) + M1 * ((quadrant % 2)==0);
+                M_vert = M1 * ((quadrant % 2)==1) + M2 * ((quadrant % 2)==0);                
+                pass
+            pass
+            
     return 0
     

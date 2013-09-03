@@ -35,7 +35,7 @@ from scipy import misc
 import matplotlib.pyplot as plt
 from fdct_wrapping import *
 
-def ccf( x, graylevel=16, is_real = 1, finest = 2, nbscales = 3, nbangles_coarse = 8 ):
+def ccf( x, graylevel=16, is_real = 1, finest = 2, nbscales = 3, nbangles_coarse = 32):
     C = fdct_wrapping(x, is_real, finest, nbscales, nbangles_coarse)
     return C
 
@@ -44,6 +44,8 @@ if __name__ == "__main__":
     XX= XX[:,:,0] if XX.shape[2] > 1 else XX#if RGB,only tackle R
     
     ccf(XX)
+    
+    #Uncomment this if you want to know the time efficient of the program.
     #import cProfile
     #cProfile.run("ccf(XX)")
     
