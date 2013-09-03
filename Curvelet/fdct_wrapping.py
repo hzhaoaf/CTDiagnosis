@@ -133,6 +133,38 @@ def  fdct_wrapping(x, is_real , finest, nbscales, nbangles_coarse):
             for quadrant in range(1,nbquadrants+1):
                 M_horiz = M2 * ((quadrant % 2)==1) + M1 * ((quadrant % 2)==0);
                 M_vert = M1 * ((quadrant % 2)==1) + M2 * ((quadrant % 2)==0);                
+                if nbangles_perquad % 2 == 0:
+                    step = 1.0/(2.0*nbangles_perquad)
+                    wedge_ticks_left = numpy.round(numpy.arange(0,0.5+step,step) * 2 * math.floor(4.0 * M_horiz) + 1)
+                    wedge_ticks_right = 2.0 * math.floor(4.0 * M_horiz) + 2 - wedge_ticks_left
+                    wedge_ticks = numpy.concatenate((wedge_ticks_left,wedge_ticks_right[-2::-1]))#从倒数第二个数依次向前
+                else:
+                    step = 1.0/(2.0*nbangles_perquad)
+                    wedge_ticks_left = numpy.round(numpy.arange(0,0.5+step,step) * 2 * math.floor(4.0 * M_horiz) + 1)
+                    wedge_ticks_right = 2.0 * math.floor(4.0 * M_horiz) + 2 - wedge_ticks_left
+                    wedge_ticks = numpy.concatenate((wedge_ticks_left,wedge_ticks_right[-1::-1]))#从倒数第一个数依次向前
+                wedge_endpoints = wedge_ticks[1:-1:2] #%integers
+                wedge_midpoints = (wedge_endpoints[0:-1] + wedge_endpoints[1:] ) / 2.0 #% integers or half-integers
+                #% Left corner wedge
+                lll+=1
+                first_wedge_endpoint_vert = round(2.0 * math.floor(4.0 * M_vert) / (2.0 * nbangles_perquad) + 1)
+                length_corner_wedge = math.floor(4.0 * M_vert) - math.floor(M_vert) + math.ceil(first_wedge_endpoint_vert / 4.0)
+                Y_corner = numpy.arange(1,length_corner_wedge + 1)
+                XX,YY = numpy.meshgrid(numpy.arange(1,(2 * math.floor(4.0 * M_horiz) + 2)) ,Y_corner)
+                width_wedge = wedge_endpoints[1] + wedge_endpoints[0] - 1
+                slope_wedge = (math.floor(4.0 * M_horiz) + 1 - wedge_endpoints[0]) / math.floor(4.0 * M_vert)
+                left_line = numpy.round(2 - wedge_endpoints[0] + slope_wedge * (Y_corner - 1))#% integers                
+                wrapped_data = numpy.zeros((length_corner_wedge,width_wedge))
+                wrapped_XX = numpy.zeros((length_corner_wedge,width_wedge))
+                wrapped_YY = numpy.zeros((length_corner_wedge,width_wedge))
+                first_row = math.floor(4.0 * M_vert) + 2 - math.ceil((length_corner_wedge + 1) / 2) + \
+                    ((length_corner_wedge+1) % 2) * ((quadrant-2) == (quadrant-2) % 2)                
+                first_col = math.floor(4.0 * M_horiz) + 2 - math.ceil((width_wedge + 1) / 2) + \
+                    ((width_wedge+1) % 2) * ((quadrant-3) == (quadrant-3)%2)
+                #% Coordinates of the top-left corner of the wedge wrapped
+                #% around the origin. Some subtleties when the wedge is
+                #% even-sized because of the forthcoming 90 degrees rotation               
+                
                 pass
             pass
             
