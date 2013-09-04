@@ -156,6 +156,9 @@ def  fdct_wrapping(x, is_real , finest, nbscales, nbangles_coarse):
                 slope_wedge = (math.floor(4.0 * M_horiz) + 1 - wedge_endpoints[0]) / math.floor(4.0 * M_vert)
                 left_line = numpy.round(2 - wedge_endpoints[0] + slope_wedge * (Y_corner - 1))#% integers                
                 wrapped_data = numpy.zeros((length_corner_wedge,width_wedge))
+                wrapped_data = wrapped_data.astype(numpy.complex)
+                #if not convert data type,->ComplexWarning: Casting complex values to real discards the imaginary part
+                
                 wrapped_XX = numpy.zeros((length_corner_wedge,width_wedge))
                 wrapped_YY = numpy.zeros((length_corner_wedge,width_wedge))
                 first_row = math.floor(4.0 * M_vert) + 2 - math.ceil((length_corner_wedge + 1) / 2) + \
@@ -182,8 +185,15 @@ def  fdct_wrapping(x, is_real , finest, nbscales, nbangles_coarse):
                             1.0 / (2.0 * math.floor(4 * M_vert) / (first_wedge_endpoint_vert - 1) - 1))
                 C1 = C2 / (2.0 * math.floor(4.0 * M_vert) / (first_wedge_endpoint_vert - 1) - 1)
                 
-                #C1 = C2 / (2*(floor(4*M_vert))/(first_wedge_endpoint_vert - 1) - 1);
-       
+                #用布尔数组索引数组，会改变原数组的值，但是文章中提到用这种方式不共享内存，矛盾！
+                wrapped_XX[(wrapped_XX - 1) / math.floor(4.0 * M_horiz) +  (wrapped_YY-1) / math.floor(4 * M_vert) ==2 ] = \
+                    wrapped_XX[(wrapped_XX - 1) / math.floor(4.0 * M_horiz) + (wrapped_YY - 1) / math.floor(4.0 * M_vert) == 2] + 1
+                coord_corner = C1 + C2 * ((wrapped_XX - 1) / math.floor(4.0 * M_horiz) - (wrapped_YY - 1) / math.floor(4.0 * M_vert)) / \
+                    (2 - ((wrapped_XX - 1)/math.floor(4.0 * M_horiz) + (wrapped_YY - 1) / math.floor(4.0 * M_vert)))
+                wl_left = fdct_wrapping_window(coord_corner)[0]#returns tuple and we need the first item
+                wl_right,wr_right = fdct_wrapping_window(coord_right)
+                wrapped_data = wrapped_data * (wl_left * wr_right)
+                
                 pass
             
     return 0
