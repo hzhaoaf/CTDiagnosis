@@ -193,8 +193,15 @@ def  fdct_wrapping(x, is_real , finest, nbscales, nbangles_coarse):
                 wl_left = fdct_wrapping_window(coord_corner)[0]#returns tuple and we need the first item
                 wl_right,wr_right = fdct_wrapping_window(coord_right)
                 wrapped_data = wrapped_data * (wl_left * wr_right)
-                
-                pass
+                if is_real:
+                    wrapped_data = numpy.rot90(wrapped_data,-(quadrant - 1))
+                    x = fftshift(ifft2(ifftshift(wrapped_data))) * math.sqrt(wrapped_data.size)
+                    C[j - 1][lll - 1] = math.sqrt(2) * numpy.real(x)
+                    C[j - 1][int(lll+nbangles[j - 1] / 2 - 1)] = math.sqrt(2) * numpy.imag(x)
+                else:
+                    wrapped_data = numpy.rot90(wrapped_data,-(quadrant - 1))
+                    C[j - 1][lll - 1] = fftshift(ifft2(ifftshift(wrapped_data))) * math.sqrt(wrapped_data.size)
+                #% Regular wedges
             
     return 0
     
