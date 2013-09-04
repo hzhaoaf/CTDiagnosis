@@ -202,6 +202,53 @@ def  fdct_wrapping(x, is_real , finest, nbscales, nbangles_coarse):
                     wrapped_data = numpy.rot90(wrapped_data,-(quadrant - 1))
                     C[j - 1][lll - 1] = fftshift(ifft2(ifftshift(wrapped_data))) * math.sqrt(wrapped_data.size)
                 #% Regular wedges
-            
+                length_wedge = math.floor(4*M_vert) - math.floor(M_vert)
+                Y = numpy.arange(1,length_wedge + 1)
+                first_row = math.floor(4.0 * M_vert) + 2 - math.ceil((length_wedge + 1) / 2.0) + \
+                    ((length_wedge+1) % 2) * (quadrant-2 == ((quadrant-2) % 2))            
+                for subl in range(2,nbangles_perquad):
+                    lll += 1
+                    width_wedge = wedge_endpoints[subl] - wedge_endpoints[subl-2] + 1
+                    
+                    slope_wedge = ((math.floor(4.0 * M_horiz) + 1) - wedge_endpoints[subl - 1])/math.floor(4.0 * M_vert)
+                    left_line = numpy.round(wedge_endpoints[subl-2] + slope_wedge * (Y - 1))
+                    wrapped_data = numpy.zeros((length_wedge,width_wedge),dtype=numpy.complex)
+                    #wrapped_data = wrapped_data.astype(numpy.complex)
+                    
+                    wrapped_XX = numpy.zeros((length_wedge,width_wedge))
+                    wrapped_YY = numpy.zeros((length_wedge,width_wedge))
+                    first_col = math.floor(4.0 * M_horiz)+2-math.ceil((width_wedge+1) / 2.0) + \
+                        ((width_wedge+1) % 2) * (quadrant-3 == ((quadrant-3) % 2))
+                    for row in Y:
+                        row = int(row)
+                        cols = left_line[row - 1] + numpy.mod(numpy.arange(0,width_wedge)-(left_line[row-1]-first_col) , width_wedge)
+                        cols = cols.astype(int)
+                        new_row = int((row - first_row)  % length_wedge)
+                        wrapped_data[new_row,:] = Xhi[row - 1,cols-1]
+                        wrapped_XX[new_row,:] = XX[row - 1,cols - 1]
+                        wrapped_YY[new_row,:] = YY[row - 1,cols - 1]
+                    slope_wedge_left = ((math.floor(4.0 * M_horiz)+1) - wedge_midpoints[subl-2]) / math.floor(4.0 * M_vert)
+                    mid_line_left = wedge_midpoints[subl-2] + slope_wedge_left * (wrapped_YY - 1)
+                    coord_left = 0.5+ math.floor(4.0 * M_vert)/(wedge_endpoints[subl - 1] - wedge_endpoints[subl - 2]) * \
+                        (wrapped_XX - mid_line_left) / (math.floor(4.0 * M_vert)+1 - wrapped_YY)
+                    slope_wedge_right = ((math.floor(4.0 * M_horiz)+1) - wedge_midpoints[subl - 1]) / math.floor(4.0 * M_vert)
+                    mid_line_right = wedge_midpoints[subl - 1] + slope_wedge_right * (wrapped_YY - 1)
+                    
+                    coord_right = 0.5 + math.floor(4.0 * M_vert)/(wedge_endpoints[subl] - wedge_endpoints[subl - 1]) * \
+                        (wrapped_XX - mid_line_right) / (math.floor(4.0 * M_vert)+1 - wrapped_YY)
+                    wl_left = fdct_wrapping_window(coord_left)[0]
+                    wl_right , wr_right = fdct_wrapping_window(coord_right)
+                    wrapped_data = wrapped_data * (wl_left * wr_right)
+                    if is_real:
+                        wrapped_data = numpy.rot90(wrapped_data,-(quadrant-1))
+                        x = fftshift(ifft2(ifftshift(wrapped_data))) * math.sqrt(wrapped_data.size)
+                        C[j - 1][lll - 1] = math.sqrt(2) * numpy.real(x)
+                        C[j - 1][int(lll+nbangles[j - 1] / 2 - 1)] = math.sqrt(2) * numpy.imag(x)
+                    else:
+                        wrapped_data = numpy.rot90(wrapped_data,-(quadrant-1))
+                        C[j - 1][lll - 1] = fftshift(ifft2(ifftshift(wrapped_data))) * math.sqrt(wrapped_data.size)
+                        
+                #% Right corner wedge
+                lll += 1
+       
     return 0
-    
