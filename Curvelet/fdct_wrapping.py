@@ -77,8 +77,13 @@ def  fdct_wrapping(x, is_real , finest, nbscales, nbangles_coarse):
         M2 = M2/2.0     
         window_length_1 = math.floor(2*M1) - math.floor(M1) - 1
         window_length_2 = math.floor(2*M2) - math.floor(M2) - 1 
-        coord_1 = numpy.arange(0,1+1.0/window_length_1,1.0/window_length_1)
-        coord_2 = numpy.arange(0,1+1.0/window_length_2,1.0/window_length_2)
+        coord_1 = numpy.linspace(0, 1, window_length_1 + 1)#numpy.linspace(start, stop, num=50, endpoint=True, retstep=False)
+        coord_2 = numpy.linspace(0, 1, window_length_2 + 1)
+        #if You write the code below , there maybe occur an error 
+        #coord_2 = numpy.arange(0,1+1.0/window_length_2,1.0/window_length_2)
+        #Document says ->End of interval does not include this value, 
+        #except in some cases where step is not an integer and floating point round-off affects the length of out.
+        
         wl_1,wr_1= fdct_wrapping_window(coord_1)
         wl_2,wr_2 = fdct_wrapping_window(coord_2)
         lowpass_1 = numpy.concatenate((wl_1 , numpy.ones(2*math.floor(M1)+1) , wr_1))

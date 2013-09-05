@@ -36,11 +36,13 @@ import matplotlib.pyplot as plt
 from fdct_wrapping import *
 
 def ccf( x, graylevel=16, is_real = 1, finest = 2, nbscales = 3, nbangles_coarse = 32):
+    #C = [[],[[],[],[]],[]]---->C[0][0].shape is (33, 45),
+    #C[1] is [(27, 24),(25,23),(25,23),(25,24)
     C = fdct_wrapping(x, is_real, finest, nbscales, nbangles_coarse)
     return C
 
 if __name__ == "__main__":
-    XX = misc.imread('test1.jpg')
+    XX = misc.imread('testa.jpg')
     XX= XX[:,:,0] if XX.shape[2] > 1 else XX#if RGB,only tackle R
     
     ccf(XX)
