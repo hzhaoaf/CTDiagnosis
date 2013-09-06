@@ -36,6 +36,38 @@ import matplotlib.pyplot as plt
 from fdct_wrapping import *
 from skimage.feature import greycomatrix
 from preglcm import preglcm
+from calEntropy import calEntropy
+
+#Cx+y(k)
+def cxpy(x):
+    res = numpy.zeros((1,x.shape[0]+x.shape[1] - 1));
+    for i in range(int(x.shape[0])):
+        for j in range(int(x.shape[1])):
+            res[0,i+j] += x[i,j]
+    return res
+
+#% Cx-y(k)
+def cxmy(x):
+    res = numpy.zeros((1,  max(x.shape[0],x.shape[1])  ))
+    for i in range(int(x.shape[0])):
+        for j in range(int(x.shape[1])):
+            res[0,abs(i-j)] += x[i,j]
+    return res
+
+def inertia(x):
+    ine = 0
+    for i in range(int(x.shape[0])):
+        for j in range(int(x.shape[1])):
+            ine += x[i,j] * (i-j)**2
+    return ine
+
+# IDM - Inverse Difference Moment
+def idm(x):
+    res = 0
+    for i in range(int(x.shape[0])):
+        for j in range(int(x.shape[1])):
+            res += x[i,j] /(1+ (i-j)**2)
+    return res
 
 def ccf( x, graylevel=16, is_real = 1, finest = 2, nbscales = 3, nbangles_coarse = 32):
     #% curvelet decomposition
@@ -62,6 +94,7 @@ def ccf( x, graylevel=16, is_real = 1, finest = 2, nbscales = 3, nbangles_coarse
     index = 1
     #% for every scale
     
+    MEAN,SD,ENG,INE,IDM,ENT= [],[],[],[],[],[]
     for i in range(len(C)):
         #% for every direction of curvelet in this scale
         for j in range(len(C[i])):
@@ -70,11 +103,41 @@ def ccf( x, graylevel=16, is_real = 1, finest = 2, nbscales = 3, nbangles_coarse
             #greycomatrix implemented by skimage ranges from 0~15,but SI ranges from 1~16
             #offset = [ 0 1;-1 1;-1 0;-1 -1 ];And the greycomatrix is weird,I tried it so many times.
             glcms = greycomatrix(SI - 1,[1],[0,numpy.pi*3/4,numpy.pi/4] ,levels=graylevel, symmetric=False, normed=False)
-            glcm1 = glcms[:,:,0,0]
-            glcm3 = glcms[:,:,0,1]
-            glcm4 = glcms[:,:,0,2]
+            glcm1 = glcms[:,:,0,0].astype(numpy.float)
+            glcm3 = numpy.transpose(glcms[:,:,0,1]).astype(numpy.float)
+            glcm4 = numpy.transpose(glcms[:,:,0,2]).astype(numpy.float)
             glcm2 = greycomatrix(numpy.fliplr(SI) - 1,[1],[numpy.pi/4] ,levels=graylevel, symmetric=False, normed=False)[:,:,0,0]
+            glcm2 = numpy.transpose(glcm2).astype(numpy.float)
+            
+            MEAN.append(numpy.mean(SI))
+            SD.append(numpy.std(SI))
+            (M,N) = SI.shape
+            p = [M*(N-1),(M-1)*(N-1),(M-1)*N,(M-1)*(N-1)]
+            glcm=0.25*(glcm1/p[0]+glcm2/p[1]+glcm3/p[2]+glcm4/p[3])
+            #% maginal distribution
+            Cx = numpy.sum(glcm, axis=1)
+            Cy = numpy.sum(glcm, axis=0)
 
+            #% mean of maginal distribution
+            ux = numpy.sum(numpy.arange(0,Cx.size) * Cx)
+            uy = numpy.sum(numpy.arange(0,Cy.size) * Cy)
+            
+            #% standard deviation of maginal distribution
+            deltax ,deltay = 0,0
+            for k in range(int(Cx.size)):
+                deltax += (k - ux)**2 * Cx[k]
+                deltay += (k - uy)**2 * Cy[k]
+            deltax = deltax**0.5
+            deltay = deltay**0.5
+            
+            Cxpy = cxpy(glcm)   #% Cx+y(k)
+            Cxmy = cxmy(glcm)    #% Cx-y(k)
+            
+            ENG.append(numpy.sum(glcm * glcm))#% Energy
+            INE.append(inertia(glcm))#% Inertia
+            IDM.append(idm(glcm))#% Inverse Difference Moment
+            ENT.append(calEntropy(glcm))#% Entropy
+            
             pass
     return C
 
