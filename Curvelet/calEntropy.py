@@ -10,7 +10,7 @@ def calEntropy(I):
         -sum(p.*log2(p)) where p contains the histogram counts returned from IMHIST.
         '''   
         #Imitate im2uint8
-        I = numpy.round(I *256)
+        I = numpy.round(I *255)#I make a mistake here by *256!!
         
         #% calculate histogram counts.range(256) is very important
         imhist,bins = numpy.histogram(I,bins = range(256))

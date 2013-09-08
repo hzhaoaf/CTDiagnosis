@@ -82,7 +82,10 @@ def ccf( x, graylevel=16, is_real = 1, finest = 2, nbscales = 3, nbangles_coarse
     #%               'cosine' and 'sine'. For a given scale j, the 'cosine'
     #%               coefficients are stored in the first two quadrants (low
     #%               values of l), the 'sine' coefficients in the last two
-    #%               quadrants (high values of l).      
+    #%               quadrants (high values of l).
+    
+    MEAN,SD,ENG,INE,IDM,ENT,COR,SM,DM,SE,DE= [],[],[],[],[],[],[],[],[],[],[]
+    
     C = fdct_wrapping(x, is_real, finest, nbscales, nbangles_coarse)
     ANGLES = numpy.zeros((1,len(C)))
     for i in range(len(C)):
@@ -94,7 +97,7 @@ def ccf( x, graylevel=16, is_real = 1, finest = 2, nbscales = 3, nbangles_coarse
     index = 1
     #% for every scale
     
-    MEAN,SD,ENG,INE,IDM,ENT= [],[],[],[],[],[]
+    
     for i in range(len(C)):
         #% for every direction of curvelet in this scale
         for j in range(len(C[i])):
@@ -137,6 +140,19 @@ def ccf( x, graylevel=16, is_real = 1, finest = 2, nbscales = 3, nbangles_coarse
             INE.append(inertia(glcm))#% Inertia
             IDM.append(idm(glcm))#% Inverse Difference Moment
             ENT.append(calEntropy(glcm))#% Entropy
+            COR.append(\
+                (numpy.sum(numpy.sum(numpy.dot(numpy.dot(
+                    numpy.diag(numpy.arange(0,glcm.shape[0])) , glcm) , numpy.diag(numpy.arange(0,glcm.shape[1]))
+                    ))-ux * uy)) \
+                / (deltax * deltay) )#% Correlation
+            SM.append(numpy.sum(numpy.arange(0,Cxpy.shape[1]) * Cxpy))#% Sum-mean
+            DM.append(numpy.sum(numpy.arange(0,Cxmy.shape[1]) * Cxmy))#% Difference-mean
+            SE.append(calEntropy(Cxpy))
+            DE.append(calEntropy(Cxmy))
+            
+            #            SE(index) = entropy(Cxpy);                   % Sum-Entropy
+            #DE(index) = entropy(Cxmy);                   % Difference-Entropy
+            #DM(index) = sum( (0:size(Cxmy,2)-1).*Cxmy );  % Difference-mean
             
             pass
     return C
