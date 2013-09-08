@@ -69,6 +69,30 @@ def idm(x):
             res += x[i,j] /(1+ (i-j)**2)
     return res
 
+def homogeneity(x):
+    s = x.shape
+    c,r = numpy.meshgrid(numpy.arange(1,s[0]+1),numpy.arange(1,s[1]+1))
+    c = c.reshape(-1,1)
+    r= r.reshape(-1,1)
+    term1 = (1 + numpy.abs(r - c))
+    term = x.reshape(-1,1) / term1
+    hg = numpy.sum(term)
+    return hg
+
+def cluster_tendency(x):
+    s = x.shape
+    c,r = numpy.meshgrid(numpy.arange(1,s[0]+1),numpy.arange(1,s[1]+1))
+    c = c.reshape(-1,1)
+    r= r.reshape(-1,1)
+    term1 = (1 + numpy.abs(r - c))
+    term = x.reshape(-1,1) / term1
+    hg = numpy.sum(term)
+    
+    mu= numpy.mean(x)*numpy.ones(x.shape)
+    term1=(r+c-2*mu.reshape(-1,1))
+    term = x.reshape(-1,1)* term1
+    return(numpy.sum(term))
+    
 def ccf( x, graylevel=16, is_real = 1, finest = 2, nbscales = 3, nbangles_coarse = 32):
     #% curvelet decomposition
     #%   C           Cell array of curvelet coefficients.
@@ -84,7 +108,7 @@ def ccf( x, graylevel=16, is_real = 1, finest = 2, nbscales = 3, nbangles_coarse
     #%               values of l), the 'sine' coefficients in the last two
     #%               quadrants (high values of l).
     
-    MEAN,SD,ENG,INE,IDM,ENT,COR,SM,DM,SE,DE= [],[],[],[],[],[],[],[],[],[],[]
+    MEAN,SD,ENG,INE,IDM,ENT,COR,SM,DM,SE,DE,CT,HG,MP= [],[],[],[],[],[],[],[],[],[],[],[],[],[]
     
     C = fdct_wrapping(x, is_real, finest, nbscales, nbangles_coarse)
     ANGLES = numpy.zeros((1,len(C)))
@@ -149,13 +173,10 @@ def ccf( x, graylevel=16, is_real = 1, finest = 2, nbscales = 3, nbangles_coarse
             DM.append(numpy.sum(numpy.arange(0,Cxmy.shape[1]) * Cxmy))#% Difference-mean
             SE.append(calEntropy(Cxpy))
             DE.append(calEntropy(Cxmy))
-            
-            #            SE(index) = entropy(Cxpy);                   % Sum-Entropy
-            #DE(index) = entropy(Cxmy);                   % Difference-Entropy
-            #DM(index) = sum( (0:size(Cxmy,2)-1).*Cxmy );  % Difference-mean
-            
-            pass
-    return C
+            CT.append(cluster_tendency(glcm))
+            HG.append(homogeneity(glcm))
+            MP.append(numpy.max(glcm))
+    return [MEAN,SD,CT,HG,MP,ENG,INE,IDM,ENT,COR,SM,DM,SE,DE,ANGLES]
 
 if __name__ == "__main__":
     XX = misc.imread('test1.jpg')
