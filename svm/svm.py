@@ -2,7 +2,7 @@ import numpy as np
 from sklearn.svm import NuSVC
 import time
 
-train_data = '../Curvelet/trainData-36-9-19.txt'
+train_data = '../data/trainData-36-9-19.txt'
 #path = os.path.normcase("c:/mydir/mysubdir/")
 
 
@@ -36,12 +36,16 @@ def svm():
     y = np.array(train_labels)
     print "start create model"
     start = time.time()
-    clf = NuSVC(kernel='linear')
+    clf = NuSVC(kernel='linear', probability=True)
 
     clf.fit(X, y)
     print "fit model cost %.2fs" % (time.time() - start)
+    print clf.score(test_features, test_labels)
+    print clf.predict(test_features)
+    print clf.predict_proba(test_features)
     for index, f in enumerate(test_features):
-        print "file %s predict %s labeled answer %s" % (test_names[index], clf.predict(test_features[index]), test_labels[index])
+        print "file %s predict %s predict_score %s predict_probability %s predict_log_probability %s labeled answer %s"\
+            % (test_names[index], clf.predict(test_features[index]), clf.decision_function(test_features[index]), clf.predict_proba(test_features[index]), clf.predict_log_proba(test_features[index]), test_labels[index])
 
 if __name__ == "__main__":
     svm()
