@@ -118,7 +118,7 @@ def ccf( x, graylevel=16, is_real = 1, finest = 2, nbscales = 3, nbangles_coarse
     #% offsets of 4 directions of co-occurrence matrix: 0, 45, 90, 135 degree
     offset = numpy.array([[0,1],[-1,1],[-1,0],[-1,-1]])
     
-    index = 1
+    #index = 1#since we use append to MEAN,SD,ENG...£¬ index is useless
     #% for every scale
     
     
@@ -137,7 +137,7 @@ def ccf( x, graylevel=16, is_real = 1, finest = 2, nbscales = 3, nbangles_coarse
             glcm2 = numpy.transpose(glcm2).astype(numpy.float)
             
             MEAN.append(numpy.mean(SI))
-            SD.append(numpy.std(SI))
+            SD.append(numpy.std(SI,ddof = 1))#bug fix, use n-1 as "degree of freedom", because matlab use that!
             (M,N) = SI.shape
             p = [M*(N-1),(M-1)*(N-1),(M-1)*N,(M-1)*(N-1)]
             glcm=0.25*(glcm1/p[0]+glcm2/p[1]+glcm3/p[2]+glcm4/p[3])
@@ -176,13 +176,17 @@ def ccf( x, graylevel=16, is_real = 1, finest = 2, nbscales = 3, nbangles_coarse
             CT.append(cluster_tendency(glcm))
             HG.append(homogeneity(glcm))
             MP.append(numpy.max(glcm))
+            #index += 1
     return [MEAN,SD,CT,HG,MP,ENG,INE,IDM,ENT,COR,SM,DM,SE,DE,ANGLES]
 
+
+
 if __name__ == "__main__":
-    XX = misc.imread('test1.jpg')
+    XX = misc.imread('test3.jpg')
     XX= XX[:,:,0] if XX.shape[2] > 1 else XX#if RGB,only tackle R
-    
-    ccf(XX)
+    [MEAN,SD,CT,HG,MP,ENG,INE,IDM,ENT,COR,SM,DM,SE,DE,ANGLES] = ccf(XX)
+    #finalresult = 
+    print("----")
     
     #Uncomment this if you want to know the time efficient of the program.
     #import cProfile
