@@ -92,8 +92,10 @@ def cluster_tendency(x):
     term1=(r+c-2*mu.reshape(-1,1))
     term = x.reshape(-1,1)* term1
     return(numpy.sum(term))
-    
-def ccf( x, graylevel=16, is_real = 1, finest = 2, nbscales = 3, nbangles_coarse = 32):
+
+#In shell program,default value of nbangles_coarse is 8
+#ccf( x, graylevel=16, is_real = 1, finest = 2, nbscales = 3, nbangles_coarse = 32)    
+def ccf( x, graylevel=16, is_real = 1, finest = 2, nbscales = 3, nbangles_coarse = 8):
     #% curvelet decomposition
     #%   C           Cell array of curvelet coefficients.
     #%               C{j}{l}(k1,k2) is the coefficient at
@@ -182,8 +184,13 @@ def ccf( x, graylevel=16, is_real = 1, finest = 2, nbscales = 3, nbangles_coarse
 
 
 if __name__ == "__main__":
-    XX = misc.imread('test3.jpg')
-    XX= XX[:,:,0] if XX.shape[2] > 1 else XX#if RGB,only tackle R
+    XX = misc.imread('result_2.bmp')
+    
+    #If it's a gray image, shape of XX would be 2d ,sth like (73,63)
+    if len(XX.shape) == 2:
+        pass
+    else:
+        XX= XX[:,:,0] if XX.shape[2] > 1 else XX#if RGB,only tackle R
     [MEAN,SD,CT,HG,MP,ENG,INE,IDM,ENT,COR,SM,DM,SE,DE,ANGLES] = ccf(XX)
     #finalresult = 
     print("----")
