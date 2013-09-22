@@ -12,27 +12,20 @@ from PyQt4 import QtGui, QtCore
 class Window(QtGui.QWidget):
     def __init__(self):
         QtGui.QWidget.__init__(self)
-        layout = QtGui.QVBoxLayout(self)
-        layout.setMargin(15)
-        layout.setSpacing(10)
-        pic = QtGui.QLabel(self)
-        #pic.setGeometry(10, 10, 400, 100)
+        self.bg = QtGui.QFrame(self)
+        self.bg.setGeometry(10,10,800,600)
+        self.pic = QtGui.QLabel(self.bg)
+        #self.pic.setGeometry(10, 10,800,600)
         #use full ABSOLUTE path to the image, not relative
-        #pic.setPixmap(QtGui.QPixmap(os.getcwd() + "/1.png"))
         self.image = QtGui.QImage()
         self.image.load(os.getcwd()+"/1.png")
-        pic.setPixmap(QtGui.QPixmap.fromImage(self.image))
+        self.pic.setPixmap(QtGui.QPixmap.fromImage(self.image))
 
-        layout.addWidget(pic)
-        
-        for text in 'One Two Three Four Five'.split():
-            layout.addWidget(QtGui.QPushButton(text, self))
-            
         #If you pass a parent to PySide.QtGui.QRubberBand ¡®s constructor, 
         #the rubber band will display only inside its parent, but stays on top of other child widgets. 
         #If no parent is passed, PySide.QtGui.QRubberBand will act as a top-level widget.  
         #self.rubberband = QtGui.QRubberBand(QtGui.QRubberBand.Rectangle,)
-        self.rubberband = QtGui.QRubberBand(QtGui.QRubberBand.Rectangle, pic)
+        self.rubberband = QtGui.QRubberBand(QtGui.QRubberBand.Rectangle, self.pic)
         self.setMouseTracking(True)
 
     def mousePressEvent(self, event):
@@ -45,13 +38,18 @@ class Window(QtGui.QWidget):
         if self.rubberband.isVisible():
             self.rubberband.setGeometry(QtCore.QRect(self.origin, event.pos()).normalized())
         #QtGui.QWidget.mouseMoveEvent(self, event)
-
+    
+    def cropImage(self,rect):
+        self.image = self.image.copy(rect)
+        self.pic.setPixmap(QtGui.QPixmap.fromImage(self.image))
+        self.image.save(os.getcwd()+'/cropped.png')
+        self.update()
     def mouseReleaseEvent(self, event):
         if self.rubberband.isVisible():
             self.rubberband.hide()
             selected = []
             rect = self.rubberband.geometry()
-            print(rect)
+            self.cropImage(rect)
             '''
             for child in self.findChildren(QtGui.QPushButton):
                 if rect.intersects(child.geometry()):
