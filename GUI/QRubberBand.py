@@ -30,13 +30,14 @@ class Window(QtGui.QWidget):
 
     def mousePressEvent(self, event):
         self.origin = event.pos()
-        self.rubberband.setGeometry(QtCore.QRect(self.origin, QtCore.QSize()))
+        self.rubberband.setGeometry(QtCore.QRect(self.origin, QtCore.QSize()) )
         self.rubberband.show()
         #QtGui.QWidget.mousePressEvent(self, event)
 
     def mouseMoveEvent(self, event):
         if self.rubberband.isVisible():
-            self.rubberband.setGeometry(QtCore.QRect(self.origin, event.pos()).normalized())
+            #Control the Rubber within the imageViewer!!!
+            self.rubberband.setGeometry(QtCore.QRect(self.origin, event.pos()).normalized() & self.image.rect())
         #QtGui.QWidget.mouseMoveEvent(self, event)
     
     def cropImage(self,rect):
@@ -49,6 +50,7 @@ class Window(QtGui.QWidget):
             self.rubberband.hide()
             selected = []
             rect = self.rubberband.geometry()
+            print(rect)
             self.cropImage(rect)
             '''
             for child in self.findChildren(QtGui.QPushButton):
