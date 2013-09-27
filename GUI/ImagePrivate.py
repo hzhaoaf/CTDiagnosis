@@ -22,4 +22,6 @@ class ImagePrivate:
 			self.imgFullName = QtCore.QString.None
 		else:
 			self.imgFullName = QtCore.QFileInfo(name).absoluteFilePath()
+			
+
 		

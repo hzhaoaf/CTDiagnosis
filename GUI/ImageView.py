@@ -1,6 +1,8 @@
 from PyQt4 import QtGui, QtCore
+from PyQt4.QtCore import Qt,QString,QRect
 from ImageViewPrivate import ImageViewPrivate
 from Image import Image
+
 
 class ImageView(QtGui.QScrollArea):
     def __init__(self,parent):
@@ -23,6 +25,40 @@ class ImageView(QtGui.QScrollArea):
         self.data_rect = QtCore.QRect(0,0,1,1)
         #self.setMode(view)
      
+    def repaint(self,x,y,p,src):
+        '''Repaint the image using given painter and size of output window
+        @param x width of output window
+        @param y height of output window
+        @param p QPainter to use
+        @param src Which part of image to repaint (when not in fullscreen)'''
+        p = QtGui.QPainter#temp
+        print("repaint in ImageView")
+        p.setRenderHint(QtGui.QPainter.SmoothPixmapTransform,True)
+        p.setPen = Qt.blue
+        black = QtGui.QColor(0,0,0)
+        if not self.image:
+            #No image is loaded
+            p.drawRect(0,0,x-1,y-1)
+            p.fillRect(1,1,x-2,y-2,black)
+            p.drawText(0,0,x,y,Qt.AlignVCenter | Qt.AlignCenter,QString("No image loaded"))
+            return
+
+        if self.image.x<=0 and self.image.y()<=0:
+            #Invalid image is loaded
+            p.drawRect(0,0,x-1,y-1)
+            p.fillRect(1,1,x-2,y-2,black)
+            p.drawText(0,0,x,y,Qt.AlignVCenter | Qt.AlignCenter,QString("Invalid image"))
+            return
+        #Rectangle specifying entire window
+        rect = QRect(0,0,x,y)
+        #Determine target rectangle at screen
+        #Update data rectangle for mouse navigation
+        
+    def getImage(self):
+        ''' Return image shown in the widget (or NULL if nothing is shown)
+        If the image is modified, update() should be called to redraw the new image'''
+        return self.image
+    
     def cancelRect(self):
         pass
     
@@ -52,11 +88,12 @@ class ImageView(QtGui.QScrollArea):
     #Load state of specified optional feature from settings (default value is false)
     def isSet(self,name):
         globalSettings = QtCore.QSettings("JiZhe","CTAnalysis")
-        return globalSettings.value("view/"+name)
+        return globalSettings.value("view/"+name).toBool()
     
     #Return minimum size neede to display the widget
     def minSize(self):
-        if self.image and self.isSet("scale"):
+        if self.image :
+        #if self.image and self.isSet("scale"):
             #Size of image
             x = self.image.x()
             y = self.image.y()
@@ -66,12 +103,13 @@ class ImageView(QtGui.QScrollArea):
         else:
             #No minimum
             return QtCore.QSize(0,0)
-    
+        
+
     #Change internal widget's minimum size.Schedule this and internal widget to repaint.
     def update(self):
         self.d.setMinimumSize(self.minSize())
         self.d.update()
-        QtGui.QScrollArea.update()
+        #QtGui.QScrollArea.update()?
 
     def mouseCoordEvent(self,e):
         pass

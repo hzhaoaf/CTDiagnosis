@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from PyQt4 import QtGui, QtCore
 from PyQt4.QtCore import Qt
 from PyQt4.QtCore import QRect
@@ -14,12 +16,19 @@ class ImageViewPrivate(QtGui.QWidget):
 		self.moveRb = False
 		self.setMouseTracking(True)
 	
+	def paintEvent(self,e):
+		'''Handler called for repainting the widget,这个函数是自动调用的！'''
+		x = self.width()
+		y = self.height()
+		pa = QtGui.QPainter(self)
+		self.p.repaint(x,y,pa,e.rect())
+		e.accept()
+	
 	def sizeHint(self):
 		'''Return size hint from parent item'''
 		return self.p.sizeHint()
 	
 	def mouseMoveEvent(self,e):
-		print(e.pos())
 		if self.rb and (e.buttons() & Qt.LeftButton):
 			r = QRect(self.origin,e.pos()).normalized()
 			self.rb.setGeometry(r )#& self.p.data_rect)#use & to control the rb within the window

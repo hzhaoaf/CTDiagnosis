@@ -9,8 +9,15 @@ class MainWindow(QtGui.QWidget):
 		QtGui.QWidget.__init__(self)
 		self.splCmd=QtGui.QSplitter(Qt.Vertical,self)
 		self.splTop=QtGui.QSplitter(Qt.Horizontal,self.splCmd)
-		self.main=ImageView(self.splTop)
 		
+		self.main=ImageView(self.splTop)
+		self.splTop.addWidget(self.main)
+		
+	def getImage(self):
+		'''Return displayed image'''
+		i = self.main.getImage()
+		return i
+
 	def openFile(self,name):
 		'''Open image with given name'''
 		self.main.loadImage(name)
@@ -24,7 +31,7 @@ class MainWindow(QtGui.QWidget):
 				 In some operations it may be unnecessary to update, like if the image was not modified,
 				 or if the update is done in other way. Default is to update'''
 		self.main.cancelRect()#Will ensure that updateMenus() will be called in the process
-		if  doUpdatem:self.main.update()
+		if  doUpdate:self.main.update()
 		
 	def load(self):
 		'''Open image without given name'''
@@ -48,10 +55,10 @@ class MainWindow(QtGui.QWidget):
 	def filters(self,useGeneric = None,useBareFormat=None):
 		'''Return suggested filters to use in a save/load dialog'''
 		out = QtCore.QStringList()
+		out << "PNG (*.png)"
 		out << "BMP (*.bmp)"
 		out << "Dicom (*.dcm *.dicom)"
 		out << "JPEG (*.jpg *.jpeg)"
-		out << "PNG (*.png)"
 		return out
 	
 
