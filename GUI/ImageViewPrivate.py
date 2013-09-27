@@ -19,6 +19,7 @@ class ImageViewPrivate(QtGui.QWidget):
 		return self.p.sizeHint()
 	
 	def mouseMoveEvent(self,e):
+		print(e.pos())
 		if self.rb and (e.buttons() & Qt.LeftButton):
 			r = QRect(self.origin,e.pos()).normalized()
 			self.rb.setGeometry(r )#& self.p.data_rect)#use & to control the rb within the window

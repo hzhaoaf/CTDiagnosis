@@ -3,8 +3,8 @@ from ImageViewPrivate import ImageViewPrivate
 from Image import Image
 
 class ImageView(QtGui.QScrollArea):
-    #constructor of ImageView
-    def __init__(self):
+    def __init__(self,parent):
+        '''constructor of ImageView'''
         QtGui.QWidget.__init__(self)
         self.image = None
         self.zoom = 100
@@ -25,6 +25,7 @@ class ImageView(QtGui.QScrollArea):
      
     def cancelRect(self):
         pass
+    
     def flushImage(self):
         '''Use after new image is loaded to flush/redraw various data'''
         self.update()
@@ -81,14 +82,3 @@ class ImageView(QtGui.QScrollArea):
     def rectCheck(self):
         pass
 
-if __name__ == '__main__':
-    
-    import sys
-    
-    #QSetting http://blog.sina.com.cn/s/blog_4b5039210100h3zb.html
-    settings = QtCore.QSettings("JiZhe","CTAnalysis")
-    
-    app = QtGui.QApplication(sys.argv)
-    window = ImageView()
-    window.show()
-    sys.exit(app.exec_())
