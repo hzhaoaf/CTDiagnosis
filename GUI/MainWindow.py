@@ -1,6 +1,6 @@
 from PyQt4 import QtGui, QtCore
 from PyQt4.QtCore import Qt
-from PyQt4.QtCore import QRect
+from PyQt4.QtCore import QRect,QString
 from ImageView import ImageView
 from append import *
 
@@ -14,7 +14,7 @@ class MainWindow(QtGui.QWidget):
 	def openFile(self,name):
 		'''Open image with given name'''
 		self.main.loadImage(name)
-		#self.setTitle()
+		#self.setTitle() 
 		self.postOp(self.getImage(),False)
 		
 	def postOp(self,i,doUpdate):
@@ -26,19 +26,26 @@ class MainWindow(QtGui.QWidget):
 		self.main.cancelRect()#Will ensure that updateMenus() will be called in the process
 		if  doUpdatem:self.main.update()
 		
-	def load(self,param):
-		'''Open image with given name Parameter specifies name of image 
-		If no parameter is specified, dialog is invoked to ask for one'''
-		if param.count() < 1:
-			#No parameters
-			fileName = openFileDialog(self,"Open Image","loadimage",filters(),"loadimagepath")
-		else:
-			fileName=param[0]
-		if (fileName.isNull()):return
-		openFile(fileName)
+	def load(self):
+		'''Open image without given name'''
+		fileName = openFileDialog(self,QString("Open Image"),QString(),self.filters(),QString())#TEmp
+		if fileName.isNull():return
+		self.openFile(fileName)	
+		
+	#def load(self,param):
+		#'''Open image with given name Parameter specifies name of image 
+		#If no parameter is specified, dialog is invoked to ask for one'''
+		#fileName = openFileDialog(self,QString("Open Image"),QString(),self.filters(),QString())#TEmp
+		#if param.count() < 1:
+			##No parameters
+			#fileName = openFileDialog(self,QString("Open Image"),QString(),self.filters(),QString())
+		#else:
+			#fileName=param[0]
+		#if (fileName.isNull()):return
+		#openFile(fileName)
 		
 	
-	def filters(self,useGeneric,useBareFormat):
+	def filters(self,useGeneric = None,useBareFormat=None):
 		'''Return suggested filters to use in a save/load dialog'''
 		out = QtCore.QStringList()
 		out << "BMP (*.bmp)"
@@ -47,8 +54,8 @@ class MainWindow(QtGui.QWidget):
 		out << "PNG (*.png)"
 		return out
 	
+
 if __name__ == '__main__':
-    
 	import sys
 	#QSetting http://blog.sina.com.cn/s/blog_4b5039210100h3zb.html
 	globalSettings = QtCore.QSettings("JiZhe","CTAnalysis")
@@ -56,4 +63,5 @@ if __name__ == '__main__':
 	app = QtGui.QApplication(sys.argv)
 	window = MainWindow()
 	window.show()
+	window.load()
 	sys.exit(app.exec_())

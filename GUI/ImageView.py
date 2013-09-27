@@ -51,11 +51,12 @@ class ImageView(QtGui.QScrollArea):
 
     #Load state of specified optional feature from settings (default value is false)
     def isSet(self,name):
-        return settings.value("view/"+name)
+        globalSettings = QtCore.QSettings("JiZhe","CTAnalysis")
+        return globalSettings.value("view/"+name)
     
     #Return minimum size neede to display the widget
     def minSize(self):
-        if self.image and isSet("scale"):
+        if self.image and self.isSet("scale"):
             #Size of image
             x = self.image.x()
             y = self.image.y()
