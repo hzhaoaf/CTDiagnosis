@@ -1,7 +1,15 @@
+# -*- coding: utf-8 -*-
+
 from PyQt4 import QtGui, QtCore
 from PyQt4.QtCore import Qt
 from PyQt4.QtCore import QRect
 from ImagePrivate import ImagePrivate
+import math
+
+def frac(x):
+	''' Return fractional part of number'''
+	return x - math.floor(x)
+
 class Image:
 	def __init__(self,data):
 		'''constructor of Image'''
@@ -20,3 +28,34 @@ class Image:
 	def y(self):
 		''' Return height of the image'''
 		return self.d.i.size().height()	
+	
+	
+	def draw(self,p,source,target,subsource = None):
+		#这里很难写，回头还要看看写的对不对
+		'''Draw image using QPainter
+		@param p painter used to draw image
+		@param source source rectangle - which part of image to draw
+		@param target destination rectangle - which area to draw to
+		@param subsource subpixel-accurate subset of source'''	
+		wx=source.width()
+		wy=source.height()
+		x0=source.left()
+		y0=source.top()
+		source0 = QRect(0,0,wx,wy)
+		theBytes=wx*wy*4 #RGBA
+		if  self.d.pix_w !=wx or self.d.pix_h !=wy:
+			#Size was changed since last time
+			del self.d.pixdata
+			self.d.pixdata=None
+		if not self.d.pixdata:
+		        #self.d.pixdata=(int *)malloc(theBytes)
+		        self.d.pix_x=x0
+		        self.d.pix_y=y0
+		        self.d.pix_w=wx
+		        self.d.pix_h=wy
+
+		if subsource == None:
+			p.drawImage(target,self.d.i,source0)
+		else:
+			subsource0 = QtCore.QRectF(frac(subsource.left()),frac(subsource.top()),subsource.width(),subsource.height())
+			p.drawImage(target,self.d.i,subsource0)

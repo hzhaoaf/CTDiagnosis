@@ -49,9 +49,13 @@ class ImageView(QtGui.QScrollArea):
         @param y height of output window
         @param p QPainter to use
         @param src Which part of image to repaint (when not in fullscreen)'''
-        p = QtGui.QPainter#temp
+        #p = QtGui.QPainter#temp
         print("repaint in ImageView")
-        p.setRenderHint(QtGui.QPainter.SmoothPixmapTransform,True)
+        
+        '''TypeError: QPainter.setRenderHint(QPainter.RenderHint, bool on=True): first argument of unbound method must have type 'QPainter'''
+        #p.setRenderHint(QtGui.QPainter.SmoothPixmapTransform,True)
+        
+        p.setRenderHint(QtGui.QPainter.Antialiasing,True)
         p.setPen = Qt.blue
         black = QtGui.QColor(0,0,0)
         if not self.image:
@@ -94,7 +98,7 @@ class ImageView(QtGui.QScrollArea):
         target=self.data_rect
         #Draw entire image scaled
         source = QRect(0,0,self.image.x(),self.image.y())
-        self.image.draw(&p,source,target)#Stop Here
+        self.image.draw(p,source,target)#Stop Here
             
     def getImage(self):
         ''' Return image shown in the widget (or NULL if nothing is shown)
