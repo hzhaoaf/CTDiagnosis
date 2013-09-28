@@ -25,6 +25,24 @@ class ImageView(QtGui.QScrollArea):
         self.data_rect = QtCore.QRect(0,0,1,1)
         #self.setMode(view)
      
+    def setDataRect(self):
+        '''Update data_rect'''
+        #Get image dimensions
+        dx=self.image.x()
+        dy=self.image.y()        
+        #Get image screen dimensions (may differ if zoom is set)
+        screen_dx=dx*self.zoom/100.0
+        screen_dy=dy*self.zoom/100.0
+        x=self.d.width()
+        y=self.d.height()
+        wx=x
+        wy=dy*wx/dx
+        if wy > y:
+            wy=y
+            wx=dx*wy/dy
+        self.data_rect=QRect(max((x-wx)/2,0),max((y-wy)/2,0),wx,wy)
+            
+
     def repaint(self,x,y,p,src):
         '''Repaint the image using given painter and size of output window
         @param x width of output window
@@ -53,7 +71,31 @@ class ImageView(QtGui.QScrollArea):
         rect = QRect(0,0,x,y)
         #Determine target rectangle at screen
         #Update data rectangle for mouse navigation
-        
+        self.setDataRect()
+        #Repaint stripes around image if needed
+        if self.data_rect.left() > src.left():
+            #repaint stripe on left
+            tmp = QRect(0,0,self.data_rect.left(),y)
+            p.fillRect(tmp & src,black)
+        if self.data_rect.right()<src.right():
+            #repaint on right
+            tmp = QRect(self.data_rect.right(),0,x-self.data_rect.right(),y)
+            p.fillRect(tmp & src,black)
+        if self.data_rect.top()>src.top():
+            #repaint on top
+            tmp = QRect(self.data_rect.left(),0,self.data_rect.width(),self.data_rect.top())
+            p.fillRect(tmp & src,black)
+        if self.data_rect.bottom()<src.bottom():
+            #repaint on bottom
+            tmp = QRect(self.data_rect.left(),self.data_rect.bottom(),self.data_rect.width(),y-self.data_rect.bottom())
+            p.fillRect(tmp & src,black)
+        #Show scaled to window
+        #Set target to data rectangle
+        target=self.data_rect
+        #Draw entire image scaled
+        source = QRect(0,0,self.image.x(),self.image.y())
+        self.image.draw(&p,source,target)#Stop Here
+            
     def getImage(self):
         ''' Return image shown in the widget (or NULL if nothing is shown)
         If the image is modified, update() should be called to redraw the new image'''
