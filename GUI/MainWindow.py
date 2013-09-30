@@ -7,9 +7,9 @@ from append import *
 class MainWindow(QtGui.QWidget):
 	def __init__(self):
 		QtGui.QWidget.__init__(self)
+		self.setGeometry(40,40,880,660)
 		self.splCmd=QtGui.QSplitter(Qt.Vertical,self)
 		self.splTop=QtGui.QSplitter(Qt.Horizontal,self.splCmd)
-		
 		self.main=ImageView(self.splTop)
 		self.splTop.addWidget(self.main)
 		

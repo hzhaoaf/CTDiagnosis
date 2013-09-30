@@ -13,7 +13,7 @@ def get_LUT_value(data, window, level):
                          data > (level - 0.5 + (window - 1) / 2)],
                         [0, 255, lambda data: ((data - (level - 0.5)) / (window - 1) + 0.5) * (255 - 0)])
 
-def save_PIL(dataset):
+def dcm2pil(dataset):
     if ('WindowWidth' not in dataset) or ('WindowCenter' not in dataset):  # can only apply LUT if these values exist
         bits = dataset.BitsAllocated
         samples = dataset.SamplesPerPixel
@@ -33,7 +33,9 @@ def save_PIL(dataset):
             image = get_LUT_value(dataset.pixel_array, dataset.WindowWidth, dataset.WindowCenter)
             im = PIL.Image.fromarray(image).convert('L')  # Convert mode to L since LUT has only 256 values: http://www.pythonware.com/library/pil/handbook/image.htm
     return im
-plan=dicom.read_file("1.DCM")
-im = save_PIL(plan)
-im.save(os.getcwd()+"/converted.png")
+
+def testCase():
+    plan=dicom.read_file("1.DCM")
+    im = dcm2pil(plan)
+    im.save(os.getcwd()+"/converted.png")
 

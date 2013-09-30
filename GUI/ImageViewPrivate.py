@@ -4,7 +4,6 @@ from PyQt4 import QtGui, QtCore
 from PyQt4.QtCore import Qt
 from PyQt4.QtCore import QRect
 
-
 class ImageViewPrivate(QtGui.QWidget):
 	def __init__(self,_p):
 		QtGui.QWidget.__init__(self)
@@ -29,12 +28,15 @@ class ImageViewPrivate(QtGui.QWidget):
 		return self.p.sizeHint()
 	
 	def mouseMoveEvent(self,e):
+		
 		if self.rb and (e.buttons() & Qt.LeftButton):
 			r = QRect(self.origin,e.pos()).normalized()
-			self.rb.setGeometry(r )#& self.p.data_rect)#use & to control the rb within the window
+			self.rb.setGeometry(r& self.p.data_rect)#use & to control the rb within the window
 			self.p.selRect(self.rb.geometry())
+			#print(self.rb.geometry())#检查rb的位置
 		self.p.mouseCoordEvent(e)
 		e.ignore()
+		
 	
 	def mousePressEvent(self,e):
 		if e.button() == Qt.LeftButton:

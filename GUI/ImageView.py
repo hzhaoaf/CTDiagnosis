@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from PyQt4 import QtGui, QtCore
 from PyQt4.QtCore import Qt,QString,QRect
 from ImageViewPrivate import ImageViewPrivate
@@ -122,14 +123,16 @@ class ImageView(QtGui.QScrollArea):
         self.image = Image(name)
         self.flushImage()
         
+    
     def sizeHint(self):
+        '''sizeHint() 方法给出一个推荐的大小。这里我们重写这个方法'''
         '''Return size hint for the widget'''
         if self.image:
             #Size of image
             return QtCore.QSize(self.image.x(),self.image.y())
         else:
-            #Some default
-            return QtCore.QSize(600,400)
+            #Some default,very Important
+            return QtCore.QSize(840,630)
 
     #Load state of specified optional feature from settings (default value is false)
     def isSet(self,name):
