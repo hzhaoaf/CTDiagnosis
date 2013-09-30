@@ -55,9 +55,9 @@ class MainWindow(QtGui.QWidget):
 	def filters(self,useGeneric = None,useBareFormat=None):
 		'''Return suggested filters to use in a save/load dialog'''
 		out = QtCore.QStringList()
+		out << "Dicom (*.dcm *.dicom)"
 		out << "PNG (*.png)"
 		out << "BMP (*.bmp)"
-		out << "Dicom (*.dcm *.dicom)"
 		out << "JPEG (*.jpg *.jpeg)"
 		return out
 	

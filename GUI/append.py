@@ -33,6 +33,7 @@ def getDir(fd):
 	return d.absolutePath()
 
 def openFileDialog(parent,caption,settingName,filters,savePath):
+	'''Open Qt Select File Dialog to select a DCM picture'''
 	global globalSettings
 	fd = QtGui.QFileDialog(parent)
 	#if filters.size():#AttributeError: 'QStringList' object has no attribute 'size'
@@ -66,7 +67,7 @@ def openFileDialog(parent,caption,settingName,filters,savePath):
 			files = fd.selectedFiles()
 			if  not files.isEmpty(): 
 				name = files[0]
-				if name.endsWith("DCM"):
+				if name.endsWith("dcm",0):#0 means case-insensitive
 					name = dcm2Png(name)
 					
 			if  QtCore.QFileInfo(name).isDir():#directory was selected
