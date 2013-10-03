@@ -1,8 +1,9 @@
 import numpy as np
 from sklearn.svm import NuSVC
+from sklearn.externals import joblib
 import time
 
-train_data = '../Curvelet/trainData-36-9-19.txt'
+train_data = '../data/trainData-36-9-19.txt'
 #path = os.path.normcase("c:/mydir/mysubdir/")
 
 
@@ -36,12 +37,22 @@ def svm():
     y = np.array(train_labels)
     print "start create model"
     start = time.time()
-    clf = NuSVC(kernel='linear')
-
-    clf.fit(X, y)
+    #clf = NuSVC(kernel='linear')
+    #clf.fit(X, y)
+    clf = load_model()
+    save_model(clf)
     print "fit model cost %.2fs" % (time.time() - start)
     for index, f in enumerate(test_features):
         print "file %s predict %s labeled answer %s" % (test_names[index], clf.predict(test_features[index]), test_labels[index])
+
+def save_model(clf):
+    filename = 'test_model.joblib.pkl'
+    joblib.dump(clf, filename, compress=9)
+
+def load_model():
+    filename = 'test_model.joblib.pkl'
+    clf = joblib.load(filename)
+    return clf
 
 if __name__ == "__main__":
     svm()
