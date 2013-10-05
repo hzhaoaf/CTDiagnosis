@@ -45,6 +45,7 @@ class Window(QtGui.QWidget):
         self.pic.setPixmap(QtGui.QPixmap.fromImage(self.image))
         self.image.save(os.getcwd()+'/cropped.png')
         self.update()
+        
     def mouseReleaseEvent(self, event):
         if self.rubberband.isVisible():
             self.rubberband.hide()

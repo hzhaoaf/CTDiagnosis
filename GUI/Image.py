@@ -16,6 +16,24 @@ class Image:
 		if isinstance(data,QtCore.QString):#Init by name
 			self.d = ImagePrivate()
 			self.loadImage(data)
+			
+	def crop(self,x1,y1,width,height):
+		'''
+		 Crop image, replace image by its sub-region
+		 @param x1 X-coordinate of the upper-left crop rectangle corner.
+		 @param y1 Y-coordinate of the upper-left crop rectangle corner.
+		 @param x2 X-coordinate of the lower-right crop rectangle corner.
+		 @param y2 Y-coordinate of the lower-right crop rectangle corner.
+		 #@param border_condition type of border condition if some of the desired region is outside the image.
+		'''
+		self.d.i = self.d.i.copy(x1,y1,width,height)#QImage.copy (self, int x, int y, int w, int h)
+		self.d.imageChanged()
+	
+	#def beforeOp():
+		#if (useUndo()):
+		        #d->iUndo=d->i
+		        #d->undoValid=True
+
 	def loadImage(self,name):
 		'''Replace image contents with new one'''
 		#self.d.i.loadFromData(name.toLocal8Bit().data())

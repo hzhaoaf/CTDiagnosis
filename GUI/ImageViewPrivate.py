@@ -2,7 +2,7 @@
 
 from PyQt4 import QtGui, QtCore
 from PyQt4.QtCore import Qt
-from PyQt4.QtCore import QRect
+from PyQt4.QtCore import QRect,QSize
 
 class ImageViewPrivate(QtGui.QWidget):
 	def __init__(self,_p):
@@ -15,6 +15,12 @@ class ImageViewPrivate(QtGui.QWidget):
 		self.moveRb = False
 		self.setMouseTracking(True)
 	
+	def cancelRect(self):
+		'''Cancel selection rectangle'''
+		if not self.rb: return
+		self.rb.setGeometry(QRect(self.origin, QSize()))
+		self.p.selRect(self.rb.geometry())
+		
 	def paintEvent(self,e):
 		'''Handler called for repainting the widget,这个函数是自动调用的！'''
 		x = self.width()
