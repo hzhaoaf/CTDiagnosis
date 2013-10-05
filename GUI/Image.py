@@ -17,6 +17,13 @@ class Image:
 			self.d = ImagePrivate()
 			self.loadImage(data)
 			
+	def saveImage(self,name):
+		try:
+			self.d.i.save(name.toLocal8Bit().data())
+		except:
+			print("Save Image Failed")
+			pass
+		
 	def crop(self,x1,y1,width,height):
 		'''
 		 Crop image, replace image by its sub-region

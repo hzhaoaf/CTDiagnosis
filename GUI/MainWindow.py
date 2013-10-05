@@ -1,9 +1,16 @@
+
 from PyQt4 import QtGui, QtCore
 from PyQt4.QtCore import Qt
 from PyQt4.QtCore import QRect,QString
 from ImageView import ImageView
 from Image import Image
 from append import *
+import sys
+sys.path.append("..")
+from Curvelet import ccf
+from scipy import misc
+
+image_path = '../data/images/'
 
 #class MainWindow(QtGui.QWidget):
 class MainWindow(QtGui.QMainWindow):
@@ -30,7 +37,7 @@ class MainWindow(QtGui.QMainWindow):
 				QtGui.QKeySequence.Open, "fileopen",
 				ps2qs("´ò¿ªÐÂµÄÍ¼ÏñÎÄ¼þ"))
 		cropImageAction = self.createAction(ps2qs("&²Ã¼ô..."), self.crop,tip = ps2qs("²Ã¼ôÍ¼Ïñ"))
-		svmGuessAction = self.createAction(ps2qs("&Magic..."), self.crop,tip = ps2qs("·ÖÎöÍ¼Ïñ»¼²¡¸ÅÂÊ"))	
+		svmGuessAction = self.createAction(ps2qs("&Magic..."), self.save,tip = ps2qs("·ÖÎöÍ¼Ïñ»¼²¡¸ÅÂÊ"))	
 		
 		self.fileMenu = self.menuBar().addMenu(ps2qs("ÎÄ¼þ"))
 		self.imgMenu = self.menuBar().addMenu(ps2qs("Í¼Ïñ"))
@@ -128,7 +135,20 @@ class MainWindow(QtGui.QMainWindow):
 		#Get image and return it
 		i=self.getImage()
 		return i		
-		
+	
+	
+	def save(self):
+		'''Save image under given name
+		Parameter specifies name of image.
+		If name is given in parameter and not with dialog, no questions about overwriting will be asked.
+		If no parameter is specified, dialog is invoked to ask for one'''
+		i=self.getImage()
+		if not i: return
+		fileName=image_path+"123.png"
+		self.main.saveImage(ps2qs(fileName))
+		self.postOp(i,False)
+		self.curveletExtract(fileName)
+
 	#def crop(self,param):
 	def crop(self):
 		#A rectangle is normally expressed as an upper-left corner and a size
@@ -137,13 +157,31 @@ class MainWindow(QtGui.QMainWindow):
 		i=self.getImageAndParams()#param)
 		if not i: return
 		rectan = self.main.getSelection()
+		if not rectan:
+			return
 		
-		print(QRect(rectan.left(), rectan.top(), rectan.width(), rectan.height()))
+		#print(QRect(rectan.left(), rectan.top(), rectan.width(), rectan.height()))
 		i.crop(rectan.left(), rectan.top(), rectan.width(), rectan.height())
 		self.postOp(i)
 		
-	def curveletOp(self,image):
-		pass
+	def curveletExtract(self,name):
+		'''Extract the curvelet from given image name'''
+		XX = misc.imread(name)
+
+		#If it's a gray image, shape of XX would be 2d ,sth like (73,63)
+		if len(XX.shape) == 2:
+			pass
+		else:
+			XX= XX[:,:,0] if XX.shape[2] > 1 else XX#if RGB,only tackle R
+		[MEAN,SD,CT,HG,MP,ENG,INE,IDM,ENT,COR,SM,DM,SE,DE,ANGLES] = ccf.ccf(XX)
+		results = ccf.ccf(XX)
+		vec = []
+		for r in results[:-1]:
+			vec+= r
+			
+		#finalresult = 
+		print(vec)
+		print(len(vec))
 	
 
 if __name__ == '__main__':

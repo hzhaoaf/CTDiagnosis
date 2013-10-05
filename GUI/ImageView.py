@@ -9,6 +9,7 @@ class ImageView(QtGui.QScrollArea):
     def __init__(self,parent):
         '''constructor of ImageView'''
         QtGui.QWidget.__init__(self)
+        self.selection = None
         self.image = None
         self.zoom = 100
         #if (!ic) ic=new IconCache();
@@ -26,6 +27,10 @@ class ImageView(QtGui.QScrollArea):
         self.data_rect = QtCore.QRect(0,0,1,1)
         #self.setMode(view)
      
+    def saveImage(self,name):
+        '''Save image in viewer under given name'''
+        if self.image: self.image.saveImage(name)
+        
     def selectionFromImageCoords(self,selectionRect):
         '''Return selection rectangle converted from image coordinate system to window coordinate syste'''
         x= (selectionRect.left())*self.data_rect.width()/self.image.x()+self.data_rect.left()
@@ -67,6 +72,8 @@ class ImageView(QtGui.QScrollArea):
             
     def getSelection(self):
         '''return the selection rectangle from (x0,y0,x1,y1) to (x,y,width,height)'''
+        if not self.selection:
+            return None
         width = self.selection.width() - self.selection.left()
         height = self.selection.height() - self.selection.top()
         return QRect(self.selection.left(),self.selection.top(),width,height)
@@ -206,7 +213,7 @@ class ImageView(QtGui.QScrollArea):
             self.selection=QRect()
         else:
             self.selection = self.selectionToImageCoords(r)
-            print(self.selection)
+            #print(self.selection)
             x1=self.selection.left()
             x2=self.selection.right()
             y1=self.selection.top()
@@ -214,8 +221,8 @@ class ImageView(QtGui.QScrollArea):
             w=self.selection.width()
             h=self.selection.height()
             #selText
-            print(QString.number(x1)+","+QString.number(y1)+" - "+QString.number(x2)+","+QString.number(y2)
-                     +" ("+QString.number(w)+"x"+QString.number(h)+") ")
+            #print(QString.number(x1)+","+QString.number(y1)+" - "+QString.number(x2)+","+QString.number(y2)
+                     #+" ("+QString.number(w)+"x"+QString.number(h)+") ")
     
     def rectCheck(self):
         pass

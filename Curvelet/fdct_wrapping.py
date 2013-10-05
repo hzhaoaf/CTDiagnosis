@@ -48,7 +48,7 @@ from memory_profiler import profile
 #@profile
 numpy.set_printoptions(threshold='nan',linewidth='nan')
 def  fdct_wrapping(x, is_real , finest, nbscales, nbangles_coarse):
-    print(math.sqrt(x.size))
+    #print(math.sqrt(x.size))
     X = fftshift(fft2((ifftshift(x))))/(math.sqrt(x.size)) #fft2 transform
     N1,N2 = X.shape
     
@@ -110,8 +110,10 @@ def  fdct_wrapping(x, is_real , finest, nbscales, nbangles_coarse):
         M2 = M2 / 2.0
         window_length_1 = math.floor(2.0 * M1) - math.floor(M1) - 1
         window_length_2 = math.floor(2.0 * M2) - math.floor(M2) - 1
-        coord_1 = numpy.arange(0,1+1.0/window_length_1,1.0/window_length_1)
-        coord_2 = numpy.arange(0,1+1.0/window_length_2,1.0/window_length_2)
+        
+        #http://stackoverflow.com/questions/10011302/python-numpy-arange-unexpected-results
+        coord_1 = numpy.linspace(0,1,window_length_1+1)#Bug Fix
+        coord_2 = numpy.linspace(0,1,window_length_2+1)#Bug Fix
         wl_1,wr_1= fdct_wrapping_window(coord_1)
         wl_2,wr_2 = fdct_wrapping_window(coord_2)
         lowpass_1 = numpy.concatenate((wl_1 , numpy.ones(2*math.floor(M1)+1) , wr_1))

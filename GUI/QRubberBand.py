@@ -51,7 +51,6 @@ class Window(QtGui.QWidget):
             self.rubberband.hide()
             selected = []
             rect = self.rubberband.geometry()
-            print(rect)
             self.cropImage(rect)
             '''
             for child in self.findChildren(QtGui.QPushButton):

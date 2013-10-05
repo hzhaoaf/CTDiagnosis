@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 '''
 % ccf.m - Curvelet Co-occurrence Features Extraction by Fast Discrete Curvelet Transform via wedge wrapping - Version 1.0
 %
@@ -120,7 +121,7 @@ def ccf( x, graylevel=16, is_real = 1, finest = 2, nbscales = 3, nbangles_coarse
     #% offsets of 4 directions of co-occurrence matrix: 0, 45, 90, 135 degree
     offset = numpy.array([[0,1],[-1,1],[-1,0],[-1,-1]])
     
-    #index = 1#since we use append to MEAN,SD,ENG...£¬ index is useless
+    #index = 1#since we use append to MEAN,SD,ENG...ï¼Œ index is useless
     #% for every scale
     
     
@@ -183,19 +184,19 @@ def ccf( x, graylevel=16, is_real = 1, finest = 2, nbscales = 3, nbangles_coarse
 
 
 
-if __name__ == "__main__":
-    XX = misc.imread('result_2.bmp')
+#if __name__ == "__main__":
+    #XX = misc.imread('../data/images/123.png')
     
-    #If it's a gray image, shape of XX would be 2d ,sth like (73,63)
-    if len(XX.shape) == 2:
-        pass
-    else:
-        XX= XX[:,:,0] if XX.shape[2] > 1 else XX#if RGB,only tackle R
-    [MEAN,SD,CT,HG,MP,ENG,INE,IDM,ENT,COR,SM,DM,SE,DE,ANGLES] = ccf(XX)
-    #finalresult = 
-    print("----")
+    ##If it's a gray image, shape of XX would be 2d ,sth like (73,63)
+    #if len(XX.shape) == 2:
+        #pass
+    #else:
+        #XX= XX[:,:,0] if XX.shape[2] > 1 else XX#if RGB,only tackle R
+    #[MEAN,SD,CT,HG,MP,ENG,INE,IDM,ENT,COR,SM,DM,SE,DE,ANGLES] = ccf(XX)
+    ##finalresult = 
+    #print("----")
     
-    #Uncomment this if you want to know the time efficient of the program.
-    #import cProfile
-    #cProfile.run("ccf(XX)")
+    ##Uncomment this if you want to know the time efficient of the program.
+    ##import cProfile
+    ##cProfile.run("ccf(XX)")
     
