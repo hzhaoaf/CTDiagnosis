@@ -19,7 +19,9 @@ class MainWindow(QtGui.QMainWindow):
 		#QtGui.QWidget.__init__(self)
 		super(MainWindow, self).__init__(parent)
 		self.setGeometry(40,40,880,660)
-		
+		self.imgNameSuffix = 1#starts from 001 to 999
+		self.curImgNo = -1
+		self.croppedImages = []
 		#self.splCmd=QtGui.QSplitter(Qt.Vertical,self)
 		#self.splTop=QtGui.QSplitter(Qt.Horizontal,self.splCmd)
 		self.main=ImageView(self)
@@ -32,13 +34,21 @@ class MainWindow(QtGui.QMainWindow):
 		#self.main.setAlignment(Qt.AlignHCenter)
 		#self.splCmd.addWidget(self.main)
 		self.createMenus()
+		self.svmModel = SVM()
 	
 	def createMenus(self):
 		fileOpenAction = self.createAction(ps2qs("&打开..."), self.load,
 				QtGui.QKeySequence.Open, "fileopen",
 				ps2qs("打开新的图像文件"))
 		cropImageAction = self.createAction(ps2qs("&裁剪..."), self.crop,tip = ps2qs("裁剪图像"))
-		svmGuessAction = self.createAction(ps2qs("&Magic..."), self.save,tip = ps2qs("分析图像患病概率"))	
+		svmGuessAction = self.createAction(ps2qs("&Magic..."), self.curveletExtract,tip = ps2qs("分析图像患病概率"))
+
+		nextImageAction = self.createAction(ps2qs("&下一张..."), 
+		                                    self.nextImage,tip = ps2qs("下一张图像"),
+		                                    shortcut=QtGui.QKeySequence.MoveToNextChar)
+		lastImageAction = self.createAction(ps2qs("&上一张..."), 
+		                                    self.lastImage,tip = ps2qs("上一张图像"),
+		                                    shortcut=QtGui.QKeySequence.MoveToPreviousChar)	
 		
 		self.fileMenu = self.menuBar().addMenu(ps2qs("文件"))
 		self.imgMenu = self.menuBar().addMenu(ps2qs("图像"))
@@ -51,6 +61,8 @@ class MainWindow(QtGui.QMainWindow):
 		self.addAction(fileOpenAction)
 		self.addAction(cropImageAction)
 		self.addAction(svmGuessAction)
+		self.addAction(nextImageAction)
+		self.addAction(lastImageAction)
 		
 		self.fileMenu.clear()
 		self.imgMenu.clear()
@@ -103,14 +115,44 @@ class MainWindow(QtGui.QMainWindow):
 		self.main.cancelRect()#Will ensure that updateMenus() will be called in the process
 		if  doUpdate:self.main.update()
 		
+	def reloadImageAfterCrop(self):
+		'''After Crop,set the image to None'''
+		del self.iamgePaths[self.curImgNo]	
+		if not self.iamgePaths:
+			if self.main.image: del self.main.image
+			self.main.image = None
+			return
+		else:
+			self.openFile(self.iamgePaths[0])#Show first image
+			self.curImgNo = 0
+		
 	def load(self):
 		'''Action 1'''
 		'''Open image without given name'''
-		fileName = openFileDialog(self,QString("Open Image"),QString(),self.filters(),QString())#TEmp
-		if fileName.isNull():return
-		self.openFile(fileName)	
+		self.iamgePaths = openFileDialog(self,QString("Open Image"),QString(),self.filters(),QString())#TEmp
+		if not self.iamgePaths:return
+		self.openFile(self.iamgePaths[0])#Show first image
+		self.curImgNo = 0
+		self.imgNamePrefix = "201309011030_001_"
 		
-	
+	def lastImage(self):
+		'''Show the last Image if there is'''
+		if self.curImgNo == -1:return
+		if self.curImgNo - 1 >= 0:
+			self.openFile(self.iamgePaths[self.curImgNo-1])
+			self.curImgNo += -1
+		else:
+			print('There is no more image, first one!')
+
+	def nextImage(self):
+		'''Show the next Image if there is'''
+		if self.curImgNo == -1:return
+		if self.curImgNo+1 <= len(self.iamgePaths) - 1:
+			self.openFile(self.iamgePaths[self.curImgNo+1])
+			self.curImgNo += 1
+		else:
+			print('There is no more image, last one!')
+		
 	def filters(self,useGeneric = None,useBareFormat=None):
 		'''Return suggested filters to use in a save/load dialog'''
 		out = QtCore.QStringList()
@@ -145,10 +187,15 @@ class MainWindow(QtGui.QMainWindow):
 		If no parameter is specified, dialog is invoked to ask for one'''
 		i=self.getImage()
 		if not i: return
-		fileName=image_path+"123.png"
+		fileName="%s%s%03d.png" % (image_path,self.imgNamePrefix,self.imgNameSuffix)
+		self.imgNameSuffix+=1
+		
 		self.main.saveImage(ps2qs(fileName))
 		self.postOp(i,False)
-		self.curveletExtract(fileName)
+		
+		#Once saved, append the save img's path into the croppedImages list
+		self.croppedImages.append(fileName)
+		#self.curveletExtract(fileName)
 
 	#def crop(self,param):
 	def crop(self):
@@ -156,37 +203,56 @@ class MainWindow(QtGui.QMainWindow):
 		'''Action 2'''
 		'''Crop image _QStringList param  Command parameters'''
 		i=self.getImageAndParams()#param)
-		if not i: return
+		if not i: 
+			print("No image to crop & save")
+			return
 		rectan = self.main.getSelection()
 		if not rectan:
+			print("No selection for this image")
 			return
 		
 		#print(QRect(rectan.left(), rectan.top(), rectan.width(), rectan.height()))
 		i.crop(rectan.left(), rectan.top(), rectan.width(), rectan.height())
+		
+		self.save()#Save immediately after crop
+		self.reloadImageAfterCrop()
 		self.postOp(i)
 		
-	def curveletExtract(self,name):
+		
+		
+	def cleanAfterPredict(self):
+		'''To do:Clean the context'''
+		#cropped Images
+		#curImgNo
+		#imgSavedNumber
+		pass
+	
+	def curveletExtract(self):
 		'''Extract the curvelet from given image name'''
-		XX = misc.imread(name)
-		#If it's a gray image, shape of XX would be 2d ,sth like (73,63)
-		if len(XX.shape) == 2:
-			pass
-		else:
-			XX= XX[:,:,0] if XX.shape[2] > 1 else XX#if RGB,only tackle R
-		[MEAN,SD,CT,HG,MP,ENG,INE,IDM,ENT,COR,SM,DM,SE,DE,ANGLES] = ccf.ccf(XX)
-		results = ccf.ccf(XX)
-		vec = []
-		for r in results[:-1]:#The last item has 3 cells
-			vec+= r
-		print(vec)
-		self.svmPredict(vec)
-		#print(len(vec))
+		if not self.croppedImages:
+			print("No images cropped(selected) yet")
+			return
 		
+		vecList = []
+		for name in self.croppedImages:
+			XX = misc.imread(name)
+			#If it's a gray image, shape of XX would be 2d ,sth like (73,63)
+			if len(XX.shape) == 2:
+				pass
+			else:
+				XX= XX[:,:,0] if XX.shape[2] > 1 else XX#if RGB,only tackle R
+			[MEAN,SD,CT,HG,MP,ENG,INE,IDM,ENT,COR,SM,DM,SE,DE,ANGLES] = ccf.ccf(XX)
+			results = ccf.ccf(XX)
+			vec = []
+			for r in results[:-1]:#The last item has 3 cells
+				vec+= r
+			vecList.append(vec)
+		self.svmPredict(vecList)
+		self.cleanAfterPredict()		
 		
-	def svmPredict(self,vector):
+	def svmPredict(self,vectorList):
 		'''Predict the probability of a feature'''
-		svmModel = SVM()
-		print(svmModel.predict([vector]))
+		print(self.svmModel .predict(vectorList))
 	
 
 if __name__ == '__main__':

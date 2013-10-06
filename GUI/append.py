@@ -3,6 +3,9 @@
 from PyQt4 import QtGui, QtCore
 from PyQt4.QtCore import Qt
 from PyQt4.QtCore import QRect
+import sys,os
+sys.path.append("..")
+from dcm.testDCM import *
 
 def ps2qs(zhongwen):
 	return QtCore.QString(unicode(zhongwen, 'gb2312', 'ignore'))
@@ -15,9 +18,7 @@ def qs2ps(zhongwen):
 def dcm2Png(filePath):
 	'''Input:  .dcm file path
 	Output: .png file path'''
-	import sys,os
-	sys.path.append("..")
-	from dcm.testDCM import *
+
 	#os.path.splitext():分离文件名与扩展名,os.path.basename(path):返回文件名 
 	#picName = os.path.splitext(os.path.basename(filePath))[0]
 	filePath = qs2ps(filePath)
@@ -49,7 +50,7 @@ def openFileDialog(parent,caption,settingName,filters,savePath):
 		#Try to set last used saved path, if it exists
 		globalSettings = QtCore.QSettings("JiZhe","CTAnalysis")
 		fd.setDirectory(globalSettings.value("history/path/"+savePath,"."))
-	fd.setFileMode(QtGui.QFileDialog.ExistingFile)
+	fd.setFileMode(QtGui.QFileDialog.ExistingFiles)#ExistingFile -> ExistingFiles,then we can select more than 1 file
 	while True:
 		if  not settingName.isNull():
 			#// Restore window position from settings if applicable
@@ -65,14 +66,24 @@ def openFileDialog(parent,caption,settingName,filters,savePath):
 					#//Note that there is only one central setting "save paths in dialog" for all dialog types
 					globalSettings.write("history/path/"+savePath,getDir(fd));
 			files = fd.selectedFiles()
+			#files = fd.getOpenFileNames()
+			filesPaths = []
 			if  not files.isEmpty(): 
-				name = files[0]
-				if name.endsWith("dcm",0):#0 means case-insensitive
-					name = dcm2Png(name)
+				for name in files:
+					if  QtCore.QFileInfo(name).isDir():#directory was selected
+						fd.setDirectory(name)
+						continue#restart dialog
+					if name.endsWith("dcm",0):#0 means case-insensitive
+						name = dcm2Png(name)
+					filesPaths.append(name)
 					
-			if  QtCore.QFileInfo(name).isDir():#directory was selected
-				#** \todo  test this ! */ 
-				fd.setDirectory(name)
-				continue#restart dialog
-			return name
-		return QtCore.QString()
+				#name = files[0]
+				#if name.endsWith("dcm",0):#0 means case-insensitive
+					#name = dcm2Png(name)
+					
+			#if  QtCore.QFileInfo(name).isDir():#directory was selected
+				##** \todo  test this ! */ 
+				#fd.setDirectory(name)
+				#continue#restart dialog
+			return filesPaths
+		return []
