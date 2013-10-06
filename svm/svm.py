@@ -1,8 +1,10 @@
 #coding=utf8
+import time, json
 import numpy as np
 from sklearn.svm import NuSVC
 from sklearn.externals import joblib
-import time
+
+from svm_dal import SVMDAL
 
 train_data = '../data/trainData-36-9-19.txt'
 svm_path = '../data/svm/test_model.joblib.pkl'
@@ -12,13 +14,26 @@ class SVM:
     def __init__(self):
        self.svm_path = svm_path
        self.load_svm()
+       self.dal = SVMDAL()
 
     def load_svm(self):
         self.clf = joblib.load(self.svm_path)
 
-    def get_trainning_data(self, filename):
+    def get_trainning_data(self):
         '''
-            从数据库中重新读入训练集
+            从数据库中获取全部训练数据
+        '''
+        res = self.dal.select_trainning_data()
+        features, labels = [], []
+        for r in res:
+            f = json.loads(r[0])
+            features.append(f)
+            labels.append(r[1])
+        return features, labels
+
+    def get_trainning_data_from_file(self, filename):
+        '''
+            重新读入训练集
         '''
         f = open(filename, 'r')
         line = f.readline()
