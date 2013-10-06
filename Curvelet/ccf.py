@@ -167,11 +167,16 @@ def ccf( x, graylevel=16, is_real = 1, finest = 2, nbscales = 3, nbangles_coarse
             INE.append(inertia(glcm))#% Inertia
             IDM.append(idm(glcm))#% Inverse Difference Moment
             ENT.append(calEntropy(glcm))#% Entropy
-            COR.append(\
-                (numpy.sum(numpy.sum(numpy.dot(numpy.dot(
-                    numpy.diag(numpy.arange(0,glcm.shape[0])) , glcm) , numpy.diag(numpy.arange(0,glcm.shape[1]))
-                    ))-ux * uy)) \
-                / (deltax * deltay) )#% Correlation
+            
+            #% Correlation
+            if (deltax * deltay) <= pow(10,-6):
+                COR.append(0)#Set to 0 temp
+            else:
+                COR.append(\
+                    (numpy.sum(numpy.sum(numpy.dot(numpy.dot(
+                        numpy.diag(numpy.arange(0,glcm.shape[0])) , glcm) , numpy.diag(numpy.arange(0,glcm.shape[1]))
+                        ))-ux * uy)) \
+                    / (deltax * deltay) )
             SM.append(numpy.sum(numpy.arange(0,Cxpy.shape[1]) * Cxpy))#% Sum-mean
             DM.append(numpy.sum(numpy.arange(0,Cxmy.shape[1]) * Cxmy))#% Difference-mean
             SE.append(calEntropy(Cxpy))
@@ -185,7 +190,8 @@ def ccf( x, graylevel=16, is_real = 1, finest = 2, nbscales = 3, nbangles_coarse
 
 
 #if __name__ == "__main__":
-    #XX = misc.imread('../data/images/123.png')
+    ##XX = misc.imread('../data/images/123.png')
+    #XX = misc.imread('test1.jpg')
     
     ##If it's a gray image, shape of XX would be 2d ,sth like (73,63)
     #if len(XX.shape) == 2:
@@ -193,10 +199,9 @@ def ccf( x, graylevel=16, is_real = 1, finest = 2, nbscales = 3, nbangles_coarse
     #else:
         #XX= XX[:,:,0] if XX.shape[2] > 1 else XX#if RGB,only tackle R
     #[MEAN,SD,CT,HG,MP,ENG,INE,IDM,ENT,COR,SM,DM,SE,DE,ANGLES] = ccf(XX)
-    ##finalresult = 
-    #print("----")
+    #print([MEAN,SD,CT,HG,MP,ENG,INE,IDM,ENT,COR,SM,DM,SE,DE,ANGLES])
     
-    ##Uncomment this if you want to know the time efficient of the program.
-    ##import cProfile
-    ##cProfile.run("ccf(XX)")
+    #Uncomment this if you want to know the time efficient of the program.
+    #import cProfile
+    #cProfile.run("ccf(XX)")
     

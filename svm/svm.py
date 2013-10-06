@@ -58,6 +58,7 @@ class SVM:
         '''
         test_num = len(test_data)
         test_res = self.clf.predict(test_data)
+        print test_res
         positive_num = len([r for r in test_res if r == 1])
         return positive_num / float(test_num)
 

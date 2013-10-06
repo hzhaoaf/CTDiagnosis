@@ -1,4 +1,3 @@
-
 from PyQt4 import QtGui, QtCore
 from PyQt4.QtCore import Qt
 from PyQt4.QtCore import QRect,QString
@@ -7,6 +6,8 @@ from Image import Image
 from append import *
 import sys
 sys.path.append("..")
+
+from svm.svm import SVM
 from Curvelet import ccf
 from scipy import misc
 
@@ -167,7 +168,6 @@ class MainWindow(QtGui.QMainWindow):
 	def curveletExtract(self,name):
 		'''Extract the curvelet from given image name'''
 		XX = misc.imread(name)
-
 		#If it's a gray image, shape of XX would be 2d ,sth like (73,63)
 		if len(XX.shape) == 2:
 			pass
@@ -176,12 +176,17 @@ class MainWindow(QtGui.QMainWindow):
 		[MEAN,SD,CT,HG,MP,ENG,INE,IDM,ENT,COR,SM,DM,SE,DE,ANGLES] = ccf.ccf(XX)
 		results = ccf.ccf(XX)
 		vec = []
-		for r in results[:-1]:
+		for r in results[:-1]:#The last item has 3 cells
 			vec+= r
-			
-		#finalresult = 
 		print(vec)
-		print(len(vec))
+		self.svmPredict(vec)
+		#print(len(vec))
+		
+		
+	def svmPredict(self,vector):
+		'''Predict the probability of a feature'''
+		svmModel = SVM()
+		print(svmModel.predict([vector]))
 	
 
 if __name__ == '__main__':
