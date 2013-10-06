@@ -42,5 +42,5 @@ nosetests.xml
 #vi tmp
 *.swp
 
-#vi
-.db
+#sqllite3 db
+*.db
