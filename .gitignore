@@ -41,3 +41,6 @@ nosetests.xml
 
 #vi tmp
 *.swp
+
+#vi
+.db
