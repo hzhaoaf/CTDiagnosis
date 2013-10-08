@@ -12,7 +12,7 @@
   </property>
   <property name="font">
    <font>
-    <family>宋体</family>
+    <family>Arial</family>
     <pointsize>10</pointsize>
    </font>
   </property>
@@ -33,7 +33,7 @@
    </property>
    <property name="font">
     <font>
-     <family>宋体</family>
+     <family>Arial</family>
      <pointsize>11</pointsize>
     </font>
    </property>
@@ -55,7 +55,7 @@
    </property>
    <property name="font">
     <font>
-     <family>宋体</family>
+     <family>Arial</family>
      <pointsize>11</pointsize>
     </font>
    </property>
