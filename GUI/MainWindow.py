@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from PyQt4 import QtGui, QtCore
 from PyQt4.QtCore import Qt
 from PyQt4.QtCore import QRect,QString
@@ -5,11 +7,14 @@ from ImageView import ImageView
 from Image import Image
 from append import *
 import sys
+
 sys.path.append("..")
 
 from svm.svm import SVM
 from Curvelet import ccf
 from scipy import misc
+from PatientInfoDialog import PatientInfoDialog
+from gui_model_diagnosis import UI_Diagnosis
 
 image_path = '../data/images/'
 
@@ -34,35 +39,40 @@ class MainWindow(QtGui.QMainWindow):
 		#self.main.setAlignment(Qt.AlignHCenter)
 		#self.splCmd.addWidget(self.main)
 		self.createMenus()
-		self.svmModel = SVM()
+		
+		#This is wrong with SVM, comment it temp.. 
+		#self.svmModel = SVM()	
 	
 	def createMenus(self):
-		fileOpenAction = self.createAction(ps2qs("&´ò¿ª..."), self.load,
+		fileOpenAction = self.createAction(u"æ‰“å¼€", self.load,
 				QtGui.QKeySequence.Open, "fileopen",
-				ps2qs("´ò¿ªĞÂµÄÍ¼ÏñÎÄ¼ş"))
-		cropImageAction = self.createAction(ps2qs("&²Ã¼ô..."), self.crop,tip = ps2qs("²Ã¼ôÍ¼Ïñ"))
-		svmGuessAction = self.createAction(ps2qs("&Magic..."), self.curveletExtract,tip = ps2qs("·ÖÎöÍ¼Ïñ»¼²¡¸ÅÂÊ"))
+				u"æ‰“å¼€æ–°çš„å›¾åƒæ–‡ä»¶")
+		cropImageAction = self.createAction(u"&è£å‰ª...", self.crop,tip = u"è£å‰ªå›¾åƒ")
+		svmGuessAction = self.createAction(u"&Magic...", self.curveletExtract,tip = u"åˆ†æå›¾åƒæ‚£ç—…æ¦‚ç‡")
+		shPaInfoDialAction = self.createAction(u"&è¾“å…¥æ‚£è€…ä¿¡æ¯...", \
+		                                       self.showPatientInfoDialog,tip = u"è¾“å…¥æ‚£è€…ä¿¡æ¯")
 
-		nextImageAction = self.createAction(ps2qs("&ÏÂÒ»ÕÅ..."), 
-		                                    self.nextImage,tip = ps2qs("ÏÂÒ»ÕÅÍ¼Ïñ"),
+		nextImageAction = self.createAction(u"&ä¸‹ä¸€å¼ ...", 
+		                                    self.nextImage,tip = u"ä¸‹ä¸€å¼ å›¾åƒ",
 		                                    shortcut=QtGui.QKeySequence.MoveToNextChar)
-		lastImageAction = self.createAction(ps2qs("&ÉÏÒ»ÕÅ..."), 
-		                                    self.lastImage,tip = ps2qs("ÉÏÒ»ÕÅÍ¼Ïñ"),
+		lastImageAction = self.createAction(u"&ä¸Šä¸€å¼ ...", 
+		                                    self.lastImage,tip = u"ä¸Šä¸€å¼ å›¾åƒ",
 		                                    shortcut=QtGui.QKeySequence.MoveToPreviousChar)	
 		
-		self.fileMenu = self.menuBar().addMenu(ps2qs("ÎÄ¼ş"))
-		self.imgMenu = self.menuBar().addMenu(ps2qs("Í¼Ïñ"))
-		self.funcMenu = self.menuBar().addMenu(ps2qs("¹¦ÄÜ"))
+		self.fileMenu = self.menuBar().addMenu(u"æ–‡ä»¶")
+		self.imgMenu = self.menuBar().addMenu(u"å›¾åƒ")
+		self.funcMenu = self.menuBar().addMenu(u"åŠŸèƒ½")
 		
 		self.fileMenuActions = [fileOpenAction]
 		self.imgMenuActions = [cropImageAction]
-		self.funcMenuActions = [svmGuessAction]
+		self.funcMenuActions = [svmGuessAction,shPaInfoDialAction]
 		
 		self.addAction(fileOpenAction)
 		self.addAction(cropImageAction)
 		self.addAction(svmGuessAction)
 		self.addAction(nextImageAction)
 		self.addAction(lastImageAction)
+		self.addAction(shPaInfoDialAction)
 		
 		self.fileMenu.clear()
 		self.imgMenu.clear()
@@ -254,7 +264,17 @@ class MainWindow(QtGui.QMainWindow):
 		'''Predict the probability of a feature'''
 		print(self.svmModel .predict(vectorList))
 	
+	def showPatientInfoDialog(self):
+		#http://stackoverflow.com/questions/5874025/pyqt4-how-to-show-a-modeless-dialog
+		#If you don't pass the self argument,it will be recycled by garbage collector!
+		form = PatientInfoDialog(parent=self)
+		if form.exec_():
+			self.diagonosis = form.getDiagnosisInfo()
 
+			print(self.diagonosis)
+			
+		#form.exec_()#?
+		
 if __name__ == '__main__':
 	import sys
 	#QSetting http://blog.sina.com.cn/s/blog_4b5039210100h3zb.html
@@ -264,5 +284,5 @@ if __name__ == '__main__':
 	app = QtGui.QApplication(sys.argv)
 	window = MainWindow()
 	window.show()
-	window.load()
+	#window.load()
 	sys.exit(app.exec_())
