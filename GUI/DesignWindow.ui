@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>810</width>
-    <height>625</height>
+    <width>840</width>
+    <height>630</height>
    </rect>
   </property>
   <property name="font">
@@ -28,16 +28,16 @@
   <widget class="QTabWidget" name="tabWidget">
    <property name="geometry">
     <rect>
-     <x>70</x>
-     <y>10</y>
-     <width>711</width>
-     <height>491</height>
+     <x>60</x>
+     <y>30</y>
+     <width>731</width>
+     <height>531</height>
     </rect>
    </property>
    <property name="font">
     <font>
      <family>Arial</family>
-     <pointsize>11</pointsize>
+     <pointsize>10</pointsize>
     </font>
    </property>
    <property name="currentIndex">
@@ -50,10 +50,10 @@
     <widget class="QSplitter" name="splitter">
      <property name="geometry">
       <rect>
-       <x>110</x>
-       <y>100</y>
+       <x>120</x>
+       <y>110</y>
        <width>501</width>
-       <height>211</height>
+       <height>221</height>
       </rect>
      </property>
      <property name="orientation">
@@ -201,10 +201,10 @@
     <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
-       <x>80</x>
-       <y>10</y>
-       <width>551</width>
-       <height>431</height>
+       <x>30</x>
+       <y>20</y>
+       <width>671</width>
+       <height>451</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
@@ -592,10 +592,10 @@
     <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
-       <x>60</x>
+       <x>30</x>
        <y>30</y>
-       <width>611</width>
-       <height>401</height>
+       <width>661</width>
+       <height>441</height>
       </rect>
      </property>
      <layout class="QGridLayout" name="gridLayout_12">
@@ -892,15 +892,15 @@
   <widget class="QPushButton" name="acceptButton">
    <property name="geometry">
     <rect>
-     <x>600</x>
-     <y>520</y>
+     <x>610</x>
+     <y>570</y>
      <width>81</width>
      <height>31</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <pointsize>11</pointsize>
+     <pointsize>10</pointsize>
     </font>
    </property>
    <property name="text">
@@ -910,15 +910,15 @@
   <widget class="QPushButton" name="cancelButton">
    <property name="geometry">
     <rect>
-     <x>700</x>
-     <y>520</y>
+     <x>710</x>
+     <y>570</y>
      <width>81</width>
      <height>31</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <pointsize>11</pointsize>
+     <pointsize>10</pointsize>
     </font>
    </property>
    <property name="text">
