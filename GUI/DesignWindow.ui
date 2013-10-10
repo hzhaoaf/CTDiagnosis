@@ -9,7 +9,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>840</width>
+    <width>731</width>
     <height>630</height>
    </rect>
   </property>
@@ -28,10 +28,10 @@
   <widget class="QTabWidget" name="tabWidget">
    <property name="geometry">
     <rect>
-     <x>60</x>
-     <y>30</y>
-     <width>731</width>
-     <height>531</height>
+     <x>40</x>
+     <y>20</y>
+     <width>651</width>
+     <height>511</height>
     </rect>
    </property>
    <property name="font">
@@ -41,7 +41,7 @@
     </font>
    </property>
    <property name="currentIndex">
-    <number>2</number>
+    <number>3</number>
    </property>
    <widget class="QWidget" name="tab">
     <attribute name="title">
@@ -50,8 +50,8 @@
     <widget class="QSplitter" name="splitter">
      <property name="geometry">
       <rect>
-       <x>120</x>
-       <y>110</y>
+       <x>70</x>
+       <y>120</y>
        <width>501</width>
        <height>221</height>
       </rect>
@@ -201,10 +201,10 @@
     <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
-       <x>30</x>
-       <y>20</y>
-       <width>671</width>
-       <height>451</height>
+       <x>80</x>
+       <y>40</y>
+       <width>491</width>
+       <height>421</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
@@ -592,10 +592,10 @@
     <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
-       <x>30</x>
-       <y>30</y>
-       <width>661</width>
-       <height>441</height>
+       <x>80</x>
+       <y>40</y>
+       <width>491</width>
+       <height>421</height>
       </rect>
      </property>
      <layout class="QGridLayout" name="gridLayout_12">
@@ -607,7 +607,7 @@
            <string>临床诊断意见：</string>
           </property>
           <property name="alignment">
-           <set>Qt::AlignCenter</set>
+           <set>Qt::AlignHCenter|Qt::AlignTop</set>
           </property>
          </widget>
         </item>
@@ -773,7 +773,7 @@
 的临床表现：</string>
           </property>
           <property name="alignment">
-           <set>Qt::AlignCenter</set>
+           <set>Qt::AlignHCenter|Qt::AlignTop</set>
           </property>
          </widget>
         </item>
@@ -887,21 +887,565 @@
     <attribute name="title">
      <string>影响查看结果</string>
     </attribute>
+    <widget class="QWidget" name="">
+     <property name="geometry">
+      <rect>
+       <x>80</x>
+       <y>40</y>
+       <width>491</width>
+       <height>421</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <layout class="QGridLayout" name="gridLayout_3">
+        <item row="1" column="3" colspan="2">
+         <widget class="QLabel" name="label_11">
+          <property name="text">
+           <string>结节大小</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="5">
+         <widget class="QLineEdit" name="lineEdit_2"/>
+        </item>
+        <item row="1" column="1" colspan="2">
+         <widget class="QDateEdit" name="dateEdit">
+          <property name="dateTime">
+           <datetime>
+            <hour>0</hour>
+            <minute>0</minute>
+            <second>0</second>
+            <year>2013</year>
+            <month>11</month>
+            <day>2</day>
+           </datetime>
+          </property>
+          <property name="calendarPopup">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="label_10">
+          <property name="text">
+           <string>检查日期</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1" colspan="2">
+         <widget class="QLineEdit" name="lineEdit"/>
+        </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_8">
+          <property name="text">
+           <string>CT号</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="3" colspan="2">
+         <widget class="QLabel" name="label_9">
+          <property name="text">
+           <string>检查方式</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="5" colspan="2">
+         <widget class="QComboBox" name="comboBox">
+          <item>
+           <property name="text">
+            <string>平扫</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>增强扫描</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>其他</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item row="1" column="6">
+         <widget class="QLabel" name="label_12">
+          <property name="text">
+           <string>厘米</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <spacer name="verticalSpacer">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <item>
+         <widget class="QLabel" name="label_13">
+          <property name="text">
+           <string>节点部位</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="checkBox">
+          <property name="text">
+           <string>左肺上叶</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="checkBox_2">
+          <property name="text">
+           <string>左肺下叶</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="checkBox_3">
+          <property name="text">
+           <string>右肺上叶</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="checkBox_4">
+          <property name="text">
+           <string>右肺中叶</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="checkBox_5">
+          <property name="text">
+           <string>右肺下叶</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <spacer name="verticalSpacer_5">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_8">
+        <item>
+         <layout class="QGridLayout" name="gridLayout_4">
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_40">
+            <property name="text">
+             <string>淋巴结肿</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2">
+           <widget class="QRadioButton" name="kesou1RadioButton_2">
+            <property name="text">
+             <string>无</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_41">
+            <property name="text">
+             <string>毛玻璃密</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="2">
+           <widget class="QRadioButton" name="kesou1RadioButton_3">
+            <property name="text">
+             <string>无</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="3">
+           <widget class="QRadioButton" name="kesou2RadioButton_2">
+            <property name="text">
+             <string>有</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="0">
+           <widget class="QLabel" name="label_44">
+            <property name="text">
+             <string>空洞</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="2">
+           <widget class="QRadioButton" name="kesou1RadioButton_6">
+            <property name="text">
+             <string>无</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="0">
+           <widget class="QLabel" name="label_45">
+            <property name="text">
+             <string>胸水</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="3">
+           <widget class="QRadioButton" name="kesou2RadioButton_6">
+            <property name="text">
+             <string>有</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="3">
+           <widget class="QRadioButton" name="kesou2RadioButton_7">
+            <property name="text">
+             <string>有</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="2">
+           <widget class="QRadioButton" name="kesou1RadioButton_7">
+            <property name="text">
+             <string>无</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="label_42">
+            <property name="text">
+             <string>结节边缘</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="3">
+           <widget class="QRadioButton" name="kesou2RadioButton_3">
+            <property name="text">
+             <string>是</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="2">
+           <widget class="QRadioButton" name="kesou1RadioButton_4">
+            <property name="text">
+             <string>光滑</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="3">
+           <widget class="QRadioButton" name="kesou2RadioButton_4">
+            <property name="text">
+             <string>毛糙</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="label_43">
+            <property name="text">
+             <string>结节空泡</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="2">
+           <widget class="QRadioButton" name="kesou1RadioButton_5">
+            <property name="text">
+             <string>无</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="3">
+           <widget class="QRadioButton" name="kesou2RadioButton_5">
+            <property name="text">
+             <string>有</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <spacer name="horizontalSpacer_7">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_5">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>98</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <layout class="QGridLayout" name="gridLayout_8">
+          <item row="4" column="2">
+           <widget class="QRadioButton" name="kesou1RadioButton_11">
+            <property name="text">
+             <string>无</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="3">
+           <widget class="QRadioButton" name="kesou2RadioButton_13">
+            <property name="text">
+             <string>有</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="0">
+           <widget class="QLabel" name="label_51">
+            <property name="text">
+             <string>胸膜凹陷</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="3">
+           <widget class="QRadioButton" name="kesou2RadioButton_12">
+            <property name="text">
+             <string>有</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="2">
+           <widget class="QRadioButton" name="kesou1RadioButton_12">
+            <property name="text">
+             <string>无</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_46">
+            <property name="text">
+             <string>结节密度</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2">
+           <widget class="QRadioButton" name="kesou1RadioButton_8">
+            <property name="text">
+             <string>均匀</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="3">
+           <widget class="QRadioButton" name="kesou2RadioButton_8">
+            <property name="text">
+             <string>不均匀</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_47">
+            <property name="text">
+             <string>实性结节</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="3">
+           <widget class="QRadioButton" name="kesou2RadioButton_9">
+            <property name="text">
+             <string>是</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="2">
+           <widget class="QRadioButton" name="kesou1RadioButton_9">
+            <property name="text">
+             <string>无</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="label_48">
+            <property name="text">
+             <string>有晕征</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="2">
+           <widget class="QRadioButton" name="kesou1RadioButton_10">
+            <property name="text">
+             <string>无</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="label_49">
+            <property name="text">
+             <string>结节分叶</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="2">
+           <widget class="QRadioButton" name="kesou1RadioButton_13">
+            <property name="text">
+             <string>无</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="3">
+           <widget class="QRadioButton" name="kesou2RadioButton_10">
+            <property name="text">
+             <string>有</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="3">
+           <widget class="QRadioButton" name="kesou2RadioButton_11">
+            <property name="text">
+             <string>有</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="0">
+           <widget class="QLabel" name="label_50">
+            <property name="text">
+             <string>结节钙化</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <spacer name="horizontalSpacer_6">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <spacer name="verticalSpacer_3">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_7">
+        <item>
+         <widget class="QLabel" name="label_14">
+          <property name="text">
+           <string>CT诊断：</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPlainTextEdit" name="plainTextEdit">
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>100</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
    </widget>
   </widget>
   <widget class="QPushButton" name="acceptButton">
    <property name="geometry">
     <rect>
-     <x>610</x>
-     <y>570</y>
-     <width>81</width>
-     <height>31</height>
+     <x>40</x>
+     <y>550</y>
+     <width>321</width>
+     <height>41</height>
     </rect>
    </property>
    <property name="font">
     <font>
      <pointsize>10</pointsize>
     </font>
+   </property>
+   <property name="autoFillBackground">
+    <bool>false</bool>
    </property>
    <property name="text">
     <string>确定</string>
@@ -910,10 +1454,10 @@
   <widget class="QPushButton" name="cancelButton">
    <property name="geometry">
     <rect>
-     <x>710</x>
-     <y>570</y>
-     <width>81</width>
-     <height>31</height>
+     <x>370</x>
+     <y>550</y>
+     <width>321</width>
+     <height>41</height>
     </rect>
    </property>
    <property name="font">

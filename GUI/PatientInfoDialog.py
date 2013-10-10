@@ -51,8 +51,7 @@ class PatientInfoDialog(QDialog,ui_PatientInfoDialog.Ui_PatientInfoDialog):
 		
 		self.buttonGroup_sysy= QButtonGroup()
 		self.buttonGroup_sysy.addButton(self.shengyinsiya1RadioButton,14)
-		self.buttonGroup_sysy.addButton(self.shengyinsiya2RadioButton,15)			
-		
+		self.buttonGroup_sysy.addButton(self.shengyinsiya2RadioButton,15)
 
 	@pyqtSignature("QString")
 	def on_nameLineEdit_textEdited(self, text):
