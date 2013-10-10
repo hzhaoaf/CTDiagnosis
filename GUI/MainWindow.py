@@ -39,10 +39,15 @@ class MainWindow(QtGui.QMainWindow):
 		#self.main.setAlignment(Qt.AlignHCenter)
 		#self.splCmd.addWidget(self.main)
 		self.createMenus()
+		self.setMouseStyleCross()
 		
 		#This is wrong with SVM, comment it temp.. 
 		#self.svmModel = SVM()	
 	
+	def setMouseStyleCross(self):
+		self.main.setCursor(Qt.CrossCursor)
+	def setMouseStyleNormal(self):
+		self.main.setCursor(Qt.ArrowCursor)
 	def createMenus(self):
 		fileOpenAction = self.createAction(u"打开", self.load,
 				QtGui.QKeySequence.Open, "fileopen",
@@ -220,11 +225,12 @@ class MainWindow(QtGui.QMainWindow):
 		if not rectan:
 			print("No selection for this image")
 			return
-		
+
 		#print(QRect(rectan.left(), rectan.top(), rectan.width(), rectan.height()))
 		i.crop(rectan.left(), rectan.top(), rectan.width(), rectan.height())
 		
 		self.save()#Save immediately after crop
+		#Flip to next image, without this image,show the user cropped image.
 		self.reloadImageAfterCrop()
 		self.postOp(i)
 		
