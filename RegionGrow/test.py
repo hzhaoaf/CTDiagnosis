@@ -2,7 +2,7 @@ from scipy import misc
 import matplotlib.pyplot as plt
 import numpy as np
 
-
+ 
 def norShow(X):
     if X.max()<= pow(10,-6):
         print("All points are black,fail.")
