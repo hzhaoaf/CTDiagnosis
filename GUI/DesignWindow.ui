@@ -41,7 +41,7 @@
     </font>
    </property>
    <property name="currentIndex">
-    <number>3</number>
+    <number>2</number>
    </property>
    <widget class="QWidget" name="tab">
     <attribute name="title">
@@ -204,14 +204,14 @@
        <x>80</x>
        <y>40</y>
        <width>491</width>
-       <height>421</height>
+       <height>429</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
        <layout class="QGridLayout" name="gridLayout_5">
         <item row="0" column="2" rowspan="2">
-         <widget class="QPlainTextEdit" name="zhongliuPlainTextEdit"/>
+         <widget class="QPlainTextEdit" name="zhongliubingshi_PlainTextEdit"/>
         </item>
         <item row="0" column="0">
          <widget class="QLabel" name="label_7">
@@ -224,7 +224,7 @@
          </widget>
         </item>
         <item row="0" column="1">
-         <widget class="QComboBox" name="zhongliuComboBox">
+         <widget class="QComboBox" name="zhongliubingshi_ComboBox">
           <item>
            <property name="text">
             <string>无</string>
@@ -277,10 +277,10 @@
          </widget>
         </item>
         <item row="0" column="2" rowspan="2">
-         <widget class="QPlainTextEdit" name="feijiehePlainTextEdit"/>
+         <widget class="QPlainTextEdit" name="feijiehebingshi_PlainTextEdit"/>
         </item>
         <item row="0" column="1">
-         <widget class="QComboBox" name="feijiheComboBox">
+         <widget class="QComboBox" name="feijihebingshi_ComboBox">
           <item>
            <property name="text">
             <string>无</string>
@@ -317,7 +317,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QComboBox" name="fenchenComboBox">
+         <widget class="QComboBox" name="fenchenxirushi_ComboBox">
           <item>
            <property name="text">
             <string>无</string>
@@ -343,7 +343,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="xirunianxianLineEdit">
+         <widget class="QLineEdit" name="xirugongzuonianxian_LineEdit">
           <property name="maximumSize">
            <size>
             <width>30</width>
@@ -367,7 +367,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="gongzhongLineEdit"/>
+         <widget class="QLineEdit" name="gongzhong_LineEdit"/>
         </item>
         <item>
          <spacer name="horizontalSpacer_2">
@@ -417,10 +417,10 @@
          </widget>
         </item>
         <item row="0" column="2" rowspan="2">
-         <widget class="QPlainTextEdit" name="yichuanPlainTextEdit"/>
+         <widget class="QPlainTextEdit" name="yichuanbingshi_PlainTextEdit"/>
         </item>
         <item row="0" column="1">
-         <widget class="QComboBox" name="yichuanComboBox">
+         <widget class="QComboBox" name="yichuanbingshi_ComboBox">
           <item>
            <property name="text">
             <string>无</string>
@@ -457,7 +457,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QComboBox" name="xiyanComboBox">
+         <widget class="QComboBox" name="xiyanshi_ComboBox">
           <item>
            <property name="text">
             <string>无</string>
@@ -483,7 +483,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="xiyannianLineEdit">
+         <widget class="QLineEdit" name="xiyannianxian_LineEdit">
           <property name="maximumSize">
            <size>
             <width>30</width>
@@ -507,7 +507,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="xiyanzhiLineEdit">
+         <widget class="QLineEdit" name="meitianxiyanshu_LineEdit">
           <property name="maximumSize">
            <size>
             <width>30</width>
@@ -548,10 +548,10 @@
       <item>
        <layout class="QGridLayout" name="gridLayout_7">
         <item row="0" column="2" rowspan="2">
-         <widget class="QPlainTextEdit" name="huxiPlainTextEdit"/>
+         <widget class="QPlainTextEdit" name="huxibingshihuoqita_PlainTextEdit"/>
         </item>
         <item row="0" column="1">
-         <widget class="QComboBox" name="huxiComboBox">
+         <widget class="QComboBox" name="huxibingshihuoqita_ComboBox">
           <item>
            <property name="text">
             <string>无</string>
@@ -612,7 +612,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QPlainTextEdit" name="linchuang_PlainTextEdit"/>
+         <widget class="QPlainTextEdit" name="linchuangzhenduanyijian_PlainTextEdit"/>
         </item>
        </layout>
       </item>
@@ -649,42 +649,42 @@
          </widget>
         </item>
         <item row="0" column="2" colspan="2">
-         <widget class="QRadioButton" name="kesou1RadioButton">
+         <widget class="QRadioButton" name="kesou_wu_RadioButton">
           <property name="text">
            <string>无</string>
           </property>
          </widget>
         </item>
         <item row="2" column="2" colspan="2">
-         <widget class="QRadioButton" name="xiongtong1RadioButton">
+         <widget class="QRadioButton" name="xiongtong_wu_RadioButton">
           <property name="text">
            <string>无</string>
           </property>
          </widget>
         </item>
         <item row="2" column="4">
-         <widget class="QRadioButton" name="xiongtong2RadioButton">
+         <widget class="QRadioButton" name="xiongtong_you_RadioButton">
           <property name="text">
            <string>有</string>
           </property>
          </widget>
         </item>
         <item row="1" column="4">
-         <widget class="QRadioButton" name="kexue2RadioButton">
+         <widget class="QRadioButton" name="kexue_you_RadioButton">
           <property name="text">
            <string>有</string>
           </property>
          </widget>
         </item>
         <item row="1" column="2" colspan="2">
-         <widget class="QRadioButton" name="kexue1RadioButton">
+         <widget class="QRadioButton" name="kexue_wu_RadioButton">
           <property name="text">
            <string>无</string>
           </property>
          </widget>
         </item>
         <item row="0" column="4">
-         <widget class="QRadioButton" name="kesou2RadioButton">
+         <widget class="QRadioButton" name="kesou_you_RadioButton">
           <property name="text">
            <string>有</string>
           </property>
@@ -732,21 +732,21 @@
          </widget>
         </item>
         <item>
-         <widget class="QRadioButton" name="fare1RadioButton">
+         <widget class="QRadioButton" name="fare_wu_RadioButton">
           <property name="text">
            <string>无</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QRadioButton" name="fare2RadioButton">
+         <widget class="QRadioButton" name="fare_3738_RadioButton">
           <property name="text">
            <string>37.5-38摄氏度</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QRadioButton" name="fare3RadioButton">
+         <widget class="QRadioButton" name="fare_38yishang_RadioButton">
           <property name="text">
            <string>38摄氏度以上</string>
           </property>
@@ -778,7 +778,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QPlainTextEdit" name="qita_PlainTextEdit"/>
+         <widget class="QPlainTextEdit" name="qitayuhuxiyouguan_PlainTextEdit"/>
         </item>
        </layout>
       </item>
@@ -792,14 +792,14 @@
       <item row="3" column="1">
        <layout class="QGridLayout" name="gridLayout_10">
         <item row="0" column="2" colspan="2">
-         <widget class="QRadioButton" name="tanzhongdaixue1RadioButton">
+         <widget class="QRadioButton" name="tanzhongdaixue_wu_RadioButton">
           <property name="text">
            <string>无</string>
           </property>
          </widget>
         </item>
         <item row="0" column="4">
-         <widget class="QRadioButton" name="tanzhongdaixue2RadioButton">
+         <widget class="QRadioButton" name="tanzhongdaixue_you_RadioButton">
           <property name="text">
            <string>有</string>
           </property>
@@ -829,7 +829,7 @@
          </widget>
         </item>
         <item row="1" column="4">
-         <widget class="QRadioButton" name="xiongmen2RadioButton">
+         <widget class="QRadioButton" name="xiongmen_you_RadioButton">
           <property name="text">
            <string>有</string>
           </property>
@@ -846,7 +846,7 @@
          </widget>
         </item>
         <item row="2" column="2" colspan="2">
-         <widget class="QRadioButton" name="shengyinsiya1RadioButton">
+         <widget class="QRadioButton" name="shengyinsiya_wu_RadioButton">
           <property name="text">
            <string>无</string>
           </property>
@@ -863,14 +863,14 @@
          </widget>
         </item>
         <item row="1" column="2" colspan="2">
-         <widget class="QRadioButton" name="xiongmen1RadioButton">
+         <widget class="QRadioButton" name="xiongmen_wu_RadioButton">
           <property name="text">
            <string>无</string>
           </property>
          </widget>
         </item>
         <item row="2" column="4">
-         <widget class="QRadioButton" name="shengyinsiya2RadioButton">
+         <widget class="QRadioButton" name="shengyinsiya_you_RadioButton">
           <property name="text">
            <string>有</string>
           </property>
@@ -880,14 +880,12 @@
       </item>
      </layout>
     </widget>
-    <zorder>layoutWidget</zorder>
-    <zorder>groupBox</zorder>
    </widget>
    <widget class="QWidget" name="tab_4">
     <attribute name="title">
      <string>影响查看结果</string>
     </attribute>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>80</x>
@@ -907,10 +905,10 @@
          </widget>
         </item>
         <item row="1" column="5">
-         <widget class="QLineEdit" name="lineEdit_2"/>
+         <widget class="QLineEdit" name="jiejiedaxiao_lineEdit"/>
         </item>
         <item row="1" column="1" colspan="2">
-         <widget class="QDateEdit" name="dateEdit">
+         <widget class="QDateEdit" name="jianchariqi_dateEdit">
           <property name="dateTime">
            <datetime>
             <hour>0</hour>
@@ -934,7 +932,7 @@
          </widget>
         </item>
         <item row="0" column="1" colspan="2">
-         <widget class="QLineEdit" name="lineEdit"/>
+         <widget class="QLineEdit" name="CThao_lineEdit"/>
         </item>
         <item row="0" column="0">
          <widget class="QLabel" name="label_8">
@@ -951,7 +949,7 @@
          </widget>
         </item>
         <item row="0" column="5" colspan="2">
-         <widget class="QComboBox" name="comboBox">
+         <widget class="QComboBox" name="jianchafangshi_comboBox">
           <item>
            <property name="text">
             <string>平扫</string>
@@ -1001,35 +999,35 @@
          </widget>
         </item>
         <item>
-         <widget class="QCheckBox" name="checkBox">
+         <widget class="QCheckBox" name="zuofeishangye_checkBox">
           <property name="text">
            <string>左肺上叶</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QCheckBox" name="checkBox_2">
+         <widget class="QCheckBox" name="zuofeixiaye_checkBox">
           <property name="text">
            <string>左肺下叶</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QCheckBox" name="checkBox_3">
+         <widget class="QCheckBox" name="youfeishangye_checkBox">
           <property name="text">
            <string>右肺上叶</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QCheckBox" name="checkBox_4">
+         <widget class="QCheckBox" name="youfeizhongye_checkBox">
           <property name="text">
            <string>右肺中叶</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QCheckBox" name="checkBox_5">
+         <widget class="QCheckBox" name="youfeixiaye_checkBox">
           <property name="text">
            <string>右肺下叶</string>
           </property>
@@ -1065,7 +1063,7 @@
            </widget>
           </item>
           <item row="0" column="2">
-           <widget class="QRadioButton" name="kesou1RadioButton_2">
+           <widget class="QRadioButton" name="linbajiezhong_wu_RadioButton">
             <property name="text">
              <string>无</string>
             </property>
@@ -1082,14 +1080,14 @@
            </widget>
           </item>
           <item row="1" column="2">
-           <widget class="QRadioButton" name="kesou1RadioButton_3">
+           <widget class="QRadioButton" name="maobolimi_wu_RadioButton">
             <property name="text">
              <string>无</string>
             </property>
            </widget>
           </item>
           <item row="0" column="3">
-           <widget class="QRadioButton" name="kesou2RadioButton_2">
+           <widget class="QRadioButton" name="linbajiezhong_you_RadioButton">
             <property name="text">
              <string>有</string>
             </property>
@@ -1106,7 +1104,7 @@
            </widget>
           </item>
           <item row="4" column="2">
-           <widget class="QRadioButton" name="kesou1RadioButton_6">
+           <widget class="QRadioButton" name="kongdong_wu_RadioButton">
             <property name="text">
              <string>无</string>
             </property>
@@ -1123,21 +1121,21 @@
            </widget>
           </item>
           <item row="4" column="3">
-           <widget class="QRadioButton" name="kesou2RadioButton_6">
+           <widget class="QRadioButton" name="kongdong_you_RadioButton">
             <property name="text">
              <string>有</string>
             </property>
            </widget>
           </item>
           <item row="5" column="3">
-           <widget class="QRadioButton" name="kesou2RadioButton_7">
+           <widget class="QRadioButton" name="xiongshui_you_RadioButton">
             <property name="text">
              <string>有</string>
             </property>
            </widget>
           </item>
           <item row="5" column="2">
-           <widget class="QRadioButton" name="kesou1RadioButton_7">
+           <widget class="QRadioButton" name="xiongshui_wu_RadioButton">
             <property name="text">
              <string>无</string>
             </property>
@@ -1154,21 +1152,21 @@
            </widget>
           </item>
           <item row="1" column="3">
-           <widget class="QRadioButton" name="kesou2RadioButton_3">
+           <widget class="QRadioButton" name="maobolimi_shi_RadioButton">
             <property name="text">
              <string>是</string>
             </property>
            </widget>
           </item>
           <item row="2" column="2">
-           <widget class="QRadioButton" name="kesou1RadioButton_4">
+           <widget class="QRadioButton" name="jiejiebianyuan_guanghua_RadioButton">
             <property name="text">
              <string>光滑</string>
             </property>
            </widget>
           </item>
           <item row="2" column="3">
-           <widget class="QRadioButton" name="kesou2RadioButton_4">
+           <widget class="QRadioButton" name="jiejiebianyuan_maocao_RadioButton">
             <property name="text">
              <string>毛糙</string>
             </property>
@@ -1185,14 +1183,14 @@
            </widget>
           </item>
           <item row="3" column="2">
-           <widget class="QRadioButton" name="kesou1RadioButton_5">
+           <widget class="QRadioButton" name="jiejiekongpao_wu_RadioButton">
             <property name="text">
              <string>无</string>
             </property>
            </widget>
           </item>
           <item row="3" column="3">
-           <widget class="QRadioButton" name="kesou2RadioButton_5">
+           <widget class="QRadioButton" name="jiejiekongpao_you_RadioButton">
             <property name="text">
              <string>有</string>
             </property>
@@ -1229,14 +1227,14 @@
         <item>
          <layout class="QGridLayout" name="gridLayout_8">
           <item row="4" column="2">
-           <widget class="QRadioButton" name="kesou1RadioButton_11">
+           <widget class="QRadioButton" name="jiejiegaihua_wu_RadioButton">
             <property name="text">
              <string>无</string>
             </property>
            </widget>
           </item>
           <item row="5" column="3">
-           <widget class="QRadioButton" name="kesou2RadioButton_13">
+           <widget class="QRadioButton" name="xiongmoaoxian_you_RadioButton">
             <property name="text">
              <string>有</string>
             </property>
@@ -1253,14 +1251,14 @@
            </widget>
           </item>
           <item row="4" column="3">
-           <widget class="QRadioButton" name="kesou2RadioButton_12">
+           <widget class="QRadioButton" name="jiejiegaihua_you_RadioButton">
             <property name="text">
              <string>有</string>
             </property>
            </widget>
           </item>
           <item row="5" column="2">
-           <widget class="QRadioButton" name="kesou1RadioButton_12">
+           <widget class="QRadioButton" name="xiongmoaoxian_wuu_RadioButton">
             <property name="text">
              <string>无</string>
             </property>
@@ -1277,14 +1275,14 @@
            </widget>
           </item>
           <item row="0" column="2">
-           <widget class="QRadioButton" name="kesou1RadioButton_8">
+           <widget class="QRadioButton" name="jiejiemidu_junyun_RadioButton">
             <property name="text">
              <string>均匀</string>
             </property>
            </widget>
           </item>
           <item row="0" column="3">
-           <widget class="QRadioButton" name="kesou2RadioButton_8">
+           <widget class="QRadioButton" name="jiejiemidu_bujunyun_RadioButton">
             <property name="text">
              <string>不均匀</string>
             </property>
@@ -1301,14 +1299,14 @@
            </widget>
           </item>
           <item row="1" column="3">
-           <widget class="QRadioButton" name="kesou2RadioButton_9">
+           <widget class="QRadioButton" name="shixingjiejie_shi_RadioButton">
             <property name="text">
              <string>是</string>
             </property>
            </widget>
           </item>
           <item row="1" column="2">
-           <widget class="QRadioButton" name="kesou1RadioButton_9">
+           <widget class="QRadioButton" name="shixingjiejie_wu_RadioButton">
             <property name="text">
              <string>无</string>
             </property>
@@ -1325,7 +1323,7 @@
            </widget>
           </item>
           <item row="2" column="2">
-           <widget class="QRadioButton" name="kesou1RadioButton_10">
+           <widget class="QRadioButton" name="youyunzheng_wu_RadioButton">
             <property name="text">
              <string>无</string>
             </property>
@@ -1342,21 +1340,21 @@
            </widget>
           </item>
           <item row="3" column="2">
-           <widget class="QRadioButton" name="kesou1RadioButton_13">
+           <widget class="QRadioButton" name="jiejiefenye_wu_RadioButton">
             <property name="text">
              <string>无</string>
             </property>
            </widget>
           </item>
           <item row="2" column="3">
-           <widget class="QRadioButton" name="kesou2RadioButton_10">
+           <widget class="QRadioButton" name="youyunzheng_you_RadioButton">
             <property name="text">
              <string>有</string>
             </property>
            </widget>
           </item>
           <item row="3" column="3">
-           <widget class="QRadioButton" name="kesou2RadioButton_11">
+           <widget class="QRadioButton" name="jiejiefenye_you_RadioButton">
             <property name="text">
              <string>有</string>
             </property>
@@ -1415,7 +1413,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QPlainTextEdit" name="plainTextEdit">
+         <widget class="QPlainTextEdit" name="CTzhenduan_plainTextEdit">
           <property name="maximumSize">
            <size>
             <width>16777215</width>
@@ -1469,11 +1467,9 @@
     <string>取消</string>
    </property>
   </widget>
-  <zorder>tabWidget</zorder>
   <zorder>acceptButton</zorder>
   <zorder>cancelButton</zorder>
-  <zorder></zorder>
-  <zorder>horizontalSpacer_3</zorder>
+  <zorder>tabWidget</zorder>
  </widget>
  <tabstops>
   <tabstop>nameLineEdit</tabstop>
@@ -1482,20 +1478,20 @@
   <tabstop>nationLineEdit</tabstop>
   <tabstop>addressLineEdit</tabstop>
   <tabstop>degreeComboBox</tabstop>
-  <tabstop>zhongliuComboBox</tabstop>
-  <tabstop>zhongliuPlainTextEdit</tabstop>
-  <tabstop>feijiheComboBox</tabstop>
-  <tabstop>feijiehePlainTextEdit</tabstop>
-  <tabstop>fenchenComboBox</tabstop>
-  <tabstop>xirunianxianLineEdit</tabstop>
-  <tabstop>gongzhongLineEdit</tabstop>
-  <tabstop>yichuanComboBox</tabstop>
-  <tabstop>yichuanPlainTextEdit</tabstop>
-  <tabstop>xiyanComboBox</tabstop>
-  <tabstop>xiyannianLineEdit</tabstop>
-  <tabstop>xiyanzhiLineEdit</tabstop>
-  <tabstop>huxiComboBox</tabstop>
-  <tabstop>huxiPlainTextEdit</tabstop>
+  <tabstop>zhongliubingshi_ComboBox</tabstop>
+  <tabstop>zhongliubingshi_PlainTextEdit</tabstop>
+  <tabstop>feijihebingshi_ComboBox</tabstop>
+  <tabstop>feijiehebingshi_PlainTextEdit</tabstop>
+  <tabstop>fenchenxirushi_ComboBox</tabstop>
+  <tabstop>xirugongzuonianxian_LineEdit</tabstop>
+  <tabstop>gongzhong_LineEdit</tabstop>
+  <tabstop>yichuanbingshi_ComboBox</tabstop>
+  <tabstop>yichuanbingshi_PlainTextEdit</tabstop>
+  <tabstop>xiyanshi_ComboBox</tabstop>
+  <tabstop>xiyannianxian_LineEdit</tabstop>
+  <tabstop>meitianxiyanshu_LineEdit</tabstop>
+  <tabstop>huxibingshihuoqita_ComboBox</tabstop>
+  <tabstop>huxibingshihuoqita_PlainTextEdit</tabstop>
   <tabstop>tabWidget</tabstop>
   <tabstop>acceptButton</tabstop>
   <tabstop>cancelButton</tabstop>

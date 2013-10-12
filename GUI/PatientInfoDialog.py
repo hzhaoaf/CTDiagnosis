@@ -23,35 +23,38 @@ class PatientInfoDialog(QDialog,ui_PatientInfoDialog.Ui_PatientInfoDialog):
 		#enable or disable the buttons depending on whether the user has entered any text to find.
 		
 	def setGroupButton(self):
-		'''There is no GroupBox in QT Designer,we have to create them by codes.'''
+		'''
+		There is no GroupBox in QT Designer,we have to create them by codes.
+		'''
 		self.buttonGroup_fare = QButtonGroup()
-		self.buttonGroup_fare.addButton(self.fare1RadioButton,1)
-		self.buttonGroup_fare.addButton(self.fare2RadioButton,2)
-		self.buttonGroup_fare.addButton(self.fare3RadioButton,3)
+		self.buttonGroup_fare.addButton(self.fare_wu_RadioButton,1)
+		self.buttonGroup_fare.addButton(self.fare_3738_RadioButton,2)
+		self.buttonGroup_fare.addButton(self.fare_38yishang_RadioButton,3)
 		
 		self.buttonGroup_kesou = QButtonGroup()
-		self.buttonGroup_kesou .addButton(self.kesou1RadioButton,4)
-		self.buttonGroup_kesou .addButton(self.kesou2RadioButton,5)
+		self.buttonGroup_kesou .addButton(self.kesou_wu_RadioButton,4)
+		self.buttonGroup_kesou .addButton(self.kesou_you_RadioButton,5)
 		
 		self.buttonGroup_tzdx = QButtonGroup()
-		self.buttonGroup_tzdx.addButton(self.tanzhongdaixue1RadioButton,6)
-		self.buttonGroup_tzdx.addButton(self.tanzhongdaixue2RadioButton,7)
+		self.buttonGroup_tzdx.addButton(self.tanzhongdaixue_wu_RadioButton,6)
+		self.buttonGroup_tzdx.addButton(self.tanzhongdaixue_you_RadioButton,7)
 		
 		self.buttonGroup_kexue = QButtonGroup()
-		self.buttonGroup_kexue.addButton(self.kexue1RadioButton,8)
-		self.buttonGroup_kexue.addButton(self.kexue2RadioButton,9)
+		self.buttonGroup_kexue.addButton(self.kexue_wu_RadioButton,8)
+		self.buttonGroup_kexue.addButton(self.kexue_you_RadioButton,9)
 		
 		self.buttonGroup_xiongmen = QButtonGroup()
-		self.buttonGroup_xiongmen.addButton(self.xiongmen1RadioButton,10)
-		self.buttonGroup_xiongmen.addButton(self.xiongmen2RadioButton,11)
+		self.buttonGroup_xiongmen.addButton(self.xiongmen_wu_RadioButton,10)
+		self.buttonGroup_xiongmen.addButton(self.xiongmen_you_RadioButton,11)
 		
 		self.buttonGroup_xiongtong = QButtonGroup()
-		self.buttonGroup_xiongtong.addButton(self.xiongtong1RadioButton,12)
-		self.buttonGroup_xiongtong.addButton(self.xiongtong2RadioButton,13)		
+		self.buttonGroup_xiongtong.addButton(self.xiongtong_wu_RadioButton,12)
+		self.buttonGroup_xiongtong.addButton(self.xiongtong_you_RadioButton,13)		
 		
 		self.buttonGroup_sysy= QButtonGroup()
-		self.buttonGroup_sysy.addButton(self.shengyinsiya1RadioButton,14)
-		self.buttonGroup_sysy.addButton(self.shengyinsiya2RadioButton,15)
+		
+		self.buttonGroup_sysy.addButton(self.shengyinsiya_wu_RadioButton,14)
+		self.buttonGroup_sysy.addButton(self.shengyinsiya_you_RadioButton,15)
 
 	@pyqtSignature("QString")
 	def on_nameLineEdit_textEdited(self, text):
