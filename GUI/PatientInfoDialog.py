@@ -70,12 +70,12 @@ class PatientInfoDialog(QDialog,ui_PatientInfoDialog.Ui_PatientInfoDialog):
 		diagonosis = UI_Diagnosis()
 		
 		#Tab1's content
-		diagonosis.name = str(self.nameLineEdit.text().toUtf8())#LineEdit
-		diagonosis.sex = str(self.sexComboBox.currentText().toUtf8())#ComboBox
-		diagonosis.job = str(self.jobLineEdit.text().toUtf8())
-		diagonosis.nation = str(self.nationLineEdit.text().toUtf8())
-		diagonosis.address = str(self.addressLineEdit.text().toUtf8())
-		diagonosis.eduDegree = str(self.degreeComboBox.currentText().toUtf8())
+		diagonosis.xingming = str(self.xingming_LineEdit.text().toUtf8())#LineEdit
+		diagonosis.xingbie = str(self.xingbie_ComboBox.currentText().toUtf8())#ComboBox
+		diagonosis.zhiye = str(self.zhiye_LineEdit.text().toUtf8())
+		diagonosis.minzu = str(self.minzu_LineEdit.text().toUtf8())
+		diagonosis.jiatingzhuzhi = str(self.jiatingzhuzhi_LineEdit.text().toUtf8())
+		diagonosis.wenhuachengdu = str(self.wenhuachengdu_ComboBox.currentText().toUtf8())
 		
 		return diagonosis
 		

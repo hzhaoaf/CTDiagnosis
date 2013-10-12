@@ -41,7 +41,7 @@
     </font>
    </property>
    <property name="currentIndex">
-    <number>2</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="tab">
     <attribute name="title">
@@ -67,12 +67,12 @@
           <string>姓名</string>
          </property>
          <property name="buddy">
-          <cstring>nameLineEdit</cstring>
+          <cstring>xingming_LineEdit</cstring>
          </property>
         </widget>
        </item>
        <item row="0" column="1">
-        <widget class="QLineEdit" name="nameLineEdit"/>
+        <widget class="QLineEdit" name="xingming_LineEdit"/>
        </item>
        <item row="0" column="2">
         <widget class="QLabel" name="label_5">
@@ -80,12 +80,12 @@
           <string>性别</string>
          </property>
          <property name="buddy">
-          <cstring>sexComboBox</cstring>
+          <cstring>xingbie_ComboBox</cstring>
          </property>
         </widget>
        </item>
        <item row="0" column="3">
-        <widget class="QComboBox" name="sexComboBox">
+        <widget class="QComboBox" name="xingbie_ComboBox">
          <item>
           <property name="text">
            <string>男</string>
@@ -104,12 +104,12 @@
           <string>职业</string>
          </property>
          <property name="buddy">
-          <cstring>jobLineEdit</cstring>
+          <cstring>zhiye_LineEdit</cstring>
          </property>
         </widget>
        </item>
        <item row="1" column="1">
-        <widget class="QLineEdit" name="jobLineEdit"/>
+        <widget class="QLineEdit" name="zhiye_LineEdit"/>
        </item>
        <item row="1" column="2">
         <widget class="QLabel" name="label_3">
@@ -117,12 +117,12 @@
           <string>民族</string>
          </property>
          <property name="buddy">
-          <cstring>nationLineEdit</cstring>
+          <cstring>minzu_LineEdit</cstring>
          </property>
         </widget>
        </item>
        <item row="1" column="3">
-        <widget class="QLineEdit" name="nationLineEdit"/>
+        <widget class="QLineEdit" name="minzu_LineEdit"/>
        </item>
       </layout>
      </widget>
@@ -134,12 +134,12 @@
           <string>家庭住址</string>
          </property>
          <property name="buddy">
-          <cstring>addressLineEdit</cstring>
+          <cstring>jiatingzhuzhi_LineEdit</cstring>
          </property>
         </widget>
        </item>
        <item row="0" column="1">
-        <widget class="QLineEdit" name="addressLineEdit"/>
+        <widget class="QLineEdit" name="jiatingzhuzhi_LineEdit"/>
        </item>
        <item row="1" column="0">
         <widget class="QLabel" name="label_6">
@@ -147,12 +147,12 @@
           <string>文化程度</string>
          </property>
          <property name="buddy">
-          <cstring>degreeComboBox</cstring>
+          <cstring>wenhuachengdu_ComboBox</cstring>
          </property>
         </widget>
        </item>
        <item row="1" column="1">
-        <widget class="QComboBox" name="degreeComboBox">
+        <widget class="QComboBox" name="wenhuachengdu_ComboBox">
          <item>
           <property name="text">
            <string>大学以上</string>
@@ -1472,12 +1472,12 @@
   <zorder>tabWidget</zorder>
  </widget>
  <tabstops>
-  <tabstop>nameLineEdit</tabstop>
-  <tabstop>sexComboBox</tabstop>
-  <tabstop>jobLineEdit</tabstop>
-  <tabstop>nationLineEdit</tabstop>
-  <tabstop>addressLineEdit</tabstop>
-  <tabstop>degreeComboBox</tabstop>
+  <tabstop>xingming_LineEdit</tabstop>
+  <tabstop>xingbie_ComboBox</tabstop>
+  <tabstop>zhiye_LineEdit</tabstop>
+  <tabstop>minzu_LineEdit</tabstop>
+  <tabstop>jiatingzhuzhi_LineEdit</tabstop>
+  <tabstop>wenhuachengdu_ComboBox</tabstop>
   <tabstop>zhongliubingshi_ComboBox</tabstop>
   <tabstop>zhongliubingshi_PlainTextEdit</tabstop>
   <tabstop>feijihebingshi_ComboBox</tabstop>
