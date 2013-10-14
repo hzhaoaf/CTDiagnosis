@@ -14,7 +14,6 @@ class PatientInfoDialog(QDialog,ui_PatientInfoDialog.Ui_PatientInfoDialog):
 		super(PatientInfoDialog,self).__init__(parent)
 		self.__text = text
 		#self.__index = 0
-
 		#The order of calling following functions is important.setupUi should be called first to create all attr.
 		self.setupUi(self)
 		self.setGroupButton()
@@ -101,19 +100,26 @@ class PatientInfoDialog(QDialog,ui_PatientInfoDialog.Ui_PatientInfoDialog):
 		
 		self.buttonGroup_xiongmoaoxian= QButtonGroup()
 		self.buttonGroup_xiongmoaoxian.addButton(self.xiongmoaoxian_wuu_RadioButton,38)
-		self.buttonGroup_xiongmoaoxian.addButton(self.xiongmoaoxian_you_RadioButton,39)			
+		self.buttonGroup_xiongmoaoxian.addButton(self.xiongmoaoxian_you_RadioButton,39)
 		
 	@pyqtSignature("QString")
 	def on_xingming_LineEdit_textEdited(self, text):
-		'''#Slot# : Once nameLienEdit is being edited,call this function'''
+		'''
+		#Slot# : Once nameLienEdit is being edited,call this function
+		'''
 		self.updateUi()
 		
 	def updateUi(self):
+		'''
+		Always check if the necessary infos have been filled. If True,enable the accept button
+		'''
 		enable = not self.xingming_LineEdit.text().isEmpty()
 		self.acceptButton.setEnabled(enable)
 		
 	def getDiagnosisInfo(self):
-		'''Return the info filled by doctor'''
+		'''
+		Return the info filled by doctor
+		'''
 		diagonosis = UI_Diagnosis()
 		
 		#Tab1's content 个人信息

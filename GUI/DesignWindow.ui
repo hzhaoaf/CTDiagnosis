@@ -1492,9 +1492,61 @@
   <tabstop>meitianxiyanshu_LineEdit</tabstop>
   <tabstop>huxibingshihuoqita_ComboBox</tabstop>
   <tabstop>huxibingshihuoqita_PlainTextEdit</tabstop>
-  <tabstop>tabWidget</tabstop>
+  <tabstop>zhusu_PlainTextEdit</tabstop>
+  <tabstop>fare_wu_RadioButton</tabstop>
+  <tabstop>fare_3738_RadioButton</tabstop>
+  <tabstop>fare_38yishang_RadioButton</tabstop>
+  <tabstop>kesou_wu_RadioButton</tabstop>
+  <tabstop>kesou_you_RadioButton</tabstop>
+  <tabstop>tanzhongdaixue_wu_RadioButton</tabstop>
+  <tabstop>tanzhongdaixue_you_RadioButton</tabstop>
+  <tabstop>kexue_wu_RadioButton</tabstop>
+  <tabstop>kexue_you_RadioButton</tabstop>
+  <tabstop>xiongmen_wu_RadioButton</tabstop>
+  <tabstop>xiongmen_you_RadioButton</tabstop>
+  <tabstop>xiongtong_wu_RadioButton</tabstop>
+  <tabstop>xiongtong_you_RadioButton</tabstop>
+  <tabstop>shengyinsiya_wu_RadioButton</tabstop>
+  <tabstop>shengyinsiya_you_RadioButton</tabstop>
+  <tabstop>qitayuhuxiyouguan_PlainTextEdit</tabstop>
+  <tabstop>linchuangzhenduanyijian_PlainTextEdit</tabstop>
+  <tabstop>CThao_lineEdit</tabstop>
+  <tabstop>jianchafangshi_comboBox</tabstop>
+  <tabstop>jianchariqi_dateEdit</tabstop>
+  <tabstop>jiejiedaxiao_lineEdit</tabstop>
+  <tabstop>zuofeishangye_checkBox</tabstop>
+  <tabstop>zuofeixiaye_checkBox</tabstop>
+  <tabstop>youfeishangye_checkBox</tabstop>
+  <tabstop>youfeizhongye_checkBox</tabstop>
+  <tabstop>youfeixiaye_checkBox</tabstop>
+  <tabstop>linbajiezhong_wu_RadioButton</tabstop>
+  <tabstop>linbajiezhong_you_RadioButton</tabstop>
+  <tabstop>maobolimi_wu_RadioButton</tabstop>
+  <tabstop>maobolimi_shi_RadioButton</tabstop>
+  <tabstop>jiejiebianyuan_guanghua_RadioButton</tabstop>
+  <tabstop>jiejiebianyuan_maocao_RadioButton</tabstop>
+  <tabstop>jiejiekongpao_wu_RadioButton</tabstop>
+  <tabstop>jiejiekongpao_you_RadioButton</tabstop>
+  <tabstop>kongdong_wu_RadioButton</tabstop>
+  <tabstop>kongdong_you_RadioButton</tabstop>
+  <tabstop>xiongshui_wu_RadioButton</tabstop>
+  <tabstop>xiongshui_you_RadioButton</tabstop>
+  <tabstop>jiejiemidu_junyun_RadioButton</tabstop>
+  <tabstop>jiejiemidu_bujunyun_RadioButton</tabstop>
+  <tabstop>shixingjiejie_wu_RadioButton</tabstop>
+  <tabstop>shixingjiejie_shi_RadioButton</tabstop>
+  <tabstop>youyunzheng_wu_RadioButton</tabstop>
+  <tabstop>youyunzheng_you_RadioButton</tabstop>
+  <tabstop>jiejiefenye_wu_RadioButton</tabstop>
+  <tabstop>jiejiefenye_you_RadioButton</tabstop>
+  <tabstop>jiejiegaihua_wu_RadioButton</tabstop>
+  <tabstop>jiejiegaihua_you_RadioButton</tabstop>
+  <tabstop>xiongmoaoxian_wuu_RadioButton</tabstop>
+  <tabstop>xiongmoaoxian_you_RadioButton</tabstop>
+  <tabstop>CTzhenduan_plainTextEdit</tabstop>
   <tabstop>acceptButton</tabstop>
   <tabstop>cancelButton</tabstop>
+  <tabstop>tabWidget</tabstop>
  </tabstops>
  <resources/>
  <connections>
