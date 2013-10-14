@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'DesignWindow.ui'
 #
-# Created: Sat Oct 12 15:31:39 2013
+# Created: Mon Oct 14 15:10:18 2013
 #      by: PyQt4 UI code generator 4.10.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -643,7 +643,7 @@ class Ui_PatientInfoDialog(object):
         self.label_6.setBuddy(self.wenhuachengdu_ComboBox)
 
         self.retranslateUi(PatientInfoDialog)
-        self.tabWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(3)
         QtCore.QObject.connect(self.cancelButton, QtCore.SIGNAL(_fromUtf8("clicked()")), PatientInfoDialog.reject)
         QtCore.QObject.connect(self.acceptButton, QtCore.SIGNAL(_fromUtf8("clicked()")), PatientInfoDialog.accept)
         QtCore.QMetaObject.connectSlotsByName(PatientInfoDialog)
@@ -798,7 +798,7 @@ class Ui_PatientInfoDialog(object):
         self.jiejiefenye_you_RadioButton.setText(_translate("PatientInfoDialog", "有", None))
         self.label_50.setText(_translate("PatientInfoDialog", "结节钙化", None))
         self.label_14.setText(_translate("PatientInfoDialog", "CT诊断：", None))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_4), _translate("PatientInfoDialog", "影响查看结果", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_4), _translate("PatientInfoDialog", "影像查看结果", None))
         self.acceptButton.setText(_translate("PatientInfoDialog", "确定", None))
         self.cancelButton.setText(_translate("PatientInfoDialog", "取消", None))
 

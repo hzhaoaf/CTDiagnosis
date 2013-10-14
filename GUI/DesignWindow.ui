@@ -41,7 +41,7 @@
     </font>
    </property>
    <property name="currentIndex">
-    <number>1</number>
+    <number>3</number>
    </property>
    <widget class="QWidget" name="tab">
     <attribute name="title">
@@ -883,7 +883,7 @@
    </widget>
    <widget class="QWidget" name="tab_4">
     <attribute name="title">
-     <string>影响查看结果</string>
+     <string>影像查看结果</string>
     </attribute>
     <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
