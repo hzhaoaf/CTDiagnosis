@@ -1,15 +1,16 @@
 import numpy as np
 import math
 from scipy import misc
-import matplotlib.pyplot as plt
-import matplotlib.cm as cm
 
-def showImg(img):
-	'''
-	Create a figure displaying the image
-	'''
-	plt.imshow(img,cmap=cm.gray)
-	plt.show()   
+#Since PyInstaller seems doesn't support matplot, comment them first 
+#import matplotlib.pyplot as plt
+#import matplotlib.cm as cm
+#def showImg(img):
+	#'''
+	#Create a figure displaying the image
+	#'''
+	#plt.imshow(img,cmap=cm.gray)
+	#plt.show()   
 
 class RegionGrow():
 	def __init__(self,I,position):

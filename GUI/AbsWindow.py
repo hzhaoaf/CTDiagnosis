@@ -7,64 +7,67 @@ from ImageView import ImageView
 from Image import Image
 from append import *
 import sys
-
 sys.path.append("..")
-
 from svm.svm import SVM
 from Curvelet import ccf
 from scipy import misc
 from PatientInfoDialog import PatientInfoDialog
 from gui_model_diagnosis import UI_Diagnosis
 
-image_path = '../data/images/'
-
 #class MainWindow(QtGui.QWidget):
-class MainWindow(QtGui.QMainWindow):
-	def __init__(self,parent = None):
-		#QtGui.QWidget.__init__(self)
-		super(MainWindow, self).__init__(parent)
+class AbsWindow(QtGui.QMainWindow):
+	def __init__(self,parent = None,img_save_path =  '../data/images/'):
+		#Set up the style of the main window
+		super(AbsWindow, self).__init__(parent)
 		self.setGeometry(40,40,880,660)
-		self.diagonosis = None
-		self.imgNameSuffix = 1#starts from 001 to 999
-		self.curImgNo = -1
-		self.croppedImages = []
-		#self.splCmd=QtGui.QSplitter(Qt.Vertical,self)
-		#self.splTop=QtGui.QSplitter(Qt.Horizontal,self.splCmd)
 		self.main=ImageView(self)
-		#self.main=ImageView(self.splTop)
 		self.setCentralWidget(self.main)
-		#self.main.setAlignment(Qt.AlignHCenter)
-		#self.splTop.addWidget(self.main)
-		#self.splCmd=QtGui.QSplitter(Qt.Vertical,self)
-		#self.main=ImageView(self.splCmd)
-		#self.main.setAlignment(Qt.AlignHCenter)
-		#self.splCmd.addWidget(self.main)
-		self.createMenus()
 		self.setMouseStyleCross()
+		self.createMenus()
 		
-		#This is wrong with SVM, comment it temp.. 
-		#self.svmModel = SVM()	
+		#Initialize attributes
+		self.image_path = img_save_path#The path to save the image
+		self.diagonosis = None#The info (patients info ,images,predictions)
+		self.imgNameSuffix = 1#names of image starts from 001 to 999
+		self.curImgNo = -1#Which image to save
+		self.croppedImages = []#images has been cropped
+
 	
 	def setMouseStyleCross(self):
 		self.main.setCursor(Qt.CrossCursor)
 	def setMouseStyleNormal(self):
 		self.main.setCursor(Qt.ArrowCursor)
+	def createToolBar(self):
+		exit = QtGui.QAction(QtGui.QIcon('icons/web.png'), 'Exit', self)
+		
 	def createMenus(self):
 		fileOpenAction = self.createAction(u"打开", self.load,
-				QtGui.QKeySequence.Open, "fileopen",
+				QtGui.QKeySequence.Open, "open",
 				u"打开新的图像文件")
-		cropImageAction = self.createAction(u"&裁剪...", self.crop,tip = u"裁剪图像")
-		svmGuessAction = self.createAction(u"&Magic...", self.curveletExtract,tip = u"分析图像患病概率")
+		cropImageAction = self.createAction(u"&裁剪...", self.crop,icon="crop",tip = u"裁剪图像")
+		svmGuessAction = self.createAction(u"&Magic...", self.curveletExtract,tip = u"分析图像患病概率",
+		                                   icon="svmPredict")
 		shPaInfoDialAction = self.createAction(u"&输入患者信息...", \
-		                                       self.showPatientInfoDialog,tip = u"输入患者信息")
+		                                       self.showPatientInfoDialog,tip = u"输入患者信息",
+		                                       icon="info")
 
 		nextImageAction = self.createAction(u"&下一张...", 
 		                                    self.nextImage,tip = u"下一张图像",
-		                                    shortcut=QtGui.QKeySequence.MoveToNextChar)
-		lastImageAction = self.createAction(u"&上一张...", 
+		                                    shortcut=QtGui.QKeySequence.MoveToNextChar,
+		                                    icon="next")
+		previousImageAction = self.createAction(u"&上一张...", 
 		                                    self.lastImage,tip = u"上一张图像",
-		                                    shortcut=QtGui.QKeySequence.MoveToPreviousChar)	
+		                                    shortcut=QtGui.QKeySequence.MoveToPreviousChar,
+		                                    icon = "prev")	
 		
+		self.toolbar = self.addToolBar("Tools")
+		self.toolbar.addAction(fileOpenAction)
+		self.toolbar.addAction(cropImageAction)
+		self.toolbar.addAction(shPaInfoDialAction)
+		self.toolbar.addAction(previousImageAction)
+		self.toolbar.addAction(nextImageAction)
+		self.toolbar.addAction(svmGuessAction)
+
 		self.fileMenu = self.menuBar().addMenu(u"文件")
 		self.imgMenu = self.menuBar().addMenu(u"图像")
 		self.funcMenu = self.menuBar().addMenu(u"功能")
@@ -77,7 +80,7 @@ class MainWindow(QtGui.QMainWindow):
 		self.addAction(cropImageAction)
 		self.addAction(svmGuessAction)
 		self.addAction(nextImageAction)
-		self.addAction(lastImageAction)
+		self.addAction(previousImageAction)
 		self.addAction(shPaInfoDialAction)
 		
 		self.fileMenu.clear()
@@ -98,8 +101,8 @@ class MainWindow(QtGui.QMainWindow):
 				target.addAction(action)	
 	def createAction(self, text, slot=None, shortcut=None, icon=None,tip=None, checkable=False, signal="triggered()"):
 		action = QtGui.QAction(text, self)
-		#if icon is not None:
-			#action.setIcon(QIcon(":/%s.png" % icon))
+		if icon is not None:
+			action.setIcon(QtGui.QIcon("./icon/%s.png" % icon))
 		if shortcut is not None:
 			action.setShortcut(shortcut)
 		if tip is not None:
@@ -109,6 +112,8 @@ class MainWindow(QtGui.QMainWindow):
 			self.connect(action, QtCore.SIGNAL(signal), slot)
 		if checkable:
 			action.setCheckable(True)
+		#if icon:
+			#action.setIcon(icon)
 		return action
 	
 	def getImage(self):
@@ -204,7 +209,7 @@ class MainWindow(QtGui.QMainWindow):
 		If no parameter is specified, dialog is invoked to ask for one'''
 		i=self.getImage()
 		if not i: return
-		fileName="%s%s%03d.png" % (image_path,self.imgNamePrefix,self.imgNameSuffix)
+		fileName="%s%s%03d.png" % (self.image_path,self.imgNamePrefix,self.imgNameSuffix)
 		self.imgNameSuffix+=1
 		
 		self.main.saveImage(ps2qs(fileName))
@@ -280,24 +285,3 @@ class MainWindow(QtGui.QMainWindow):
 		if form.exec_():
 			self.diagonosis = form.getDiagnosisInfo()
 			print(self.diagonosis)
-			
-		#form.exec_()#?
-	
-from AbsWindow import AbsWindow
-
-class ImageWindow(AbsWindow):
-	def __init__(self,parent = None,img_save_path= '../data/images/'):
-		super(ImageWindow, self).__init__(parent,img_save_path)
-		
-if __name__ == '__main__':
-	import sys
-	#QSetting http://blog.sina.com.cn/s/blog_4b5039210100h3zb.html
-	globalSettings = QtCore.QSettings("JiZhe","CTAnalysis")
-	globalSettings.setValue("view/scale",QtCore.QVariant(True))
-	globalSettings.setValue("view/center",QtCore.QVariant(True))
-	app = QtGui.QApplication(sys.argv)
-	#window = MainWindow()
-	window = ImageWindow()
-	window.show()
-	#window.load()
-	sys.exit(app.exec_())

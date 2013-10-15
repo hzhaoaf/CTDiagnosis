@@ -33,7 +33,7 @@
 % By Kasperl Zhang, 2009
 '''
 from scipy import misc
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 from fdct_wrapping import *
 from skimage.feature import greycomatrix
 from preglcm import preglcm
