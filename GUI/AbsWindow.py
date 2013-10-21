@@ -13,6 +13,7 @@ from Curvelet import ccf
 from scipy import misc
 from PatientInfoDialog import PatientInfoDialog
 from gui_model_diagnosis import UI_Diagnosis
+from ImageControlWidget import ImageControlWidget
 
 #class MainWindow(QtGui.QWidget):
 class AbsWindow(QtGui.QMainWindow):
@@ -21,7 +22,8 @@ class AbsWindow(QtGui.QMainWindow):
 		super(AbsWindow, self).__init__(parent)
 		self.setGeometry(40,40,880,660)
 		self.main=ImageView(self)
-		self.setCentralWidget(self.main)
+		icw = ImageControlWidget(self)
+
 		self.setMouseStyleCross()
 		self.createMenus()
 		
@@ -31,6 +33,14 @@ class AbsWindow(QtGui.QMainWindow):
 		self.imgNameSuffix = 1#names of image starts from 001 to 999
 		self.curImgNo = -1#Which image to save
 		self.croppedImages = []#images has been cropped
+		
+		splitter = QtGui.QSplitter(self)
+		splitter.addWidget(self.main)
+		splitter.addWidget(icw)
+		splitter.setOrientation(Qt.Vertical)
+		self.setCentralWidget(splitter)		
+		#self.setCentralWidget(splTop)
+		#self.setCentralWidget(icw)
 
 	
 	def setMouseStyleCross(self):

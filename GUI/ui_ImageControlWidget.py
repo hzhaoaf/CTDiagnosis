@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ImageControlWidget.ui'
 #
-# Created: Tue Oct 15 16:32:04 2013
+# Created: Tue Oct 15 16:46:59 2013
 #      by: PyQt4 UI code generator 4.10.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -23,28 +23,24 @@ except AttributeError:
     def _translate(context, text, disambig):
         return QtGui.QApplication.translate(context, text, disambig)
 
-class Ui_OriginImageControl(object):
-    def setupUi(self, OriginImageControl):
-        OriginImageControl.setObjectName(_fromUtf8("OriginImageControl"))
-        OriginImageControl.resize(745, 78)
-        self.prevImage_button = QtGui.QPushButton(OriginImageControl)
-        self.prevImage_button.setGeometry(QtCore.QRect(130, 10, 61, 61))
-        self.prevImage_button.setText(_fromUtf8(""))
-        icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(_fromUtf8("icon/svmPredict.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.prevImage_button.setIcon(icon)
-        self.prevImage_button.setIconSize(QtCore.QSize(50, 50))
-        self.prevImage_button.setObjectName(_fromUtf8("prevImage_button"))
-        self.nextImage_button = QtGui.QPushButton(OriginImageControl)
-        self.nextImage_button.setGeometry(QtCore.QRect(550, 10, 61, 61))
-        self.nextImage_button.setText(_fromUtf8(""))
-        self.nextImage_button.setIcon(icon)
-        self.nextImage_button.setIconSize(QtCore.QSize(50, 50))
-        self.nextImage_button.setObjectName(_fromUtf8("nextImage_button"))
+class Ui_Frame(object):
+    def setupUi(self, Frame):
+        Frame.setObjectName(_fromUtf8("Frame"))
+        Frame.resize(711, 117)
+        Frame.setFrameShape(QtGui.QFrame.StyledPanel)
+        Frame.setFrameShadow(QtGui.QFrame.Raised)
+        self.pushButton = QtGui.QPushButton(Frame)
+        self.pushButton.setGeometry(QtCore.QRect(110, 40, 75, 23))
+        self.pushButton.setObjectName(_fromUtf8("pushButton"))
+        self.pushButton_2 = QtGui.QPushButton(Frame)
+        self.pushButton_2.setGeometry(QtCore.QRect(550, 40, 75, 23))
+        self.pushButton_2.setObjectName(_fromUtf8("pushButton_2"))
 
-        self.retranslateUi(OriginImageControl)
-        QtCore.QMetaObject.connectSlotsByName(OriginImageControl)
+        self.retranslateUi(Frame)
+        QtCore.QMetaObject.connectSlotsByName(Frame)
 
-    def retranslateUi(self, OriginImageControl):
-        OriginImageControl.setWindowTitle(_translate("OriginImageControl", "Form", None))
+    def retranslateUi(self, Frame):
+        Frame.setWindowTitle(_translate("Frame", "Frame", None))
+        self.pushButton.setText(_translate("Frame", "PushButton", None))
+        self.pushButton_2.setText(_translate("Frame", "PushButton", None))
 

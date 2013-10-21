@@ -55,6 +55,8 @@ class UI_Diagnosis():
 
 		#Others
 		self.images = []
+		#[001,002,003]
+		#(image_feature + pat_info)
 		self.probability_of_illness = ''
 		
 	def __str__(self):
