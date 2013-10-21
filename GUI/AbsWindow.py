@@ -14,6 +14,7 @@ from scipy import misc
 from PatientInfoDialog import PatientInfoDialog
 from gui_model_diagnosis import UI_Diagnosis
 from ImageControlWidget import ImageControlWidget
+from ImageHelper import ImageItemsList
 
 #class MainWindow(QtGui.QWidget):
 class AbsWindow(QtGui.QMainWindow):
@@ -23,16 +24,16 @@ class AbsWindow(QtGui.QMainWindow):
 		self.setGeometry(40,40,880,660)
 		self.main=ImageView(self)
 		icw = ImageControlWidget(self)
-
 		self.setMouseStyleCross()
 		self.createMenus()
 		
 		#Initialize attributes
-		self.image_path = img_save_path#The path to save the image
+		self.image_item_list = ImageItemsList()#Hold all the images
+		self.image_file_path = img_save_path#The path to save the image
 		self.diagonosis = None#The info (patients info ,images,predictions)
 		self.imgNameSuffix = 1#names of image starts from 001 to 999
-		self.curImgNo = -1#Which image to save
-		self.croppedImages = []#images has been cropped
+		#self.curImgNo = -1#Current img on display,-1 means no images loaded
+		#self.croppedImages = []#images has been cropped
 		
 		splitter = QtGui.QSplitter(self)
 		splitter.addWidget(self.main)
@@ -146,23 +147,26 @@ class AbsWindow(QtGui.QMainWindow):
 		self.main.cancelRect()#Will ensure that updateMenus() will be called in the process
 		if  doUpdate:self.main.update()
 		
-	def reloadImageAfterCrop(self):
-		'''After Crop,set the image to None'''
-		del self.iamgePaths[self.curImgNo]	
-		if not self.iamgePaths:
-			if self.main.image: del self.main.image
-			self.main.image = None
-			return
-		else:
-			self.openFile(self.iamgePaths[0])#Show first image
-			self.curImgNo = 0
+	#def reloadImageAfterCrop(self):
+		#'''After Crop,set the image to None'''
+		#del self.images_tuple[self.curImgNo][0]
+		#if not self.iamgePaths:
+			#if self.main.image: del self.main.image
+			#self.main.image = None
+			#return
+		#else:
+			#self.openFile(self.images_tuple[0][0])#Show first image
+			#self.curImgNo = 0
 		
 	def load(self):
 		'''Action 1'''
 		'''Open image without given name'''
-		self.iamgePaths = openFileDialog(self,QString("Open Image"),QString(),self.filters(),QString())#TEmp
-		if not self.iamgePaths:return
-		self.openFile(self.iamgePaths[0])#Show first image
+		img_paths = openFileDialog(self,QString("Open Image"),QString(),self.filters(),QString())#TEmp
+		if not img_paths:return
+		for p in img_paths:
+			self.images_tuple.append([p,None,None,None])
+
+		self.openFile(self.images_tuple[0][0])#Show first image
 		self.curImgNo = 0
 		self.imgNamePrefix = "201309011030_001_"
 		
@@ -170,7 +174,7 @@ class AbsWindow(QtGui.QMainWindow):
 		'''Show the last Image if there is'''
 		if self.curImgNo == -1:return
 		if self.curImgNo - 1 >= 0:
-			self.openFile(self.iamgePaths[self.curImgNo-1])
+			self.openFile(self.images_tuple[self.curImgNo-1][0])
 			self.curImgNo += -1
 		else:
 			print('There is no more image, first one!')
@@ -178,8 +182,8 @@ class AbsWindow(QtGui.QMainWindow):
 	def nextImage(self):
 		'''Show the next Image if there is'''
 		if self.curImgNo == -1:return
-		if self.curImgNo+1 <= len(self.iamgePaths) - 1:
-			self.openFile(self.iamgePaths[self.curImgNo+1])
+		if self.curImgNo+1 <= len(self.images_tuple) - 1:
+			self.openFile(self.images_tuple[self.curImgNo+1][0])
 			self.curImgNo += 1
 		else:
 			print('There is no more image, last one!')
@@ -212,21 +216,19 @@ class AbsWindow(QtGui.QMainWindow):
 		#return i		
 	
 	
-	def save(self):
+	def save_after_crop(self):
 		'''Save image under given name
 		Parameter specifies name of image.
 		If name is given in parameter and not with dialog, no questions about overwriting will be asked.
 		If no parameter is specified, dialog is invoked to ask for one'''
 		i=self.getImage()
 		if not i: return
-		fileName="%s%s%03d.png" % (self.image_path,self.imgNamePrefix,self.imgNameSuffix)
+		fileName="%s%s%03d_cropped.png" % (self.image_file_path,self.imgNamePrefix,self.imgNameSuffix)
 		self.imgNameSuffix+=1
-		
 		self.main.saveImage(ps2qs(fileName))
 		self.postOp(i,False)
-		
+		self.images_tuple(self.curImgNo)[1] = fileName
 		#Once saved, append the save img's path into the croppedImages list
-		self.croppedImages.append(fileName)
 		#self.curveletExtract(fileName)
 
 	#def crop(self,param):
@@ -247,9 +249,10 @@ class AbsWindow(QtGui.QMainWindow):
 		#print(QRect(rectan.left(), rectan.top(), rectan.width(), rectan.height()))
 		i.crop(rectan.left(), rectan.top(), rectan.width(), rectan.height())
 		
-		self.save()#Save immediately after crop
+		self.save_after_crop()#Save immediately after crop
 		#Flip to next image, without this image,show the user cropped image.
-		self.reloadImageAfterCrop()
+		#not filp to next image
+		#self.reloadImageAfterCrop()
 		self.postOp(i)
 		
 		
