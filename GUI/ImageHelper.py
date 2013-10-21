@@ -15,6 +15,9 @@ class SingleImageItem:
 		if self._cropped:return self._cropped
 		if self._origin:return self._origin
 		return None
+	
+	def do_crop(self,file_name):
+		self._cropped = file_name
 		
 class ImageItemsList:
 	def __init__(self):
@@ -27,6 +30,14 @@ class ImageItemsList:
 		self._current_item_no = 0
 		self._image_items = [SingleImageItem(origin=p) for p in paths]
 		
+	def do_current_image_crop(self,file_name):
+		self._image_items[self._current_item_no].do_crop(file_name)
+		
+	def get_current_image_file(self):
+		if self._number_of_items <= 0:
+			return None
+		return self._image_items[self._current_item_no].get_item_prior_file()
+	
 	def append_item(self,origin_file_name):
 		sii = SingleImageItem(origin=origin_file_name)
 		self._image_items.append(sii)

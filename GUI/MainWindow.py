@@ -217,9 +217,7 @@ class MainWindow(QtGui.QMainWindow):
 	#def crop(self,param):
 	def crop(self):
 		#A rectangle is normally expressed as an upper-left corner and a size
-		'''Action 2'''
 		'''Crop image _QStringList param  Command parameters'''
-		#i=self.getImageAndParams()#param)
 		i=self.getImage()#param)
 		if not i: 
 			print("No image to crop & save")

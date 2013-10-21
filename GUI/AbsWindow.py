@@ -24,17 +24,6 @@ class AbsWindow(QtGui.QMainWindow):
 		self.setGeometry(40,40,880,660)
 		self.main=ImageView(self)
 		icw = ImageControlWidget(self)
-		self.setMouseStyleCross()
-		self.createMenus()
-		
-		#Initialize attributes
-		self.image_item_list = ImageItemsList()#Hold all the images
-		self.image_file_path = img_save_path#The path to save the image
-		self.diagonosis = None#The info (patients info ,images,predictions)
-		self.imgNameSuffix = 1#names of image starts from 001 to 999
-		#self.curImgNo = -1#Current img on display,-1 means no images loaded
-		#self.croppedImages = []#images has been cropped
-		
 		splitter = QtGui.QSplitter(self)
 		splitter.addWidget(self.main)
 		splitter.addWidget(icw)
@@ -42,8 +31,15 @@ class AbsWindow(QtGui.QMainWindow):
 		self.setCentralWidget(splitter)		
 		#self.setCentralWidget(splTop)
 		#self.setCentralWidget(icw)
+		self.setMouseStyleCross()
+		self.createMenus()
 
-	
+		#Initialize attributes
+		self.image_item_list = ImageItemsList()#Hold all the images
+		self.image_file_path = img_save_path#The path to save the image
+		self.diagonosis = None#The info (patients info ,images,predictions)
+		self.imgNameSuffix = 1#names of image starts from 001 to 999
+
 	def setMouseStyleCross(self):
 		self.main.setCursor(Qt.CrossCursor)
 	def setMouseStyleNormal(self):
@@ -67,7 +63,7 @@ class AbsWindow(QtGui.QMainWindow):
 		                                    shortcut=QtGui.QKeySequence.MoveToNextChar,
 		                                    icon="next")
 		previousImageAction = self.createAction(u"&上一张...", 
-		                                    self.lastImage,tip = u"上一张图像",
+		                                    self.previousImage,tip = u"上一张图像",
 		                                    shortcut=QtGui.QKeySequence.MoveToPreviousChar,
 		                                    icon = "prev")	
 		
@@ -162,31 +158,31 @@ class AbsWindow(QtGui.QMainWindow):
 		'''Action 1'''
 		'''Open image without given name'''
 		img_paths = openFileDialog(self,QString("Open Image"),QString(),self.filters(),QString())#TEmp
-		if not img_paths:return
-		for p in img_paths:
-			self.images_tuple.append([p,None,None,None])
-
-		self.openFile(self.images_tuple[0][0])#Show first image
-		self.curImgNo = 0
+		if not img_paths:
+			return
+		
+		self.image_item_list.init_list(img_paths)
+		file_path = self.image_item_list.get_current_image_file()
+		if file_path:
+			self.openFile(file_path)#Show first image
+			
 		self.imgNamePrefix = "201309011030_001_"
 		
-	def lastImage(self):
+	def previousImage(self):
 		'''Show the last Image if there is'''
-		if self.curImgNo == -1:return
-		if self.curImgNo - 1 >= 0:
-			self.openFile(self.images_tuple[self.curImgNo-1][0])
-			self.curImgNo += -1
+		prev_image_file_path = self.image_item_list.get_prev_image_file_name()
+		if prev_image_file_path:
+			self.openFile(prev_image_file_path)
 		else:
-			print('There is no more image, first one!')
+			print('No previous image!')
 
 	def nextImage(self):
 		'''Show the next Image if there is'''
-		if self.curImgNo == -1:return
-		if self.curImgNo+1 <= len(self.images_tuple) - 1:
-			self.openFile(self.images_tuple[self.curImgNo+1][0])
-			self.curImgNo += 1
+		next_image_file_path = self.image_item_list.get_next_image_file_name()
+		if next_image_file_path:
+			self.openFile(next_image_file_path)
 		else:
-			print('There is no more image, last one!')
+			print('No next image!')
 		
 	def filters(self,useGeneric = None,useBareFormat=None):
 		'''Return suggested filters to use in a save/load dialog'''
@@ -203,35 +199,21 @@ class AbsWindow(QtGui.QMainWindow):
 		if not i:
 			pass
 			#cmdLine->addError(tr("No image is loaded"));
-		return i
-	
-	#def getImageAndParams(self):#,param):
-		#'''If all parameters are valid for given function, and image is loaded, return image.
-		#Otherwise return NULL and print any error messages to console
-		#param parameters to check'''
-		##if not self.getParams(param): 
-			##return None
-		##Get image and return it
-		#i=self.getImage()
-		#return i		
-	
+		return i	
 	
 	def save_after_crop(self):
 		'''Save image under given name
-		Parameter specifies name of image.
-		If name is given in parameter and not with dialog, no questions about overwriting will be asked.
-		If no parameter is specified, dialog is invoked to ask for one'''
+		Parameter specifies name of image.'''
 		i=self.getImage()
 		if not i: return
-		fileName="%s%s%03d_cropped.png" % (self.image_file_path,self.imgNamePrefix,self.imgNameSuffix)
+		_pfileName="%s%s%03d_cropped.png" % (self.image_file_path,self.imgNamePrefix,self.imgNameSuffix)
+		fileName = ps2qs(_pfileName)
 		self.imgNameSuffix+=1
-		self.main.saveImage(ps2qs(fileName))
+		
+		self.main.saveImage(fileName)
 		self.postOp(i,False)
-		self.images_tuple(self.curImgNo)[1] = fileName
-		#Once saved, append the save img's path into the croppedImages list
-		#self.curveletExtract(fileName)
+		self.image_item_list.do_current_image_crop(fileName)#set the cropped image's name to the image_item_list
 
-	#def crop(self,param):
 	def crop(self):
 		#A rectangle is normally expressed as an upper-left corner and a size
 		'''Action 2'''
