@@ -45,6 +45,14 @@ class ImageViewPrivate(QtGui.QWidget):
 		
 	
 	def mousePressEvent(self,e):
+		if QtGui.QApplication.keyboardModifiers() == Qt.AltModifier and e.button() == Qt.LeftButton:
+			region_grow_seed_point = e.pos()
+			print("Region grow")
+			self.p.selPoint(region_grow_seed_point)
+			#parent.region_grow(region_grow_seed_point)
+			e.accept()
+			return
+			
 		if e.button() == Qt.LeftButton:
 			self.moveRb = True
 			self.origin = e.pos()

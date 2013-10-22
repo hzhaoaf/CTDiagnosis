@@ -16,6 +16,9 @@ class SingleImageItem:
 		if self._origin:return self._origin
 		return None
 	
+	def do_regiongrow(self,file_name):
+		self._region_growed = file_name
+		
 	def do_crop(self,file_name):
 		self._cropped = file_name
 		
@@ -30,6 +33,13 @@ class ImageItemsList:
 		self._current_item_no = 0
 		self._image_items = [SingleImageItem(origin=p) for p in paths]
 		
+	def is_current_image_in_use(self):
+		if self._number_of_items <= 0:
+			return False
+		return self._image_items[self._current_item_no].is_in_use()
+		
+	def do_current_image_regiongrow(self,file_name):
+		self._image_items[self._current_item_no].do_regiongrow(file_name)	
 	def do_current_image_crop(self,file_name):
 		self._image_items[self._current_item_no].do_crop(file_name)
 		
@@ -58,6 +68,5 @@ class ImageItemsList:
 	def get_all_enable_images_path(self):
 		return [s.get_item_prior_file() for s in self._image_items if s.is_in_use()]
 	
-	def enable_current_image(self,enable):
+	def do_enable_current_image(self,enable):
 		self._image_items[self._current_item_no].enable(enable)
-	

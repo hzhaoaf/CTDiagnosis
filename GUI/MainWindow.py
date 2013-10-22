@@ -227,7 +227,7 @@ class MainWindow(QtGui.QMainWindow):
 			print("No selection for this image")
 			return
 
-		#print(QRect(rectan.left(), rectan.top(), rectan.width(), rectan.height()))
+		#print(QRect(rectan.left(), rectan.top(), rectan.width(), rectan.height()))        
 		i.crop(rectan.left(), rectan.top(), rectan.width(), rectan.height())
 		
 		self.save()#Save immediately after crop

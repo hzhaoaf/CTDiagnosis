@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from PyQt4 import QtGui, QtCore
-from PyQt4.QtCore import Qt,QString,QRect
+from PyQt4.QtCore import Qt,QString,QRect,QPoint
 from ImageViewPrivate import ImageViewPrivate
 from Image import Image
 from math import floor
@@ -9,6 +9,7 @@ class ImageView(QtGui.QScrollArea):
     def __init__(self,parent):
         '''constructor of ImageView'''
         QtGui.QWidget.__init__(self)
+        self.parent = parent
         self.selection = None
         self.image = None
         self.zoom = 100
@@ -39,6 +40,14 @@ class ImageView(QtGui.QScrollArea):
         yr=(selectionRect.bottom()+1)*self.data_rect.height()/self.image.y()+self.data_rect.top()-1
         return QRect(x,y,xr,yr)
     
+    def selectPointToImageCoords(self,point):
+        '''Return selected point converted to image coordinate system'''
+        dw=self.data_rect.width()
+        dh=self.data_rect.height()
+        x=int(floor((point.x()-self.data_rect.left())* self.image.x()/dw))-1
+        y=int(floor((point.y()-self.data_rect.top())* self.image.y()/dh))-1
+        return QPoint(x,y)
+        
     def selectionToImageCoords(self,selectionRect):
         '''Return selection rectangle converted to image coordinate system@param selectionRect rectangle to convert'''
         dw=self.data_rect.width()
@@ -206,6 +215,11 @@ class ImageView(QtGui.QScrollArea):
 
     def mouseCoordEvent(self,e):
         pass
+    
+    def selPoint(self,point):
+        '''Select a point and then do region grow'''
+        region_grow_seed_point = self.selectPointToImageCoords(point)
+        self.parent.region_grow(region_grow_seed_point)
     
     def selRect(self,r):
         '''Update selection rectangle position'''

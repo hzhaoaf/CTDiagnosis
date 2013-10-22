@@ -1,29 +1,63 @@
+# -*- coding: utf-8 -*-
 #!/usr/bin/env python
-# Copyright (c) 2007-8 Qtrac Ltd. All rights reserved.
-# This program or module is free software: you can redistribute it and/or
-# modify it under the terms of the GNU General Public License as published
-# by the Free Software Foundation, either version 2 of the License, or
-# version 3 of the License, or (at your option) any later version. It is
-# provided for educational purposes and is distributed in the hope that
-# it will be useful, but WITHOUT ANY WARRANTY; without even the implied
-# warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See
-# the GNU General Public License for more details.
 
 from __future__ import division
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 
+try:
+    _fromUtf8 = QString.fromUtf8
+except AttributeError:
+    def _fromUtf8(s):
+        return s
+    
+try:
+    _encoding = QApplication.UnicodeUTF8
+    def _translate(context, text, disambig):
+        return QApplication.translate(context, text, disambig, _encoding)
+except AttributeError:
+    def _translate(context, text, disambig):
+        return QApplication.translate(context, text, disambig)
 
 class ImageControlWidget(QWidget):
 
     def __init__(self, leftFlow=0, rightFlow=0, maxFlow=100,
                  parent=None):
         super(ImageControlWidget, self).__init__(parent)
-        self.pushButton = QPushButton(self)
-        self.pushButton.setGeometry(QRect(110, 40, 75, 23))
-        self.pushButton_2 = QPushButton(self)
-        self.pushButton_2.setGeometry(QRect(550, 40, 75, 23))
+        self._parent = parent
+        self.setObjectName(_fromUtf8("ImageControlWidget"))
+        #self.pushButton = QPushButton(self)
+        #self.pushButton.setGeometry(QRect(110, 40, 75, 23))
+        #self.pushButton_2 = QPushButton(self)
+        #self.pushButton_2.setGeometry(QRect(550, 40, 75, 23))
         
+        self.prev_button = QPushButton(self)
+        self.prev_button.setText(_translate("ImageControlWidget", "上一张", None))
+        self.prev_button.setMinimumHeight(80)
+        self.prev_button.clicked.connect(parent.previousImage)
+         
+        self.next_button = QPushButton(self)
+        self.next_button.setText(_translate("ImageControlWidget", "下一张", None))
+        self.next_button.setMinimumHeight(80)
+        self.next_button.clicked.connect(parent.nextImage)
+        
+        self.is_in_use_checkbox = QCheckBox(self)
+        self.is_in_use_checkbox.setText(_translate("ImageControlWidget", "计算该图像", None))
+        self.is_in_use_checkbox.stateChanged.connect(self._check_box_state_changed)
+        
+        self.crop_button = QPushButton(self)
+        self.crop_button.setText(_translate("ImageControlWidget", "裁剪", None))
+        self.crop_button.setMinimumHeight(60)
+        self.crop_button.clicked.connect(parent.crop)
+        
+        self.vlayout = QVBoxLayout()
+        self.vlayout.addWidget(self.crop_button)
+        self.vlayout.addWidget(self.is_in_use_checkbox)
+        
+        self.hlayout = QHBoxLayout(self)
+        self.hlayout.addWidget(self.prev_button)
+        self.hlayout.addLayout(self.vlayout)
+        self.hlayout.addWidget(self.next_button)
         #self.label = QLabel(self)
         #self.label.setFrameStyle(QFrame.StyledPanel|QFrame.Sunken)
         #self.label.setAlignment(Qt.AlignCenter)
@@ -34,8 +68,14 @@ class ImageControlWidget(QWidget):
                                        #QSizePolicy.Expanding))
         #self.setMinimumSize(self.minimumSizeHint())
         #self.valueChanged()
+        
+    def _check_box_state_changed(self):
+        able = self.is_in_use_checkbox.isChecked()
+        self._parent.change_image_in_use_state(able)
 
-
+    def set_in_use_checked(self,able):
+        self.is_in_use_checkbox.setChecked(able)
+        
     def valueChanged(self):
         a = self.leftSpinBox.value()
         b = self.rightSpinBox.value()

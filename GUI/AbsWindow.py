@@ -15,6 +15,7 @@ from PatientInfoDialog import PatientInfoDialog
 from gui_model_diagnosis import UI_Diagnosis
 from ImageControlWidget import ImageControlWidget
 from ImageHelper import ImageItemsList
+from RegionGrow.reseg import RegionGrow
 
 #class MainWindow(QtGui.QWidget):
 class AbsWindow(QtGui.QMainWindow):
@@ -22,19 +23,25 @@ class AbsWindow(QtGui.QMainWindow):
 		#Set up the style of the main window
 		super(AbsWindow, self).__init__(parent)
 		self.setGeometry(40,40,880,660)
+		
+		#上下结构，上面是imageview，下面是imagecontrolwidget
+		#-abswindow 
+		#   --spliter
+		#      --imageview
+		#      --imagecontrolwidget
 		self.main=ImageView(self)
-		icw = ImageControlWidget(self)
+		self.image_control_widget = ImageControlWidget(parent=self)
 		splitter = QtGui.QSplitter(self)
 		splitter.addWidget(self.main)
-		splitter.addWidget(icw)
+		splitter.addWidget(self.image_control_widget)
 		splitter.setOrientation(Qt.Vertical)
-		self.setCentralWidget(splitter)		
+		self.setCentralWidget(splitter)
+		
+		self.createMenus()#创建菜单
 		#self.setCentralWidget(splTop)
-		#self.setCentralWidget(icw)
-		self.setMouseStyleCross()
-		self.createMenus()
-
+		self.setMouseStyleCross()#将鼠标设置成十字的
 		#Initialize attributes
+		self.region_grow_module = RegionGrow()
 		self.image_item_list = ImageItemsList()#Hold all the images
 		self.image_file_path = img_save_path#The path to save the image
 		self.diagonosis = None#The info (patients info ,images,predictions)
@@ -142,6 +149,7 @@ class AbsWindow(QtGui.QMainWindow):
 				 or if the update is done in other way. Default is to update'''
 		self.main.cancelRect()#Will ensure that updateMenus() will be called in the process
 		if  doUpdate:self.main.update()
+		self.update_image_control_state()
 		
 	#def reloadImageAfterCrop(self):
 		#'''After Crop,set the image to None'''
@@ -154,6 +162,11 @@ class AbsWindow(QtGui.QMainWindow):
 			#self.openFile(self.images_tuple[0][0])#Show first image
 			#self.curImgNo = 0
 		
+	def reload_cur_image(self):
+		file_path = self.image_item_list.get_current_image_file()
+		if file_path:
+			self.openFile(file_path)#Show first image
+			
 	def load(self):
 		'''Action 1'''
 		'''Open image without given name'''
@@ -199,11 +212,31 @@ class AbsWindow(QtGui.QMainWindow):
 		if not i:
 			pass
 			#cmdLine->addError(tr("No image is loaded"));
-		return i	
+		return i
 	
+	def change_image_in_use_state(self,able):
+		self.image_item_list.do_enable_current_image(able)
+		
+	def update_image_control_state(self):
+		able = self.image_item_list.is_current_image_in_use()
+		self.image_control_widget.set_in_use_checked(able)
+		
+	def save_after_regiongrow(self,img):
+		'''Save image after regiongrow.'''
+		i=self.getImage()
+		if not i: return
+		_pfileName="%s%s%03d_croped_regiongrowed.png" % (self.image_file_path,self.imgNamePrefix,self.imgNameSuffix)
+		fileName = ps2qs(_pfileName)
+		self.imgNameSuffix+=1
+		#self.main.saveImage(fileName)
+		misc.imsave(_pfileName,img)
+		
+		self.image_item_list.do_current_image_regiongrow(fileName)#set the cropped image's name to the image_item_list
+		self.reload_cur_image()
+		self.postOp(i,False)
+		
 	def save_after_crop(self):
-		'''Save image under given name
-		Parameter specifies name of image.'''
+		'''Save image after cropped.'''
 		i=self.getImage()
 		if not i: return
 		_pfileName="%s%s%03d_cropped.png" % (self.image_file_path,self.imgNamePrefix,self.imgNameSuffix)
@@ -216,9 +249,7 @@ class AbsWindow(QtGui.QMainWindow):
 
 	def crop(self):
 		#A rectangle is normally expressed as an upper-left corner and a size
-		'''Action 2'''
 		'''Crop image _QStringList param  Command parameters'''
-		#i=self.getImageAndParams()#param)
 		i=self.getImage()#param)
 		if not i: 
 			print("No image to crop & save")
@@ -232,9 +263,9 @@ class AbsWindow(QtGui.QMainWindow):
 		i.crop(rectan.left(), rectan.top(), rectan.width(), rectan.height())
 		
 		self.save_after_crop()#Save immediately after crop
-		#Flip to next image, without this image,show the user cropped image.
 		#not filp to next image
 		#self.reloadImageAfterCrop()
+		self.reload_cur_image()
 		self.postOp(i)
 		
 		
@@ -246,6 +277,22 @@ class AbsWindow(QtGui.QMainWindow):
 		#imgSavedNumber
 		pass
 	
+	def region_grow(self,point):
+		i=self.getImage()
+		if not i:
+			print("No image to region_grow")
+			return			
+		
+		_qcur_img_file = self.image_item_list.get_current_image_file()
+		cur_img_file = qs2ps(_qcur_img_file)
+		img = misc.imread(cur_img_file)
+		if not len(img.shape) == 2:
+			img= img[:,:,0] if img.shape[2] > 1 else img
+		
+		print "[Region Grow]\n[Image]%s\n[Shape]:%r\n[Pos]:%r:" % (_qcur_img_file,img.shape,point)
+		img = self.region_grow_module.getRegionGrowImage(img,(point.x(),point.y()))
+		self.save_after_regiongrow(img)
+		
 	def curveletExtract(self):
 		'''Extract the curvelet from given image name'''
 		if not self.croppedImages:
