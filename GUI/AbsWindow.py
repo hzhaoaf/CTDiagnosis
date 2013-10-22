@@ -12,6 +12,7 @@ from svm.svm import SVM
 from Curvelet import ccf
 from scipy import misc
 from PatientInfoDialog import PatientInfoDialog
+from ShowResultDialog import ShowResultDialog
 from gui_model_diagnosis import UI_Diagnosis
 from ImageControlWidget import ImageControlWidget
 from ImageHelper import ImageItemsList
@@ -36,11 +37,11 @@ class AbsWindow(QtGui.QMainWindow):
 		splitter.addWidget(self.image_control_widget)
 		splitter.setOrientation(Qt.Vertical)
 		self.setCentralWidget(splitter)
-		
 		self.createMenus()#创建菜单
-		#self.setCentralWidget(splTop)
 		self.setMouseStyleCross()#将鼠标设置成十字的
+		
 		#Initialize attributes
+		self.svmModel = SVM()
 		self.region_grow_module = RegionGrow()
 		self.image_item_list = ImageItemsList()#Hold all the images
 		self.image_file_path = img_save_path#The path to save the image
@@ -295,12 +296,14 @@ class AbsWindow(QtGui.QMainWindow):
 		
 	def curveletExtract(self):
 		'''Extract the curvelet from given image name'''
-		if not self.croppedImages:
-			print("No images cropped(selected) yet")
+		all_image_paths = self.image_item_list.get_all_enable_images_path()
+		if not all_image_paths:
+			print("No images to extract curvelet features")
 			return
 		
 		vecList = []
-		for name in self.croppedImages:
+		for _qname in all_image_paths:
+			name = qs2ps(_qname)
 			XX = misc.imread(name)
 			#If it's a gray image, shape of XX would be 2d ,sth like (73,63)
 			if len(XX.shape) == 2:
@@ -314,12 +317,19 @@ class AbsWindow(QtGui.QMainWindow):
 				vec+= r
 			vecList.append(vec)
 		self.svmPredict(vecList)
-		self.cleanAfterPredict()		
+		
+		self.cleanAfterPredict()
 		
 	def svmPredict(self,vectorList):
 		'''Predict the probability of a feature'''
-		print(self.svmModel .predict(vectorList))
+		predict_value = self.svmModel.predict(vectorList)
+		self.show_result_dialog(predict_value)
 	
+	def show_result_dialog(self,result):
+		form = ShowResultDialog(parent=self,predict_value=result)
+		if form.exec_():
+			print("Finished show result")		
+
 	def showPatientInfoDialog(self):
 		#http://stackoverflow.com/questions/5874025/pyqt4-how-to-show-a-modeless-dialog
 		#If you don't pass the self argument,it will be recycled by garbage collector!
@@ -327,3 +337,8 @@ class AbsWindow(QtGui.QMainWindow):
 		if form.exec_():
 			self.diagonosis = form.getDiagnosisInfo()
 			print(self.diagonosis)
+			
+	def show_select_diagonosis_dialog(self):
+		form = SelectDiagonosisDialog(parent = self)
+		if form.exec_():
+			print("Select a diagonosis")				

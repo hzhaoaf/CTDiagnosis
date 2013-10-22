@@ -12,9 +12,9 @@ svm_path = '../data/svm/test_model.joblib.pkl'
 class SVM:
 
     def __init__(self):
-       self.svm_path = svm_path
-       self.load_svm()
-       self.dal = SVMDAL()
+        self.svm_path = svm_path
+        self.load_svm()
+        #self.dal = SVMDAL()
 
     def load_svm(self):
         self.clf = joblib.load(self.svm_path)
