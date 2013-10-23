@@ -65,6 +65,10 @@ class AbsWindow(QtGui.QMainWindow):
 		shPaInfoDialAction = self.createAction(u"&输入患者信息...", \
 		                                       self.showPatientInfoDialog,tip = u"输入患者信息",
 		                                       icon="info")
+		
+		selectDiagonosisAction = self.createAction(u"&查询诊断信息...", \
+				                                       self.show_select_diagonosis_dialog,tip = u"查询诊断信息",
+		                                                       icon="zoom_in")		
 
 		nextImageAction = self.createAction(u"&下一张...", 
 		                                    self.nextImage,tip = u"下一张图像",
@@ -79,6 +83,7 @@ class AbsWindow(QtGui.QMainWindow):
 		self.toolbar.addAction(fileOpenAction)
 		self.toolbar.addAction(cropImageAction)
 		self.toolbar.addAction(shPaInfoDialAction)
+		self.toolbar.addAction(selectDiagonosisAction)
 		self.toolbar.addAction(previousImageAction)
 		self.toolbar.addAction(nextImageAction)
 		self.toolbar.addAction(svmGuessAction)
@@ -87,7 +92,7 @@ class AbsWindow(QtGui.QMainWindow):
 		self.imgMenu = self.menuBar().addMenu(u"图像")
 		self.funcMenu = self.menuBar().addMenu(u"功能")
 		
-		self.fileMenuActions = [fileOpenAction]
+		self.fileMenuActions = [fileOpenAction,selectDiagonosisAction]
 		self.imgMenuActions = [cropImageAction]
 		self.funcMenuActions = [svmGuessAction,shPaInfoDialAction]
 		
@@ -97,6 +102,7 @@ class AbsWindow(QtGui.QMainWindow):
 		self.addAction(nextImageAction)
 		self.addAction(previousImageAction)
 		self.addAction(shPaInfoDialAction)
+		self.addAction(selectDiagonosisAction)
 		
 		self.fileMenu.clear()
 		self.imgMenu.clear()
@@ -341,4 +347,4 @@ class AbsWindow(QtGui.QMainWindow):
 	def show_select_diagonosis_dialog(self):
 		form = SelectDiagonosisDialog(parent = self)
 		if form.exec_():
-			print("Select a diagonosis")				
+			print("Select a diagonosis")
