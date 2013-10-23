@@ -44,3 +44,6 @@ nosetests.xml
 
 #sqllite3 db
 *.db
+
+#data/images/
+image/
