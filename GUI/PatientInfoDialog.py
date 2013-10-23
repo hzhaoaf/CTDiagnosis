@@ -203,12 +203,15 @@ class PatientInfoDialog(QDialog,ui_PatientInfoDialog.Ui_PatientInfoDialog):
 
 		return diag
 	
+#Constant variables for select the item of combobutton
 T_SEX = 0
 T_CULDEGREE = 1
 T_HISTORY = 2
+T_SCANTYPE = 3
 INDEXS_CONTENTS = [[u"男",u"女"],
           [u"大学以上",u"大学",u"高中",u"初中",u"小学","文盲或半文盲"],
-          [u"无",u"有",u"不详"]]
+          [u"无",u"有",u"不详"],
+          [u"平扫",u"增强扫描",u"其他"]]
 
 class PatientInfoReadOnlyDialog(PatientInfoDialog):
 	def __init__(self,diagnosis,text=None,parent=None):
@@ -219,6 +222,11 @@ class PatientInfoReadOnlyDialog(PatientInfoDialog):
 		
 		self.acceptButton.setEnabled(True)
 		
+	def _set_check(self,value,radio_button_1,radio_button_2):
+		if value.decode('utf8') == u"0":
+			radio_button_1.setChecked(True)
+		else:
+			radio_button_2.setChecked(True)
 		
 	def _get_index(self,value,tag):
 		for index,deg in enumerate(INDEXS_CONTENTS[tag]):
@@ -241,5 +249,69 @@ class PatientInfoReadOnlyDialog(PatientInfoDialog):
 		
 		#Tab2's content 既往史
 		self.zhongliubingshi_ComboBox.setCurrentIndex(self._get_index(diagnosis.zhongliubingshicunzai,T_HISTORY))
-
+		self.zhongliubingshi_PlainTextEdit.setPlainText(diagnosis.zhongliubingshineirong.decode('utf8'))
 		
+		self.feijihebingshi_ComboBox.setCurrentIndex(self._get_index(diagnosis.feijiehebingshicunzai,T_HISTORY))
+		self.feijiehebingshi_PlainTextEdit.setPlainText(diagnosis.feijiehebingshineirong.decode('utf8'))
+
+		self.fenchenxirushi_ComboBox.setCurrentIndex(self._get_index(diagnosis.fenchenxirushicunzai,T_HISTORY))
+		self.xirugongzuonianxian_LineEdit.setText(diagnosis.xirugongzuonianxian.decode('utf8'))
+		self.gongzhong_LineEdit.setText(diagnosis.gongzhong.decode('utf8'))
+		
+		self.yichuanbingshi_ComboBox.setCurrentIndex(self._get_index(diagnosis.yichuanbingshicunzai,T_HISTORY))
+		self.yichuanbingshi_PlainTextEdit.setPlainText(diagnosis.yichuanbingshineirong.decode('utf8'))
+		
+		self.xiyanshi_ComboBox.setCurrentIndex(self._get_index(diagnosis.xiyanshicunzai,T_HISTORY))
+		self.xiyannianxian_LineEdit.setText(diagnosis.xiyannianxian.decode('utf8'))	
+		self.meitianxiyanshu_LineEdit.setText(diagnosis.meitianxiyanzhishu.decode('utf8'))	
+
+		self.huxibingshihuoqita_ComboBox.setCurrentIndex(self._get_index(diagnosis.huxibingshihuoqitacunzai,T_HISTORY))
+		self.huxibingshihuoqita_PlainTextEdit.setPlainText(diagnosis.huxibingshihuoqitaneirong.decode('utf8'))
+		
+		#Tab3's content 就诊信息
+		self.zhusu_PlainTextEdit.setPlainText(diagnosis.zhusu.decode('utf8'))
+
+		_fare = diagnosis.fare.decode('utf8')
+		if  _fare == u"0" :
+			self.fare_wu_RadioButton.setChecked(True)
+		elif _fare == u"1" :
+			self.fare_3738_RadioButton.setChecked(True)
+		else :
+			self.fare_38yishang_RadioButton.setChecked(True)
+			
+		self._set_check(diagnosis.kesou,self.kesou_wu_RadioButton,self.kesou_you_RadioButton)
+		self._set_check(diagnosis.tanzhongdaixue,self.tanzhongdaixue_wu_RadioButton,self.tanzhongdaixue_you_RadioButton)
+		self._set_check(diagnosis.kexue,self.kexue_wu_RadioButton,self.kexue_you_RadioButton)
+		self._set_check(diagnosis.xiongmen,self.xiongmen_wu_RadioButton,self.xiongmen_you_RadioButton)
+		self._set_check(diagnosis.xiongtong,self.xiongtong_wu_RadioButton,self.xiongtong_you_RadioButton)
+		self._set_check(diagnosis.shengyinsiya,self.shengyinsiya_wu_RadioButton,self.shengyinsiya_you_RadioButton)		
+		
+		self.qitayuhuxiyouguan_PlainTextEdit.setPlainText(diagnosis.qitayuhuxiyouguandelinchuangbiaoxian.decode('utf8'))
+		self.linchuangzhenduanyijian_PlainTextEdit.setPlainText(diagnosis.linchuangzhenduanyijian.decode('utf8'))
+		
+		#Tab4's content 影像查看结果
+		self.CThao_lineEdit.setText(diagnosis.CThao.decode('utf8'))
+		self.jianchafangshi_comboBox.setCurrentIndex(self._get_index(diagnosis.jianchafangshi,T_SCANTYPE))
+		(year,month,day) = diagnosis.jianchariqi.decode('utf8').split()[0].split('/')
+		self.jianchariqi_dateEdit.setDate(QDate(int(year),int(month),int(day)))
+		
+		self.jiejiedaxiao_lineEdit.setText(diagnosis.jiejiedaxiao.decode('utf8'))
+		if diagnosis.jiejiebuwei.decode('utf8').find(u"zuo_shang"):
+			self.zuofeishangye_checkBox.setChecked(True)
+			#to do ,not finished yet
+		
+		self._set_check(diagnosis.linbajiezhong,self.linbajiezhong_wu_RadioButton,self.linbajiezhong_you_RadioButton)
+		self._set_check(diagnosis.jiejiemidu,self.jiejiemidu_junyun_RadioButton,self.jiejiemidu_bujunyun_RadioButton)
+		self._set_check(diagnosis.maobolimi,self.maobolimi_wu_RadioButton,self.maobolimi_shi_RadioButton)
+		self._set_check(diagnosis.shixingjiejie,self.shixingjiejie_wu_RadioButton,self.shixingjiejie_shi_RadioButton)
+		self._set_check(diagnosis.jiejiebianyuan,self.jiejiebianyuan_guanghua_RadioButton,self.jiejiebianyuan_maocao_RadioButton)		
+		self._set_check(diagnosis.youyunzheng,self.youyunzheng_wu_RadioButton,self.youyunzheng_you_RadioButton)
+		self._set_check(diagnosis.jiejiekongpao,self.jiejiekongpao_wu_RadioButton,self.jiejiekongpao_you_RadioButton)
+		self._set_check(diagnosis.jiejiefenye,self.jiejiefenye_wu_RadioButton,self.jiejiefenye_you_RadioButton)			
+		self._set_check(diagnosis.kongdong,self.kongdong_wu_RadioButton,self.kongdong_you_RadioButton)
+		self._set_check(diagnosis.jiejiegaihua,self.jiejiegaihua_wu_RadioButton,self.jiejiegaihua_you_RadioButton)		
+		self._set_check(diagnosis.xiongshui,self.xiongshui_wu_RadioButton,self.xiongshui_you_RadioButton)
+		self._set_check(diagnosis.xiongmoaoxian,self.xiongmoaoxian_wuu_RadioButton,self.xiongmoaoxian_you_RadioButton)
+
+		self.CTzhenduan_plainTextEdit.setPlainText(diagnosis.CTzhenduan.decode('utf8'))
+				
