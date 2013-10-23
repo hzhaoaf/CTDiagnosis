@@ -25,12 +25,7 @@ class ImageControlWidget(QWidget):
                  parent=None):
         super(ImageControlWidget, self).__init__(parent)
         self._parent = parent
-        self.setObjectName(_fromUtf8("ImageControlWidget"))
-        #self.pushButton = QPushButton(self)
-        #self.pushButton.setGeometry(QRect(110, 40, 75, 23))
-        #self.pushButton_2 = QPushButton(self)
-        #self.pushButton_2.setGeometry(QRect(550, 40, 75, 23))
-        
+        self.setObjectName(_fromUtf8("ImageControlWidget"))        
         self.prev_button = QPushButton(self)
         self.prev_button.setText(_translate("ImageControlWidget", "上一张", None))
         self.prev_button.setMinimumHeight(80)
@@ -91,7 +86,6 @@ class ImageControlWidget(QWidget):
     #def minimumSizeHint(self):
         #return QSize(self.leftSpinBox.width() * 3,self.leftSpinBox.height() * 5)
 
-
     #def resizeEvent(self, event=None):
         #fm = QFontMetricsF(self.font())
         #x = (self.width() - self.label.width()) / 2
@@ -102,22 +96,3 @@ class ImageControlWidget(QWidget):
         #self.leftSpinBox.move(x, y)
         #x = self.width() - (self.width() / 4.0)
         #self.rightSpinBox.move(x, y)
-
-
-
-
-if __name__ == "__main__":
-    import sys
-
-    def valueChanged(a, b):
-        print a, b
-
-    app = QApplication(sys.argv)
-    form = ImageControlWidget()
-    form.connect(form, SIGNAL("valueChanged"), valueChanged)
-    form.setWindowTitle("YPipe")
-    form.move(0, 0)
-    form.show()
-    form.resize(400, 400)
-    app.exec_()
-

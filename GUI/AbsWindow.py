@@ -11,7 +11,7 @@ sys.path.append("..")
 from svm.svm import SVM
 from Curvelet import ccf
 from scipy import misc
-from PatientInfoDialog import PatientInfoDialog
+from PatientInfoDialog import PatientInfoDialog,PatientInfoReadOnlyDialog
 from ShowResultDialog import ShowResultDialog
 from gui_model_diagnosis import UI_Diagnosis
 from ImageControlWidget import ImageControlWidget
@@ -323,7 +323,6 @@ class AbsWindow(QtGui.QMainWindow):
 				vec+= r
 			vecList.append(vec)
 		self.svmPredict(vecList)
-		
 		self.cleanAfterPredict()
 		
 	def svmPredict(self,vectorList):
@@ -343,8 +342,19 @@ class AbsWindow(QtGui.QMainWindow):
 		if form.exec_():
 			self.diagonosis = form.getDiagnosisInfo()
 			print(self.diagonosis)
-			
+		
 	def show_select_diagonosis_dialog(self):
-		form = SelectDiagonosisDialog(parent = self)
+		'''Just for test'''
+		self.show_patientinfo_readonly_dialog(self.diagonosis)
+		
+	#def show_select_diagonosis_dialog(self):
+		#form = SelectDiagonosisDialog(parent = self)
+		#if form.exec_():
+			#diagnosis_to_show = form.selected_diagnosis()
+			#self.show_patientinfo_readonly_dialog(diagnosis_to_show)
+			#print("Select a diagonosis")
+			
+	def show_patientinfo_readonly_dialog(self,diagnosis_to_show):
+		form = PatientInfoReadOnlyDialog(diagnosis_to_show)
 		if form.exec_():
-			print("Select a diagonosis")
+			print("finish showing the read only diagnosis")

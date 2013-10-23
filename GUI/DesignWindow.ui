@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>731</width>
-    <height>630</height>
+    <height>620</height>
    </rect>
   </property>
   <property name="font">
@@ -26,6 +26,9 @@
    <string>患者信息</string>
   </property>
   <widget class="QTabWidget" name="tabWidget">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>40</x>
@@ -47,146 +50,196 @@
     <attribute name="title">
      <string>个人信息</string>
     </attribute>
-    <widget class="QSplitter" name="splitter">
+    <widget class="QWidget" name="">
      <property name="geometry">
       <rect>
-       <x>70</x>
-       <y>120</y>
-       <width>501</width>
-       <height>221</height>
+       <x>80</x>
+       <y>92</y>
+       <width>491</width>
+       <height>231</height>
       </rect>
      </property>
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <widget class="QWidget" name="layoutWidget">
-      <layout class="QGridLayout" name="gridLayout">
-       <item row="0" column="0">
-        <widget class="QLabel" name="label">
-         <property name="text">
-          <string>姓名</string>
-         </property>
-         <property name="buddy">
-          <cstring>xingming_LineEdit</cstring>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QLineEdit" name="xingming_LineEdit"/>
-       </item>
-       <item row="0" column="2">
-        <widget class="QLabel" name="label_5">
-         <property name="text">
-          <string>性别</string>
-         </property>
-         <property name="buddy">
-          <cstring>xingbie_ComboBox</cstring>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="3">
-        <widget class="QComboBox" name="xingbie_ComboBox">
-         <item>
+     <layout class="QVBoxLayout" name="verticalLayout_3">
+      <item>
+       <layout class="QGridLayout" name="gridLayout">
+        <item row="0" column="0">
+         <widget class="QLabel" name="label">
           <property name="text">
-           <string>男</string>
+           <string>姓名</string>
           </property>
-         </item>
-         <item>
+          <property name="buddy">
+           <cstring>xingming_LineEdit</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QLineEdit" name="xingming_LineEdit"/>
+        </item>
+        <item row="0" column="2">
+         <widget class="QLabel" name="label_5">
           <property name="text">
-           <string>女</string>
+           <string>性别</string>
           </property>
-         </item>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="label_2">
-         <property name="text">
-          <string>职业</string>
-         </property>
-         <property name="buddy">
-          <cstring>zhiye_LineEdit</cstring>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QLineEdit" name="zhiye_LineEdit"/>
-       </item>
-       <item row="1" column="2">
-        <widget class="QLabel" name="label_3">
-         <property name="text">
-          <string>民族</string>
-         </property>
-         <property name="buddy">
-          <cstring>minzu_LineEdit</cstring>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="3">
-        <widget class="QLineEdit" name="minzu_LineEdit"/>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="layoutWidget">
-      <layout class="QGridLayout" name="gridLayout_2">
-       <item row="0" column="0">
-        <widget class="QLabel" name="label_4">
-         <property name="text">
-          <string>家庭住址</string>
-         </property>
-         <property name="buddy">
-          <cstring>jiatingzhuzhi_LineEdit</cstring>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QLineEdit" name="jiatingzhuzhi_LineEdit"/>
-       </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="label_6">
-         <property name="text">
-          <string>文化程度</string>
-         </property>
-         <property name="buddy">
-          <cstring>wenhuachengdu_ComboBox</cstring>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QComboBox" name="wenhuachengdu_ComboBox">
-         <item>
+          <property name="buddy">
+           <cstring>xingbie_ComboBox</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="3">
+         <widget class="QComboBox" name="xingbie_ComboBox">
+          <item>
+           <property name="text">
+            <string>男</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>女</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="label_2">
           <property name="text">
-           <string>大学以上</string>
+           <string>职业</string>
           </property>
-         </item>
-         <item>
+          <property name="buddy">
+           <cstring>zhiye_LineEdit</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QLineEdit" name="zhiye_LineEdit"/>
+        </item>
+        <item row="1" column="2">
+         <widget class="QLabel" name="label_3">
           <property name="text">
-           <string>大学</string>
+           <string>民族</string>
           </property>
-         </item>
-         <item>
+          <property name="buddy">
+           <cstring>minzu_LineEdit</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="3">
+         <widget class="QLineEdit" name="minzu_LineEdit"/>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QGridLayout" name="gridLayout_2">
+        <item row="0" column="1">
+         <widget class="QLineEdit" name="jiatingzhuzhi_LineEdit"/>
+        </item>
+        <item row="1" column="1">
+         <widget class="QComboBox" name="wenhuachengdu_ComboBox">
+          <item>
+           <property name="text">
+            <string>大学以上</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>大学</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>高中</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>初中</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>小学</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>文盲或半文盲</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_4">
           <property name="text">
-           <string>高中</string>
+           <string>家庭住址</string>
           </property>
-         </item>
-         <item>
+          <property name="buddy">
+           <cstring>jiatingzhuzhi_LineEdit</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="label_6">
           <property name="text">
-           <string>初中</string>
+           <string>文化程度</string>
           </property>
-         </item>
-         <item>
+          <property name="buddy">
+           <cstring>wenhuachengdu_ComboBox</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <spacer name="verticalSpacer_6">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="Line" name="line_8">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_9">
+        <item>
+         <spacer name="horizontalSpacer_8">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_15">
           <property name="text">
-           <string>小学</string>
+           <string>辅助诊断预测结果：</string>
           </property>
-         </item>
-         <item>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="predict_value_label">
           <property name="text">
-           <string>文盲或半文盲</string>
+           <string>暂无</string>
           </property>
-         </item>
-        </widget>
-       </item>
-      </layout>
-     </widget>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
     </widget>
    </widget>
    <widget class="QWidget" name="tab_2">
@@ -882,6 +935,9 @@
     </widget>
    </widget>
    <widget class="QWidget" name="tab_4">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <attribute name="title">
      <string>影像查看结果</string>
     </attribute>
