@@ -164,7 +164,8 @@ class PatientInfoDialog(QDialog,ui_PatientInfoDialog.Ui_PatientInfoDialog):
 		diag.shengyinsiya = "0" * self.shengyinsiya_wu_RadioButton.isChecked() + \
 		        "1" * self.shengyinsiya_you_RadioButton.isChecked()
 		diag.qitayuhuxiyouguandelinchuangbiaoxian = str(self.qitayuhuxiyouguan_PlainTextEdit.toPlainText().toUtf8())
-		diag.linchuangzhenduanyijian = str(self.linchuangzhenduanyijian_PlainTextEdit.toPlainText().toUtf8())
+		diag.linchuangzhenduanyijian = "0" * self.lczdyj_liangxing_RadioButton.isChecked() +\
+		        "1" * self.lczdyj_exing_RadioButton.isChecked()
 		
 		#Tab4's content 影像查看结果
 		diag.CThao = str(self.CThao_lineEdit.text().toUtf8())
@@ -288,9 +289,10 @@ class PatientInfoReadOnlyDialog(PatientInfoDialog):
 		self._set_check(diagnosis.xiongmen,self.xiongmen_wu_RadioButton,self.xiongmen_you_RadioButton)
 		self._set_check(diagnosis.xiongtong,self.xiongtong_wu_RadioButton,self.xiongtong_you_RadioButton)
 		self._set_check(diagnosis.shengyinsiya,self.shengyinsiya_wu_RadioButton,self.shengyinsiya_you_RadioButton)		
+		self._set_check(diagnosis.linchuangzhenduanyijian,self.lczdyj_liangxing_RadioButton,self.lczdyj_exing_RadioButton)		
 		
 		self.qitayuhuxiyouguan_PlainTextEdit.setPlainText(diagnosis.qitayuhuxiyouguandelinchuangbiaoxian.decode('utf8'))
-		self.linchuangzhenduanyijian_PlainTextEdit.setPlainText(diagnosis.linchuangzhenduanyijian.decode('utf8'))
+
 		
 		#Tab4's content 影像查看结果
 		self.CThao_lineEdit.setText(diagnosis.CThao.decode('utf8'))

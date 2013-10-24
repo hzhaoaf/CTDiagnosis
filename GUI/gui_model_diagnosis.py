@@ -90,7 +90,8 @@ class UI_Diagnosis():
 	
 	def normalize(self):
 		pd = PredictDiagnosis()
-		#pd.linchuangzhenduanyijian = self.linchuangzhenduanyijian
+		pd.linchuangzhenduanyijian = int(self.linchuangzhenduanyijian) if self.linchuangzhenduanyijian else 0
+		
 		pd.xingbie = 0 + 1 * (self.xingbie.decode('utf8') == u"女")
 		pd.nianling = int(self.nianling) if self.nianling.isdigit() else 0 #promise this is a digit number
 		pd.zhongliubingshicunzai = 0 + 1 * (self.zhongliubingshicunzai.decode('utf8') == u"有")

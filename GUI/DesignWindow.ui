@@ -44,13 +44,13 @@
     </font>
    </property>
    <property name="currentIndex">
-    <number>3</number>
+    <number>2</number>
    </property>
    <widget class="QWidget" name="tab">
     <attribute name="title">
      <string>个人信息</string>
     </attribute>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>80</x>
@@ -62,19 +62,6 @@
      <layout class="QVBoxLayout" name="verticalLayout_3">
       <item>
        <layout class="QGridLayout" name="gridLayout">
-        <item row="0" column="0">
-         <widget class="QLabel" name="label">
-          <property name="text">
-           <string>姓名</string>
-          </property>
-          <property name="buddy">
-           <cstring>xingming_LineEdit</cstring>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QLineEdit" name="xingming_LineEdit"/>
-        </item>
         <item row="0" column="2">
          <widget class="QLabel" name="label_5">
           <property name="text">
@@ -84,6 +71,9 @@
            <cstring>xingbie_ComboBox</cstring>
           </property>
          </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QLineEdit" name="xingming_LineEdit"/>
         </item>
         <item row="0" column="3">
          <widget class="QComboBox" name="xingbie_ComboBox">
@@ -99,6 +89,29 @@
           </item>
          </widget>
         </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="label">
+          <property name="text">
+           <string>姓名</string>
+          </property>
+          <property name="buddy">
+           <cstring>xingming_LineEdit</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="3">
+         <widget class="QLineEdit" name="minzu_LineEdit"/>
+        </item>
+        <item row="1" column="2">
+         <widget class="QLabel" name="label_3">
+          <property name="text">
+           <string>民族</string>
+          </property>
+          <property name="buddy">
+           <cstring>minzu_LineEdit</cstring>
+          </property>
+         </widget>
+        </item>
         <item row="1" column="0">
          <widget class="QLabel" name="label_2">
           <property name="text">
@@ -112,36 +125,10 @@
         <item row="1" column="1">
          <widget class="QLineEdit" name="nianling_LineEdit"/>
         </item>
-        <item row="1" column="2">
-         <widget class="QLabel" name="label_3">
-          <property name="text">
-           <string>民族</string>
-          </property>
-          <property name="buddy">
-           <cstring>minzu_LineEdit</cstring>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="3">
-         <widget class="QLineEdit" name="minzu_LineEdit"/>
-        </item>
         <item row="2" column="0">
          <widget class="QLabel" name="label_16">
           <property name="text">
            <string>职业</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="1">
-         <widget class="QLineEdit" name="zhiye_LineEdit"/>
-        </item>
-        <item row="2" column="2">
-         <widget class="QLabel" name="label_6">
-          <property name="text">
-           <string>文化程度</string>
-          </property>
-          <property name="buddy">
-           <cstring>wenhuachengdu_ComboBox</cstring>
           </property>
          </widget>
         </item>
@@ -178,6 +165,32 @@
            </property>
           </item>
          </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QLineEdit" name="zhiye_LineEdit"/>
+        </item>
+        <item row="2" column="2">
+         <widget class="QLabel" name="label_6">
+          <property name="text">
+           <string>文化程度</string>
+          </property>
+          <property name="buddy">
+           <cstring>wenhuachengdu_ComboBox</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="2">
+         <spacer name="verticalSpacer_7">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
         </item>
        </layout>
       </item>
@@ -658,7 +671,7 @@
        <x>80</x>
        <y>40</y>
        <width>491</width>
-       <height>421</height>
+       <height>381</height>
       </rect>
      </property>
      <layout class="QGridLayout" name="gridLayout_12">
@@ -675,7 +688,31 @@
          </widget>
         </item>
         <item>
-         <widget class="QPlainTextEdit" name="linchuangzhenduanyijian_PlainTextEdit"/>
+         <widget class="QRadioButton" name="lczdyj_liangxing_RadioButton">
+          <property name="text">
+           <string>良性</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="lczdyj_exing_RadioButton">
+          <property name="text">
+           <string>恶性</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_9">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
         </item>
        </layout>
       </item>
@@ -1492,6 +1529,8 @@
       </item>
      </layout>
     </widget>
+    <zorder>layoutWidget</zorder>
+    <zorder>label_14</zorder>
    </widget>
   </widget>
   <widget class="QPushButton" name="acceptButton">
@@ -1573,7 +1612,6 @@
   <tabstop>shengyinsiya_wu_RadioButton</tabstop>
   <tabstop>shengyinsiya_you_RadioButton</tabstop>
   <tabstop>qitayuhuxiyouguan_PlainTextEdit</tabstop>
-  <tabstop>linchuangzhenduanyijian_PlainTextEdit</tabstop>
   <tabstop>CThao_lineEdit</tabstop>
   <tabstop>jianchafangshi_comboBox</tabstop>
   <tabstop>jianchariqi_dateEdit</tabstop>
