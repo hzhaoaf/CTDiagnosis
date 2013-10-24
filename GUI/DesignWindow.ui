@@ -44,7 +44,7 @@
     </font>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>3</number>
    </property>
    <widget class="QWidget" name="tab">
     <attribute name="title">
@@ -54,9 +54,9 @@
      <property name="geometry">
       <rect>
        <x>80</x>
-       <y>92</y>
-       <width>491</width>
-       <height>231</height>
+       <y>90</y>
+       <width>481</width>
+       <height>221</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -102,15 +102,15 @@
         <item row="1" column="0">
          <widget class="QLabel" name="label_2">
           <property name="text">
-           <string>职业</string>
+           <string>年龄</string>
           </property>
           <property name="buddy">
-           <cstring>zhiye_LineEdit</cstring>
+           <cstring>nianling_LineEdit</cstring>
           </property>
          </widget>
         </item>
         <item row="1" column="1">
-         <widget class="QLineEdit" name="zhiye_LineEdit"/>
+         <widget class="QLineEdit" name="nianling_LineEdit"/>
         </item>
         <item row="1" column="2">
          <widget class="QLabel" name="label_3">
@@ -125,14 +125,27 @@
         <item row="1" column="3">
          <widget class="QLineEdit" name="minzu_LineEdit"/>
         </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QGridLayout" name="gridLayout_2">
-        <item row="0" column="1">
-         <widget class="QLineEdit" name="jiatingzhuzhi_LineEdit"/>
+        <item row="2" column="0">
+         <widget class="QLabel" name="label_16">
+          <property name="text">
+           <string>职业</string>
+          </property>
+         </widget>
         </item>
-        <item row="1" column="1">
+        <item row="2" column="1">
+         <widget class="QLineEdit" name="zhiye_LineEdit"/>
+        </item>
+        <item row="2" column="2">
+         <widget class="QLabel" name="label_6">
+          <property name="text">
+           <string>文化程度</string>
+          </property>
+          <property name="buddy">
+           <cstring>wenhuachengdu_ComboBox</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="3">
          <widget class="QComboBox" name="wenhuachengdu_ComboBox">
           <item>
            <property name="text">
@@ -166,7 +179,11 @@
           </item>
          </widget>
         </item>
-        <item row="0" column="0">
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_10">
+        <item>
          <widget class="QLabel" name="label_4">
           <property name="text">
            <string>家庭住址</string>
@@ -176,30 +193,23 @@
           </property>
          </widget>
         </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="label_6">
-          <property name="text">
-           <string>文化程度</string>
-          </property>
-          <property name="buddy">
-           <cstring>wenhuachengdu_ComboBox</cstring>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="1">
-         <spacer name="verticalSpacer_6">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>40</height>
-           </size>
-          </property>
-         </spacer>
+        <item>
+         <widget class="QLineEdit" name="jiatingzhuzhi_LineEdit"/>
         </item>
        </layout>
+      </item>
+      <item>
+       <spacer name="verticalSpacer_6">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
       </item>
       <item>
        <widget class="Line" name="line_8">
@@ -1026,7 +1036,7 @@
         <item row="1" column="6">
          <widget class="QLabel" name="label_12">
           <property name="text">
-           <string>厘米</string>
+           <string>厘米（CM）</string>
           </property>
          </widget>
         </item>
@@ -1530,10 +1540,8 @@
  <tabstops>
   <tabstop>xingming_LineEdit</tabstop>
   <tabstop>xingbie_ComboBox</tabstop>
-  <tabstop>zhiye_LineEdit</tabstop>
+  <tabstop>nianling_LineEdit</tabstop>
   <tabstop>minzu_LineEdit</tabstop>
-  <tabstop>jiatingzhuzhi_LineEdit</tabstop>
-  <tabstop>wenhuachengdu_ComboBox</tabstop>
   <tabstop>zhongliubingshi_ComboBox</tabstop>
   <tabstop>zhongliubingshi_PlainTextEdit</tabstop>
   <tabstop>feijihebingshi_ComboBox</tabstop>

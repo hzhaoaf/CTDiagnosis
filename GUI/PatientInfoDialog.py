@@ -125,6 +125,7 @@ class PatientInfoDialog(QDialog,ui_PatientInfoDialog.Ui_PatientInfoDialog):
 		diag = UI_Diagnosis()
 		
 		#Tab1's content 个人信息
+		diag.nianling = str(self.nianling_LineEdit.text().toUtf8())
 		diag.xingming = str(self.xingming_LineEdit.text().toUtf8())#LineEdit
 		diag.xingbie = str(self.xingbie_ComboBox.currentText().toUtf8())#ComboBox
 		diag.zhiye = str(self.zhiye_LineEdit.text().toUtf8())
@@ -170,11 +171,11 @@ class PatientInfoDialog(QDialog,ui_PatientInfoDialog.Ui_PatientInfoDialog):
 		diag.jianchafangshi = str(self.jianchafangshi_comboBox.currentText().toUtf8())
 		diag.jianchariqi = str(self.jianchariqi_dateEdit.text().toUtf8())
 		diag.jiejiedaxiao = str(self.jiejiedaxiao_lineEdit.text().toUtf8())
-		diag.jiejiebuwei = "|zuo_shang" * self.zuofeishangye_checkBox.isChecked() + \
-		        "|zuo_xia" * self.zuofeixiaye_checkBox.isChecked() + \
-		        "|you_shang" * self.youfeishangye_checkBox.isChecked() + \
-		        "|you_zhong" * self.youfeizhongye_checkBox.isChecked() + \
-		        "|you_xia" * self.youfeixiaye_checkBox.isChecked()
+		diag.jiejiebuwei = "0" * self.zuofeishangye_checkBox.isChecked() + \
+		        "1" * self.zuofeixiaye_checkBox.isChecked() + \
+		        "2" * self.youfeishangye_checkBox.isChecked() + \
+		        "3" * self.youfeizhongye_checkBox.isChecked() + \
+		        "4" * self.youfeixiaye_checkBox.isChecked()
 		diag.linbajiezhong = "0" * self.linbajiezhong_wu_RadioButton.isChecked() +\
 		        "1" * self.linbajiezhong_you_RadioButton.isChecked()
 		diag.jiejiemidu = "0" * self.jiejiemidu_junyun_RadioButton.isChecked() +\
@@ -201,6 +202,7 @@ class PatientInfoDialog(QDialog,ui_PatientInfoDialog.Ui_PatientInfoDialog):
 		                                        "1" * self.xiongmoaoxian_you_RadioButton.isChecked()
 		diag.CTzhenduan = str(self.CTzhenduan_plainTextEdit.toPlainText().toUtf8())
 
+		diag.normalize()
 		return diag
 	
 #Constant variables for select the item of combobutton
@@ -225,22 +227,23 @@ class PatientInfoReadOnlyDialog(PatientInfoDialog):
 	def _set_check(self,value,radio_button_1,radio_button_2):
 		if value.decode('utf8') == u"0":
 			radio_button_1.setChecked(True)
-		else:
+		elif value.decode('utf8') == u"1":
 			radio_button_2.setChecked(True)
 		
 	def _get_index(self,value,tag):
 		for index,deg in enumerate(INDEXS_CONTENTS[tag]):
 			if value.decode('utf8') == deg:
 				return index
-		return 0			
+		return 0
 		
 	def set_dialog_info(self,diagnosis):
 		#Tab1's content 个人信息
 		self.xingming_LineEdit.setText(diagnosis.xingming.decode('utf8'))
-		
+		self.nianling_LineEdit.setText(diagnosis.nianling.decode('utf8'))
+
 		xingbie_index = 0 + 1 * (diagnosis.xingbie.decode('utf8') == u"女")
 		self.xingbie_ComboBox.setCurrentIndex(xingbie_index)
-		
+	
 		self.zhiye_LineEdit.setText(diagnosis.zhiye.decode('utf8'))
 		self.minzu_LineEdit.setText(diagnosis.minzu.decode('utf8'))
 		self.jiatingzhuzhi_LineEdit.setText(diagnosis.jiatingzhuzhi.decode('utf8'))
@@ -276,7 +279,7 @@ class PatientInfoReadOnlyDialog(PatientInfoDialog):
 			self.fare_wu_RadioButton.setChecked(True)
 		elif _fare == u"1" :
 			self.fare_3738_RadioButton.setChecked(True)
-		else :
+		elif _fare == u"2" :
 			self.fare_38yishang_RadioButton.setChecked(True)
 			
 		self._set_check(diagnosis.kesou,self.kesou_wu_RadioButton,self.kesou_you_RadioButton)
@@ -296,10 +299,18 @@ class PatientInfoReadOnlyDialog(PatientInfoDialog):
 		self.jianchariqi_dateEdit.setDate(QDate(int(year),int(month),int(day)))
 		
 		self.jiejiedaxiao_lineEdit.setText(diagnosis.jiejiedaxiao.decode('utf8'))
-		if diagnosis.jiejiebuwei.decode('utf8').find(u"zuo_shang"):
-			self.zuofeishangye_checkBox.setChecked(True)
-			#to do ,not finished yet
 		
+		if '0' in diagnosis.jiejiebuwei:
+			self.zuofeishangye_checkBox.setChecked(True)
+		if '1' in diagnosis.jiejiebuwei:
+			self.zuofeixiaye_checkBox.setChecked(True)
+		if '2' in diagnosis.jiejiebuwei:
+			self.youfeishangye_checkBox.setChecked(True)			
+		if '3' in diagnosis.jiejiebuwei:
+			self.youfeizhongye_checkBox.setChecked(True)
+		if '4' in diagnosis.jiejiebuwei:
+			self.youfeixiaye_checkBox.setChecked(True)	
+
 		self._set_check(diagnosis.linbajiezhong,self.linbajiezhong_wu_RadioButton,self.linbajiezhong_you_RadioButton)
 		self._set_check(diagnosis.jiejiemidu,self.jiejiemidu_junyun_RadioButton,self.jiejiemidu_bujunyun_RadioButton)
 		self._set_check(diagnosis.maobolimi,self.maobolimi_wu_RadioButton,self.maobolimi_shi_RadioButton)
