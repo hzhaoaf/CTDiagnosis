@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+import time
 from PyQt4 import QtGui, QtCore
 from PyQt4.QtCore import Qt
 from PyQt4.QtCore import QRect,QString
@@ -25,6 +25,10 @@ class AbsWindow(QtGui.QMainWindow):
 		super(AbsWindow, self).__init__(parent)
 		self.setGeometry(40,40,880,660)
 		
+		self.status_bar = self.statusBar()
+		self.status_bar.showMessage(u"欢迎使用CT肺癌辅助诊断软件",5000)
+		self.busy_indicator = QtGui.QProgressDialog(labelText=u'计算中，请等待...',minimum = 0, maximum = 100)
+		
 		#上下结构，上面是imageview，下面是imagecontrolwidget
 		#-abswindow 
 		#   --spliter
@@ -47,6 +51,7 @@ class AbsWindow(QtGui.QMainWindow):
 		self.image_file_path = img_save_path#The path to save the image
 		self.diagonosis = None#The info (patients info ,images,predictions)
 		self.imgNameSuffix = 1#names of image starts from 001 to 999
+		
 
 	def setMouseStyleCross(self):
 		self.main.setCursor(Qt.CrossCursor)
@@ -195,6 +200,7 @@ class AbsWindow(QtGui.QMainWindow):
 			self.openFile(prev_image_file_path)
 		else:
 			print('No previous image!')
+			self.status_bar.showMessage(u"没有上一张图像",5000)
 
 	def nextImage(self):
 		'''Show the next Image if there is'''
@@ -203,6 +209,7 @@ class AbsWindow(QtGui.QMainWindow):
 			self.openFile(next_image_file_path)
 		else:
 			print('No next image!')
+			self.status_bar.showMessage(u"没有下一张图像",5000)
 		
 	def filters(self,useGeneric = None,useBareFormat=None):
 		'''Return suggested filters to use in a save/load dialog'''
@@ -253,6 +260,9 @@ class AbsWindow(QtGui.QMainWindow):
 		self.main.saveImage(fileName)
 		self.postOp(i,False)
 		self.image_item_list.do_current_image_crop(fileName)#set the cropped image's name to the image_item_list
+		
+		_showed_message =u"裁剪成功，保存到 %s 文件" % (_pfileName)
+		self.status_bar.showMessage(_showed_message,5000)
 
 	def crop(self):
 		#A rectangle is normally expressed as an upper-left corner and a size
@@ -260,10 +270,12 @@ class AbsWindow(QtGui.QMainWindow):
 		i=self.getImage()#param)
 		if not i: 
 			print("No image to crop & save")
+			self.status_bar.showMessage(u"当前没有图像，不能进行裁剪操作",5000)
 			return
 		rectan = self.main.getSelection()
 		if not rectan:
 			print("No selection for this image")
+			self.status_bar.showMessage(u"没有选择矩形区域，不能进行裁剪操作",5000)
 			return
 
 		#print(QRect(rectan.left(), rectan.top(), rectan.width(), rectan.height()))
@@ -274,6 +286,7 @@ class AbsWindow(QtGui.QMainWindow):
 		#self.reloadImageAfterCrop()
 		self.reload_cur_image()
 		self.postOp(i)
+		self.status_bar.showMessage(u"按住alt键，选择种子点，对图像进行区域生长算法")
 		
 		
 		
@@ -288,7 +301,9 @@ class AbsWindow(QtGui.QMainWindow):
 		i=self.getImage()
 		if not i:
 			print("No image to region_grow")
-			return			
+			return
+		
+		self.show_busy_indicator_progress()#---------------------Start- Compute---------------------------
 		
 		_qcur_img_file = self.image_item_list.get_current_image_file()
 		cur_img_file = qs2ps(_qcur_img_file)
@@ -299,6 +314,9 @@ class AbsWindow(QtGui.QMainWindow):
 		print "[Region Grow]\n[Image]%s\n[Shape]:%r\n[Pos]:%r:" % (_qcur_img_file,img.shape,point)
 		img = self.region_grow_module.getRegionGrowImage(img,(point.x(),point.y()))
 		self.save_after_regiongrow(img)
+		
+		self.cancel_busy_indicator_progress()#-------------------ENd---Compute---------------------------
+	
 		
 	def curveletExtract(self):
 		'''Extract the curvelet from given image name'''
@@ -358,3 +376,16 @@ class AbsWindow(QtGui.QMainWindow):
 		form = PatientInfoReadOnlyDialog(diagnosis_to_show)
 		if form.exec_():
 			print("finish showing the read only diagnosis")
+			
+	def show_busy_indicator_progress(self):
+		self.busy_indicator.reset()
+		self.busy_indicator.show()
+		for i in range(30):
+			self.busy_indicator.setValue(i)
+			time.sleep(0.02)
+	
+	def cancel_busy_indicator_progress(self):
+		for i in range(70,100):
+			self.busy_indicator.setValue(i)
+			time.sleep(0.05)
+		self.busy_indicator.cancel()

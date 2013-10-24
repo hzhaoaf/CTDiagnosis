@@ -24,7 +24,7 @@ def dcm2Png(filePath):
 	filePath = qs2ps(filePath)
 	plan=dicom.read_file(filePath)
 	im = dcm2pil(plan)
-	savedFilePath = os.path.splitext(filePath)[0] + "_converted.png"
+	savedFilePath = os.path.splitext(filePath)[0] + "_converted2PNG.png"
 	im.save(savedFilePath)
 	return ps2qs(savedFilePath)
 

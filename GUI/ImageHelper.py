@@ -69,4 +69,6 @@ class ImageItemsList:
 		return [s.get_item_prior_file() for s in self._image_items if s.is_in_use()]
 	
 	def do_enable_current_image(self,enable):
+		if self._current_item_no < 1:
+			return
 		self._image_items[self._current_item_no].enable(enable)

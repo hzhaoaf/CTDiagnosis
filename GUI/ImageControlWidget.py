@@ -21,38 +21,68 @@ except AttributeError:
 
 class ImageControlWidget(QWidget):
 
-    def __init__(self, leftFlow=0, rightFlow=0, maxFlow=100,
-                 parent=None):
+    def __init__(self, leftFlow=0, rightFlow=0, maxFlow=100,parent=None):
         super(ImageControlWidget, self).__init__(parent)
         self._parent = parent
         self.setObjectName(_fromUtf8("ImageControlWidget"))        
         self.prev_button = QPushButton(self)
         self.prev_button.setText(_translate("ImageControlWidget", "上一张", None))
-        self.prev_button.setMinimumHeight(80)
+        self.prev_button.setMinimumHeight(60)
         self.prev_button.clicked.connect(parent.previousImage)
          
         self.next_button = QPushButton(self)
         self.next_button.setText(_translate("ImageControlWidget", "下一张", None))
-        self.next_button.setMinimumHeight(80)
+        self.next_button.setMinimumHeight(60)
         self.next_button.clicked.connect(parent.nextImage)
         
         self.is_in_use_checkbox = QCheckBox(self)
         self.is_in_use_checkbox.setText(_translate("ImageControlWidget", "计算该图像", None))
         self.is_in_use_checkbox.stateChanged.connect(self._check_box_state_changed)
         
+        # 创建QSlider，我们要的是横向的，  
+        # 使用QtCore.Qt.Horizontal来定义          
+        # 创建spinBox  
+        _label = QLabel(u"设置区域生长法阈值:")
+        self.threshold_slider = QSlider(Qt.Horizontal,self)
+        self.threshold_slider.setMaximumWidth(100)
+        self.threshold_spinBox = QSpinBox(self)  
+        self.threshold_slider.setRange( 0, 100 )  # 设置数值范围  
+        self.threshold_slider.setRange( 0, 100 )   # 设置数值范围
+        # 创建连接  
+        self.threshold_spinBox.valueChanged.connect( self.threshold_slider.setValue )  
+        self.threshold_slider.valueChanged.connect(  self.threshold_spinBox.setValue )  
+          
+        # 设置一个数值  
+        self.threshold_spinBox.setValue(60)         
+        
         self.crop_button = QPushButton(self)
         self.crop_button.setText(_translate("ImageControlWidget", "裁剪", None))
         self.crop_button.setMinimumHeight(60)
         self.crop_button.clicked.connect(parent.crop)
         
-        self.vlayout = QVBoxLayout()
-        self.vlayout.addWidget(self.crop_button)
-        self.vlayout.addWidget(self.is_in_use_checkbox)
+        #第一行，三个组件
+        self.hlayout_up = QHBoxLayout()
+        self.hlayout_up.addWidget(self.prev_button)
+        self.hlayout_up.addWidget(self.crop_button)
+        self.hlayout_up.addWidget(self.next_button)
         
-        self.hlayout = QHBoxLayout(self)
-        self.hlayout.addWidget(self.prev_button)
-        self.hlayout.addLayout(self.vlayout)
-        self.hlayout.addWidget(self.next_button)
+        #第二行，四个组件
+        self.hlayout_down = QHBoxLayout()
+        #self.hlayout_down.addStretch()
+        self.hlayout_down.addWidget(_label)
+        self.hlayout_down.addWidget(self.threshold_slider)
+        self.hlayout_down.addWidget(self.threshold_spinBox)
+        self.hlayout_down.addStretch()
+        self.hlayout_down.addWidget(self.is_in_use_checkbox)
+        ayout = QVBoxLayout()
+        
+        #上下两个组件合并成一个数列组件
+        self.vlayout = QVBoxLayout(self)
+        self.vlayout.addLayout(self.hlayout_down)
+        self.vlayout.addLayout(self.hlayout_up)
+        
+
+        
         #self.label = QLabel(self)
         #self.label.setFrameStyle(QFrame.StyledPanel|QFrame.Sunken)
         #self.label.setAlignment(Qt.AlignCenter)
@@ -64,6 +94,9 @@ class ImageControlWidget(QWidget):
         #self.setMinimumSize(self.minimumSizeHint())
         #self.valueChanged()
         
+    def get_threshold_value(self):
+        return self.threshold_slider.value
+    
     def _check_box_state_changed(self):
         able = self.is_in_use_checkbox.isChecked()
         self._parent.change_image_in_use_state(able)
