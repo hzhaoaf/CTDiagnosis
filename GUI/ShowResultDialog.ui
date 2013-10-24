@@ -44,7 +44,7 @@
    <property name="title">
     <string>患病信息</string>
    </property>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>70</x>

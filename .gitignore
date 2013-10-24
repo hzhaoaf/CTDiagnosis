@@ -46,4 +46,4 @@ nosetests.xml
 *.db
 
 #data/images/
-image/
+images/
