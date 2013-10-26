@@ -1,12 +1,21 @@
 # -*- coding: utf-8 -*-
+
+import os
+import sys
+
+from sklearn.utils import weight_vector,lgamma
+from sklearn.decomposition import PCA, FastICA
+from sklearn.pls import PLSRegression
+#from skimage import transform,graph,draw
+from skimage._shared import geometry
 import time
 from PyQt4 import QtGui, QtCore
 from PyQt4.QtCore import Qt
 from PyQt4.QtCore import QRect,QString
 from ImageView import ImageView
+
 from Image import Image
 from append import *
-import sys
 sys.path.append("..")
 from svm.svm import SVM
 from Curvelet import ccf
@@ -149,7 +158,10 @@ class AbsWindow(QtGui.QMainWindow):
 
 	def openFile(self,name):
 		'''Open image with given name'''
-		self.main.loadImage(name)
+
+		if not self.main.loadImage(name):
+			print("[Abswindow]:Image null %s "% name)
+			return
 		#self.setTitle() 
 		self.postOp(self.getImage(),False)
 		
@@ -257,12 +269,17 @@ class AbsWindow(QtGui.QMainWindow):
 		fileName = ps2qs(_pfileName)
 		self.imgNameSuffix+=1
 		
-		self.main.saveImage(fileName)
+		if not self.main.saveImage(fileName):
+			_showed_message =u"[保存失败]%s 文件" % (_pfileName)
+			self.status_bar.showMessage(_showed_message,5000)
+			return False
+		
 		self.postOp(i,False)
 		self.image_item_list.do_current_image_crop(fileName)#set the cropped image's name to the image_item_list
 		
 		_showed_message =u"裁剪成功，保存到 %s 文件" % (_pfileName)
 		self.status_bar.showMessage(_showed_message,5000)
+		return True
 
 	def crop(self):
 		#A rectangle is normally expressed as an upper-left corner and a size
@@ -281,7 +298,8 @@ class AbsWindow(QtGui.QMainWindow):
 		#print(QRect(rectan.left(), rectan.top(), rectan.width(), rectan.height()))
 		i.crop(rectan.left(), rectan.top(), rectan.width(), rectan.height())
 		
-		self.save_after_crop()#Save immediately after crop
+		if not self.save_after_crop():#Save immediately after crop
+			return
 		#not filp to next image
 		#self.reloadImageAfterCrop()
 		self.reload_cur_image()

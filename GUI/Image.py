@@ -19,10 +19,14 @@ class Image:
 			
 	def saveImage(self,name):
 		try:
-			self.d.i.save(name.toLocal8Bit().data())
+			if self.d.i.save(name.toLocal8Bit().data()):
+				return True
+			else:
+				return False
 		except:
-			print("Save Image Failed")
-			pass
+			print("[Image][Save Image Failed]:"+name)
+			return False
+			#pass
 		
 	def crop(self,x1,y1,width,height):
 		'''

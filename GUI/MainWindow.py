@@ -16,7 +16,7 @@ from scipy import misc
 from PatientInfoDialog import PatientInfoDialog
 from gui_model_diagnosis import UI_Diagnosis
 
-image_path = '../data/images/'
+image_saved_path = '../data/images/'
 
 #class MainWindow(QtGui.QWidget):
 class MainWindow(QtGui.QMainWindow):
@@ -204,7 +204,7 @@ class MainWindow(QtGui.QMainWindow):
 		If no parameter is specified, dialog is invoked to ask for one'''
 		i=self.getImage()
 		if not i: return
-		fileName="%s%s%03d.png" % (image_path,self.imgNamePrefix,self.imgNameSuffix)
+		fileName="%s%s%03d.png" % (image_saved_path,self.imgNamePrefix,self.imgNameSuffix)
 		self.imgNameSuffix+=1
 		
 		self.main.saveImage(ps2qs(fileName))
@@ -283,8 +283,9 @@ class MainWindow(QtGui.QMainWindow):
 	
 from AbsWindow import AbsWindow
 
+
 class ImageWindow(AbsWindow):
-	def __init__(self,parent = None,img_save_path= '../data/images/'):
+	def __init__(self,parent = None,img_save_path= image_saved_path):
 		super(ImageWindow, self).__init__(parent,img_save_path)
 		
 if __name__ == '__main__':

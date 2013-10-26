@@ -30,7 +30,15 @@ class ImageView(QtGui.QScrollArea):
      
     def saveImage(self,name):
         '''Save image in viewer under given name'''
-        if self.image: self.image.saveImage(name)
+        if self.image: 
+            save_success = self.image.saveImage(name)
+            if save_success:
+                return True 
+            else :
+                return False
+        else:
+            print("[ImageView][Save Image Failed]:No image to save")
+            return False
         
     def selectionFromImageCoords(self,selectionRect):
         '''Return selection rectangle converted from image coordinate system to window coordinate syste'''
@@ -63,7 +71,12 @@ class ImageView(QtGui.QScrollArea):
         '''Update data_rect'''
         #Get image dimensions
         dx=self.image.x()
-        dy=self.image.y()        
+        dy=self.image.y()
+        if dx == 0 or dy == 0:
+            print("Null Image")
+            return
+        #printInfo ="setDataRect %f_%f" %(dx,dy)
+        #print(printInfo)
         #Get image screen dimensions (may differ if zoom is set)
         screen_dx=dx*self.zoom/100.0
         screen_dy=dy*self.zoom/100.0
@@ -152,10 +165,11 @@ class ImageView(QtGui.QScrollArea):
         
     def rectCheck(self):
         ''' Called when selection is finished (on releasing the mouse button) and on start'''
-        if self.selection.isValid():
-             #"Snap rect to grid"
-            self.setDataRect()
-            self.d.moveRubberBand(self.selectionFromImageCoords(self.selection))
+        pass
+        #if self.selection.isValid():
+             ##"Snap rect to grid"
+            #self.setDataRect()
+            #self.d.moveRubberBand(self.selectionFromImageCoords(self.selection))
    
 
     def cancelRect(self):
@@ -174,7 +188,11 @@ class ImageView(QtGui.QScrollArea):
         '''Open image with given name in viewer'''    
         if self.image: del self.image
         self.image = Image(name)
+        if not self.image:
+            return False
+        
         self.flushImage()
+        return True
         
     
     def sizeHint(self):
@@ -238,6 +256,6 @@ class ImageView(QtGui.QScrollArea):
             #print(QString.number(x1)+","+QString.number(y1)+" - "+QString.number(x2)+","+QString.number(y2)
                      #+" ("+QString.number(w)+"x"+QString.number(h)+") ")
     
-    def rectCheck(self):
-        pass
+    #def rectCheck(self):
+        #pass
 

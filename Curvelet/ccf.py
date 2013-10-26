@@ -36,6 +36,7 @@ from scipy import misc
 #import matplotlib.pyplot as plt
 from fdct_wrapping import *
 from skimage.feature import greycomatrix
+#from skimage.feature._tex
 from preglcm import preglcm
 from calEntropy import calEntropy
 
