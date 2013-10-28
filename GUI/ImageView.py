@@ -4,6 +4,7 @@ from PyQt4.QtCore import Qt,QString,QRect,QPoint
 from ImageViewPrivate import ImageViewPrivate
 from Image import Image
 from math import floor
+from gui_constants import *
 
 class ImageView(QtGui.QScrollArea):
     def __init__(self,parent):
@@ -115,7 +116,7 @@ class ImageView(QtGui.QScrollArea):
             #No image is loaded
             p.drawRect(0,0,x-1,y-1)
             p.fillRect(1,1,x-2,y-2,black)
-            p.drawText(0,0,x,y,Qt.AlignVCenter | Qt.AlignCenter,QString("No image loaded"))
+            p.drawText(0,0,x,y,Qt.AlignVCenter | Qt.AlignCenter,QString(NOIMAGELOAD))
             return
 
         if self.image.x<=0 and self.image.y()<=0:

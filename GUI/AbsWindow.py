@@ -26,6 +26,7 @@ from gui_model_diagnosis import UI_Diagnosis
 from ImageControlWidget import ImageControlWidget
 from ImageHelper import ImageItemsList
 from RegionGrow.reseg import RegionGrow
+from gui_constants import *
 
 #class MainWindow(QtGui.QWidget):
 class AbsWindow(QtGui.QMainWindow):
@@ -33,9 +34,9 @@ class AbsWindow(QtGui.QMainWindow):
 		#Set up the style of the main window
 		super(AbsWindow, self).__init__(parent)
 		self.setGeometry(40,40,880,660)
-		
+		self.setWindowTitle(WINDOWTITLE)
 		self.status_bar = self.statusBar()
-		self.status_bar.showMessage(u"欢迎使用CT肺癌辅助诊断软件")
+		self.status_bar.showMessage(WELCOME)
 		self.busy_indicator = QtGui.QProgressDialog(labelText=u'计算中，请等待...',minimum = 0, maximum = 100)
 		
 		#上下结构，上面是imageview，下面是imagecontrolwidget
@@ -93,6 +94,11 @@ class AbsWindow(QtGui.QMainWindow):
 		                                    shortcut=QtGui.QKeySequence.MoveToPreviousChar,
 		                                    icon = "prev")	
 		
+		resetImageAction = self.createAction(u"重置图像...", 
+		                                    self.reset_current_image,tip = u"重置图像",
+		                                    icon = "undo")	
+		
+		
 		self.toolbar = self.addToolBar("Tools")
 		self.toolbar.addAction(fileOpenAction)
 		self.toolbar.addAction(cropImageAction)
@@ -100,6 +106,7 @@ class AbsWindow(QtGui.QMainWindow):
 		self.toolbar.addAction(selectDiagonosisAction)
 		self.toolbar.addAction(previousImageAction)
 		self.toolbar.addAction(nextImageAction)
+		self.toolbar.addAction(resetImageAction)
 		self.toolbar.addAction(svmGuessAction)
 
 		self.fileMenu = self.menuBar().addMenu(u"文件")
@@ -117,6 +124,7 @@ class AbsWindow(QtGui.QMainWindow):
 		self.addAction(previousImageAction)
 		self.addAction(shPaInfoDialAction)
 		self.addAction(selectDiagonosisAction)
+		self.addAction(resetImageAction)
 		
 		self.fileMenu.clear()
 		self.imgMenu.clear()
@@ -414,5 +422,12 @@ class AbsWindow(QtGui.QMainWindow):
 		'''
 		Reset the image,change the cropped or region growed image to the original image.
 		'''
-		pass
-	
+		i=self.getImage()#param)
+		if not i: 
+			print("No image reset")
+			self.status_bar.showMessage(u"当前没有图像，无需重置",5000)
+			return
+		
+		self.image_item_list.do_reset_current_image()#set the current image to original one.
+		self.reload_cur_image()
+		self.postOp(None,False)

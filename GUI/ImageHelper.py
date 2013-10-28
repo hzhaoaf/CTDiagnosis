@@ -4,6 +4,13 @@ class SingleImageItem:
 		self._cropped = cropped
 		self._region_growed = region_growed
 		self._is_in_use = is_in_use
+	
+	def reset_item(self):
+		del self._cropped
+		del self._region_growed
+		self._cropped = None
+		self._region_growed = None
+	
 	def is_in_use(self):
 		return self._is_in_use
 	
@@ -28,6 +35,12 @@ class ImageItemsList:
 		self._current_item_no = -1
 		self._image_items = []
 		
+	def do_reset_current_image(self):
+		'''Reset the current item to original iamge'''
+		if self._number_of_items <= 0:
+			return
+		self._image_items[self._current_item_no].reset_item()
+		
 	def init_list(self,paths):
 		self._number_of_items = len(paths)
 		self._current_item_no = 0
@@ -39,7 +52,8 @@ class ImageItemsList:
 		return self._image_items[self._current_item_no].is_in_use()
 		
 	def do_current_image_regiongrow(self,file_name):
-		self._image_items[self._current_item_no].do_regiongrow(file_name)	
+		self._image_items[self._current_item_no].do_regiongrow(file_name)
+		
 	def do_current_image_crop(self,file_name):
 		self._image_items[self._current_item_no].do_crop(file_name)
 		
