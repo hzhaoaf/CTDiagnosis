@@ -95,7 +95,7 @@ class ImageControlWidget(QWidget):
         #self.valueChanged()
         
     def get_threshold_value(self):
-        return self.threshold_slider.value
+        return self.threshold_slider.value()
     
     def _check_box_state_changed(self):
         able = self.is_in_use_checkbox.isChecked()

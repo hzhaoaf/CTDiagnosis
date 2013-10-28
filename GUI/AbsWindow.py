@@ -35,7 +35,7 @@ class AbsWindow(QtGui.QMainWindow):
 		self.setGeometry(40,40,880,660)
 		
 		self.status_bar = self.statusBar()
-		self.status_bar.showMessage(u"欢迎使用CT肺癌辅助诊断软件",5000)
+		self.status_bar.showMessage(u"欢迎使用CT肺癌辅助诊断软件")
 		self.busy_indicator = QtGui.QProgressDialog(labelText=u'计算中，请等待...',minimum = 0, maximum = 100)
 		
 		#上下结构，上面是imageview，下面是imagecontrolwidget
@@ -321,6 +321,8 @@ class AbsWindow(QtGui.QMainWindow):
 			print("No image to region_grow")
 			return
 		
+		_threshold = self.image_control_widget.get_threshold_value()#Get the current user setting of the threshold
+		
 		self.show_busy_indicator_progress()#---------------------Start- Compute---------------------------
 		
 		_qcur_img_file = self.image_item_list.get_current_image_file()
@@ -330,7 +332,7 @@ class AbsWindow(QtGui.QMainWindow):
 			img= img[:,:,0] if img.shape[2] > 1 else img
 		
 		print "[Region Grow]\n[Image]%s\n[Shape]:%r\n[Pos]:%r:" % (_qcur_img_file,img.shape,point)
-		img = self.region_grow_module.getRegionGrowImage(img,(point.x(),point.y()))
+		img = self.region_grow_module.getRegionGrowImage(img,(point.x(),point.y()),_threshold)
 		self.save_after_regiongrow(img)
 		
 		self.cancel_busy_indicator_progress()#-------------------ENd---Compute---------------------------
@@ -407,3 +409,10 @@ class AbsWindow(QtGui.QMainWindow):
 			self.busy_indicator.setValue(i)
 			time.sleep(0.05)
 		self.busy_indicator.cancel()
+		
+	def reset_current_image(self):
+		'''
+		Reset the image,change the cropped or region growed image to the original image.
+		'''
+		pass
+	
