@@ -5,7 +5,7 @@ from PyQt4.QtCore import Qt
 from PyQt4.QtCore import QRect
 import sys,os
 sys.path.append("..")
-from dcm.testDCM import *
+from dcm.dcm_loader import *
 
 def ps2qs(zhongwen):
 	return QtCore.QString(unicode(zhongwen, 'gb2312', 'ignore'))

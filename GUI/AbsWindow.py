@@ -33,7 +33,7 @@ class AbsWindow(QtGui.QMainWindow):
 	def __init__(self,parent = None,img_save_path =  '../data/images/'):
 		#Set up the style of the main window
 		super(AbsWindow, self).__init__(parent)
-		self.setGeometry(40,40,880,660)
+		self.setGeometry(40,40,960,720)
 		self.setWindowTitle(WINDOWTITLE)
 		icon = u"plus_24x24"
 		self.setWindowIcon(QtGui.QIcon("./icon/%s.png" % icon))
@@ -228,7 +228,8 @@ class AbsWindow(QtGui.QMainWindow):
 		if file_path:
 			self.openFile(file_path)#Show first image
 			
-		self.imgNamePrefix = "201309011030_001_"
+		self.imgNamePrefix = qs2ps(QtCore.QDateTime.currentDateTime().toString("yyMMdd_hhmmss"))
+		#PyQt4.QtCore.QString(u'131029_143236')
 		
 	def previousImage(self):
 		'''Show the last Image if there is'''

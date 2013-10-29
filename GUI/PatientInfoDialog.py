@@ -18,7 +18,11 @@ class PatientInfoDialog(QDialog,ui_PatientInfoDialog.Ui_PatientInfoDialog):
 		#The order of calling following functions is important.setupUi should be called first to create all attr.
 		self.setupUi(self)
 		self.setGroupButton()
+		
 		self.updateUi()
+		self.jianchariqi_dateEdit.setDate(QDate.currentDate())#设置日期编辑窗口为系统当前时间
+		self.tabWidget.setCurrentIndex(0)#设置当前tab为第一个tab
+		
 		#The updateUi() method called at the end is our own custom method;we use it to 
 		#enable or disable the buttons depending on whether the user has entered any text to find.
 		

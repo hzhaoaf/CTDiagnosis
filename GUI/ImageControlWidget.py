@@ -36,13 +36,13 @@ class ImageControlWidget(QWidget):
         self.next_button.clicked.connect(parent.nextImage)
         
         self.is_in_use_checkbox = QCheckBox(self)
-        self.is_in_use_checkbox.setText(_translate("ImageControlWidget", "计算该图像", None))
+        self.is_in_use_checkbox.setText(_translate("ImageControlWidget", "预测该图像", None))
         self.is_in_use_checkbox.stateChanged.connect(self._check_box_state_changed)
         
         # 创建QSlider，我们要的是横向的，  
         # 使用QtCore.Qt.Horizontal来定义          
         # 创建spinBox  
-        _label = QLabel(u"设置区域生长法阈值:")
+        _label = QLabel(u"设置区域生长算法阈值:")
         self.threshold_slider = QSlider(Qt.Horizontal,self)
         self.threshold_slider.setMaximumWidth(100)
         self.threshold_spinBox = QSpinBox(self)  

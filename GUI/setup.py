@@ -3,7 +3,7 @@ import py2exe
 
 import sys
 sys.path.append('../')
-dcm = 'dcm.testDCM'
+dcm = 'dcm.dcm_loader'
 svm_path = 'svm.svm'
 
 setup(windows=[{"script":"MainWindow.py"}],
