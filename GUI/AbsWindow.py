@@ -35,6 +35,8 @@ class AbsWindow(QtGui.QMainWindow):
 		super(AbsWindow, self).__init__(parent)
 		self.setGeometry(40,40,880,660)
 		self.setWindowTitle(WINDOWTITLE)
+		icon = u"plus_24x24"
+		self.setWindowIcon(QtGui.QIcon("./icon/%s.png" % icon))
 		self.status_bar = self.statusBar()
 		self.status_bar.showMessage(WELCOME)
 		self.busy_indicator = QtGui.QProgressDialog(labelText=u'计算中，请等待...',minimum = 0, maximum = 100)
@@ -59,63 +61,72 @@ class AbsWindow(QtGui.QMainWindow):
 		self.region_grow_module = RegionGrow()
 		self.image_item_list = ImageItemsList()#Hold all the images
 		self.image_file_path = img_save_path#The path to save the image
-		self.diagonosis = None#The info (patients info ,images,predictions)
+		self.diagonosis_info = None#The info (patients info ,images,predictions)
 		self.imgNameSuffix = 1#names of image starts from 001 to 999
 		
 
 	def setMouseStyleCross(self):
+		'''Set the mouse style to cross +'''
 		self.main.setCursor(Qt.CrossCursor)
 	def setMouseStyleNormal(self):
+		'''Set the mouse style to normal'''
 		self.main.setCursor(Qt.ArrowCursor)
-	def createToolBar(self):
-		exit = QtGui.QAction(QtGui.QIcon('icons/web.png'), 'Exit', self)
+		
+	#def createToolBar(self):
+		#exit = QtGui.QAction(QtGui.QIcon('icons/web.png'), 'Exit', self)
 		
 	def createMenus(self):
-		fileOpenAction = self.createAction(u"打开", self.load,
-				QtGui.QKeySequence.Open, "open",
-				u"打开新的图像文件")
-		cropImageAction = self.createAction(u"&裁剪...", self.crop,icon="crop",tip = u"裁剪图像")
-		svmGuessAction = self.createAction(u"&Magic...", self.curveletExtract,tip = u"分析图像患病概率",
-		                                   icon="svmPredict")
-		shPaInfoDialAction = self.createAction(u"&输入患者信息...", \
+		'''Initialize and create menus,actions,toolbar'''
+		fileOpenAction = self.createAction(u"导入图像", self.load,
+				QtGui.QKeySequence.Open, "document_stroke_24x24",
+				u"导入图像文件")
+		cropImageAction = self.createAction(u"&裁剪...", self.crop,icon="fullscreen_alt_24x24",tip = u"裁剪图像")
+		svmGuessAction = self.createAction(u"预测", self.curveletExtract,tip = u"分析图像患病概率",
+		                                   icon="check_alt_24x24")
+		shPaInfoDialAction = self.createAction(u"输入患者信息...", \
 		                                       self.showPatientInfoDialog,tip = u"输入患者信息",
-		                                       icon="info")
+		                                       icon="user_18x24")
 		
-		selectDiagonosisAction = self.createAction(u"&查询诊断信息...", \
+		selectDiagonosisAction = self.createAction(u"查询诊断信息...", \
 				                                       self.show_select_diagonosis_dialog,tip = u"查询诊断信息",
-		                                                       icon="zoom_in")		
+		                                                       icon="magnifying_glass_alt_24x24")		
 
 		nextImageAction = self.createAction(u"&下一张...", 
 		                                    self.nextImage,tip = u"下一张图像",
 		                                    shortcut=QtGui.QKeySequence.MoveToNextChar,
-		                                    icon="next")
+		                                    icon="arrow_right_24x24")
 		previousImageAction = self.createAction(u"&上一张...", 
 		                                    self.previousImage,tip = u"上一张图像",
 		                                    shortcut=QtGui.QKeySequence.MoveToPreviousChar,
-		                                    icon = "prev")	
+		                                    icon = "arrow_left_24x24")	
 		
 		resetImageAction = self.createAction(u"重置图像...", 
 		                                    self.reset_current_image,tip = u"重置图像",
-		                                    icon = "undo")	
+		                                    icon = "reload_24x28")	
 		
 		
 		self.toolbar = self.addToolBar("Tools")
 		self.toolbar.addAction(fileOpenAction)
-		self.toolbar.addAction(cropImageAction)
+		
 		self.toolbar.addAction(shPaInfoDialAction)
 		self.toolbar.addAction(selectDiagonosisAction)
+		self.toolbar.addSeparator()
+
 		self.toolbar.addAction(previousImageAction)
 		self.toolbar.addAction(nextImageAction)
+		self.toolbar.addAction(cropImageAction)
 		self.toolbar.addAction(resetImageAction)
+		self.toolbar.addSeparator()
+		
 		self.toolbar.addAction(svmGuessAction)
 
 		self.fileMenu = self.menuBar().addMenu(u"文件")
 		self.imgMenu = self.menuBar().addMenu(u"图像")
 		self.funcMenu = self.menuBar().addMenu(u"功能")
 		
-		self.fileMenuActions = [fileOpenAction,selectDiagonosisAction]
-		self.imgMenuActions = [cropImageAction]
-		self.funcMenuActions = [svmGuessAction,shPaInfoDialAction]
+		self.fileMenuActions = [fileOpenAction,shPaInfoDialAction,selectDiagonosisAction]
+		self.imgMenuActions = [previousImageAction,nextImageAction,cropImageAction,resetImageAction]
+		self.funcMenuActions = [svmGuessAction]
 		
 		self.addAction(fileOpenAction)
 		self.addAction(cropImageAction)
@@ -142,7 +153,9 @@ class AbsWindow(QtGui.QMainWindow):
 				target.addSeparator()
 			else:
 				target.addAction(action)	
+				
 	def createAction(self, text, slot=None, shortcut=None, icon=None,tip=None, checkable=False, signal="triggered()"):
+		'''A helper function to create an GUI action'''
 		action = QtGui.QAction(text, self)
 		if icon is not None:
 			action.setIcon(QtGui.QIcon("./icon/%s.png" % icon))
@@ -195,6 +208,10 @@ class AbsWindow(QtGui.QMainWindow):
 			#self.curImgNo = 0
 		
 	def reload_cur_image(self):
+		'''
+		Reload the image.Ask for which image to show and open that image.
+		call this in crop,region grow and reset
+		'''
 		file_path = self.image_item_list.get_current_image_file()
 		if file_path:
 			self.openFile(file_path)#Show first image
@@ -324,9 +341,11 @@ class AbsWindow(QtGui.QMainWindow):
 		pass
 	
 	def region_grow(self,point):
+		'''Doctor push the region grow button'''
 		i=self.getImage()
 		if not i:
 			print("No image to region_grow")
+			self.status_bar.showMessage(u"没有图像来进行区域生长")
 			return
 		
 		_threshold = self.image_control_widget.get_threshold_value()#Get the current user setting of the threshold
@@ -351,6 +370,12 @@ class AbsWindow(QtGui.QMainWindow):
 		all_image_paths = self.image_item_list.get_all_enable_images_path()
 		if not all_image_paths:
 			print("No images to extract curvelet features")
+			self.status_bar.showMessage(u"没有图像来进行预测")
+			return
+		
+		if not self.diagonosis_info:
+			print("No Info to extract curvelet features")
+			self.status_bar.showMessage(u"没有输入患者信息来进行预测")			
 			return
 		
 		vecList = []
@@ -377,21 +402,25 @@ class AbsWindow(QtGui.QMainWindow):
 		self.show_result_dialog(predict_value)
 	
 	def show_result_dialog(self,result):
+		'''Show the prediction result,with buttons the confirm the result'''
 		form = ShowResultDialog(parent=self,predict_value=result)
 		if form.exec_():
+			#To Do:
+			#If doctor confirms the diagnosis,add new test cases.
 			print("Finished show result")		
 
 	def showPatientInfoDialog(self):
 		#http://stackoverflow.com/questions/5874025/pyqt4-how-to-show-a-modeless-dialog
 		#If you don't pass the self argument,it will be recycled by garbage collector!
+		'''Show the disgnosis input window and let the doctor to type in infos'''
 		form = PatientInfoDialog(parent=self)
 		if form.exec_():
-			self.diagonosis = form.getDiagnosisInfo()
-			print(self.diagonosis)
+			self.diagonosis_info = form.getDiagnosisInfo()
+			print(self.diagonosis_info)
 		
 	def show_select_diagonosis_dialog(self):
 		'''Just for test'''
-		self.show_patientinfo_readonly_dialog(self.diagonosis)
+		self.show_patientinfo_readonly_dialog(self.diagonosis_info)
 		
 	#def show_select_diagonosis_dialog(self):
 		#form = SelectDiagonosisDialog(parent = self)
@@ -401,11 +430,13 @@ class AbsWindow(QtGui.QMainWindow):
 			#print("Select a diagonosis")
 			
 	def show_patientinfo_readonly_dialog(self,diagnosis_to_show):
+		'''Create and show readonly diagnosis info Dialog window'''
 		form = PatientInfoReadOnlyDialog(diagnosis_to_show)
 		if form.exec_():
 			print("finish showing the read only diagnosis")
 			
 	def show_busy_indicator_progress(self):
+		'''Show the loading window'''
 		self.busy_indicator.reset()
 		self.busy_indicator.show()
 		for i in range(30):
@@ -413,6 +444,7 @@ class AbsWindow(QtGui.QMainWindow):
 			time.sleep(0.02)
 	
 	def cancel_busy_indicator_progress(self):
+		'''Close the loading... window'''
 		for i in range(70,100):
 			self.busy_indicator.setValue(i)
 			time.sleep(0.05)
