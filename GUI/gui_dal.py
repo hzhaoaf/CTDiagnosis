@@ -66,7 +66,8 @@ class GUIDAL:
         sql = "select id from image where name in ({0})".format(','.join(['?' for _ in images]))
         image_names = [img['name'] for img in images]
         self.cursor.execute(sql, image_names)
-        return self.cursor.fetchall()
+        res = self.cursor.fetchall()
+        return [r['id'] for r in res]
 
     def save_diagnosis_record(self, patient_info={}, patient_info_features=[], images_features={},
                               probabilities=(0.0, 0.0), label=0, add_to_training=False):
