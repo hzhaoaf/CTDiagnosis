@@ -243,6 +243,10 @@ class PatientInfoReadOnlyDialog(PatientInfoDialog):
 		
 	def set_dialog_info(self,diagnosis):
 		#Tab1's content 个人信息
+		temp1 = str(float(diagnosis.probability_with_info)*100)+'%'
+		temp2 = str(float(diagnosis.probability_without_info)*100)+'%'
+		prediction_value =  u"信息诊断患病概率：%s，图像诊断患病概率%s" %(temp1,temp2)
+		self.predict_value_label.setText(prediction_value)
 		self.xingming_LineEdit.setText(diagnosis.xingming.decode('utf8'))
 		self.nianling_LineEdit.setText(diagnosis.nianling.decode('utf8'))
 

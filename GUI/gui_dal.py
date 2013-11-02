@@ -72,17 +72,6 @@ class GUIDAL:
 
         '''
 
-        images = []
-        for filename, features in images_features.items():
-            image = {}
-            image['name'] = filename
-            image['features'] = json.dumps(features)
-            image['type'] = 0 if add_to_training else 1 # 0表示训练，1表示不用作训练集
-            image['label'] = label
-            images.append(image)
-
-        image_ids = self.save_images(images)
-        image_ids = json.dumps(image_ids)
         patient_name = patient_info.get('xingming', '')
         #diagnose_time = patient_info['jianchariqi'] if patient_info.get("jianchariqi") else datetime.now()
 
