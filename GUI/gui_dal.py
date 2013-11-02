@@ -72,7 +72,7 @@ class GUIDAL:
 
         '''
 
-        patient_name = patient_info.get('patient_name', '')
+        patient_name = patient_info.get('xingming', '')
         diagnose_time = datetime.now()
         patient_info = json.dumps(patient_info)
         probabilities = json.dumps(probabilities)
