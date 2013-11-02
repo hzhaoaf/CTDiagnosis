@@ -17,19 +17,18 @@ table_sqls = ['''create table if not exists diagnosis_record (
                 id integer primary key autoincrement,
                 patient_name text, -- 患者姓名
                 probabilities text, -- 患病概率, json存储的tuple, (p1, p2)，分布表示是否使用用户信息进行预测
-                image_ids text, --用于该次诊断的全部图片id
                 patient_info text default "", --患者其他信息，以json存储的dict
-                patient_info_features text default "", --根据患者信息提取出来的特征，以json存储的list
                 diagnose_time datetime,
                 create_time datetime default (datetime('now', 'localtime'))
                 )
               ''',
-              '''create table if not exists image (
+              '''create table if not exists training_data (
                 id integer primary key autoincrement,
-                name text, -- 图片名
-                features text, --图片的全部特征
-                type int, --图片类型，0:训练数据 1: 预测数据
-                label int, --图片的label(type为0时才有值)，0：不患病 1: 患病
+                diagnosis_id int default 0, --对应到诊断记录中的id，默认为0, 表示没有诊断记录
+                patient_features text, -- 根据患者信息提取出来的特征，以json存储的list
+                image_name text, --图片名
+                image_features text, --图片的全部特征
+                label int, --图片的label 0：不患病 1: 患病
                 create_time datetime default (datetime('now', 'localtime'))
                 )
               '''
@@ -48,26 +47,17 @@ class GUIDAL:
     #        检查database_path下的是否存在，不存在的话需要创建该文件
     #    '''
 
-    def save_images(self, images):
+    def save_traning_data(self, training_data):
         '''
-            保存GUI中需要记录的图像，支持批量处理
-            传入参数可以为字典或者字典list
-            需要返回存储图片的id
+            保存GUI中需要进行训练的记录，支持批量处理
         '''
-        if not isinstance(images, list):
-            images = [images]
         records = []
-        for img in images:
-            row = (img['name'], img['features'], img['type'], img['label'])
+        for d in training_data:
+            row = (d['diagnosis_id'], d['patient_features'], d['image_name'], d['image_features'], img['label'])
             records.append(row)
-        sql = "insert into image (name, features, type, label) values (?, ?, ?, ?)"
+        sql = "insert into training_data(diagnosis_id, patient_features, image_name, image_features, label) values (?, ?, ?, ?, ?)"
         self.cursor.executemany(sql, records)
         self.conn.commit()
-        sql = "select id from image where name in ({0})".format(','.join(['?' for _ in images]))
-        image_names = [img['name'] for img in images]
-        self.cursor.execute(sql, image_names)
-        res = self.cursor.fetchall()
-        return [r[0] for r in res]
 
     def save_diagnosis_record(self, patient_info={}, patient_info_features=[], images_features={},
                               probabilities=(0.0, 0.0), label=0, add_to_training=False):
@@ -81,27 +71,28 @@ class GUIDAL:
             add_to_training: 表示本次训练的图片是否要加到训练集
 
         '''
-        images = []
-        for filename, features in images_features.items():
-            image = {}
-            image['name'] = filename
-            image['features'] = json.dumps(features)
-            image['type'] = 0 if add_to_training else 1 # 0表示训练，1表示不用作训练集
-            image['label'] = label
-            images.append(image)
 
-        image_ids = self.save_images(images)
-        image_ids = json.dumps(image_ids)
         patient_name = patient_info.get('patient_name', '')
-        #diagnose_time = patient_info['jianchariqi'] if patient_info.get("jianchariqi") else datetime.now()
         diagnose_time = datetime.now()
         patient_info = json.dumps(patient_info)
-        patient_info_features = json.dumps(patient_info_features)
         probabilities = json.dumps(probabilities)
 
-        sql = "insert into diagnosis_record (patient_name, probabilities, image_ids, patient_info, patient_info_features, diagnose_time) values (?, ?, ?, ?, ?, ?)"
-        self.cursor.execute(sql, (patient_name, probabilities, image_ids, patient_info, patient_info_features, diagnose_time))
+        sql = "insert into diagnosis_record (patient_name, probabilities, patient_info, diagnose_time) values (?, ?, ?, ?)"
+        self.cursor.execute(sql, (patient_name, probabilities, patient_info, diagnose_time))
         self.conn.commit()
+
+        if add_to_training:
+            diagnose_id = self.cursor.lastrowid
+            training_data = []
+            for filename, features in images_features.items():
+                d = {}
+                d['diagnose_id'] = diagnose_id
+                d['image_name'] = filename
+                d['patient_features'] = json.dumps(patient_features)
+                d['image_features'] = json.dumps(features)
+                d['label'] = label
+                training_data.append(d)
+            self.save_traning_data(training_data)
 
     def get_all_diagnosis_info(self):
         sql = 'select id, patient_name, diagnose_time, probabilities from diagnosis_record'
@@ -141,7 +132,7 @@ class GUIDAL:
 
 if __name__ == '__main__':
     gui_dal = GUIDAL()
-    #gui_dal.create_tables()
+    gui_dal.create_tables()
     #gui_dal.show_tables()
     #images = [{'name': 'file2', 'features': '{}', 'type': 1, 'label': 2},
     #          {'name': 'file3', 'features': '{}', 'type': 1, 'label': 2},
@@ -157,6 +148,6 @@ if __name__ == '__main__':
     ##records = [{'patient_name': '张三', 'probability': 0.5, 'image_ids': '[4, 5, 6]', 'patient_info': '{'age: 45}', 'diagnose_time': datetime.now()}]
     #gui_dal.save_diagnosis_records(records)
     #print gui_dal.get_diag_records_by_patient_name(u'张三')
-    gui_dal.save_diagnosis_record()
+    #gui_dal.save_diagnosis_record()
 
 
