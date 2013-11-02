@@ -124,7 +124,7 @@ class PatientInfoDialog(QDialog,ui_PatientInfoDialog.Ui_PatientInfoDialog):
 		
 	def getDiagnosisInfo(self):
 		'''
-		Return the info filled by doctor
+		Return the UI_Diagnosis info filled by doctor
 		'''
 		diag = UI_Diagnosis()
 		
@@ -207,7 +207,7 @@ class PatientInfoDialog(QDialog,ui_PatientInfoDialog.Ui_PatientInfoDialog):
 		                                        "1" * self.xiongmoaoxian_you_RadioButton.isChecked()
 		diag.CTzhenduan = str(self.CTzhenduan_plainTextEdit.toPlainText().toUtf8())
 
-		diag.normalize()
+		#diag.convert_to_predictDiagnosis()
 		return diag
 	
 #Constant variables for select the item of combobutton

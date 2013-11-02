@@ -379,7 +379,7 @@ class AbsWindow(QtGui.QMainWindow):
 			self.status_bar.showMessage(u"没有输入患者信息来进行预测")			
 			return
 		
-		vecList = []
+		image_features_dic = {}#{'../data/images/131102_110830004_croped_regiongrowed.png':[6.9639934,2,23]}
 		for _qname in all_image_paths:
 			name = qs2ps(_qname)
 			XX = misc.imread(name)
@@ -393,18 +393,30 @@ class AbsWindow(QtGui.QMainWindow):
 			vec = []
 			for r in results[:-1]:#The last item has 3 cells
 				vec+= r
-			vecList.append(vec)
-		self.svmPredict(vecList)
+			
+			image_features_dic[name] = vec
+			
+		self.svmPredict(image_features_dic)
 		self.cleanAfterPredict()
 		
-	def svmPredict(self,vectorList):
+	def svmPredict(self,image_features_dic):
 		'''Predict the probability of a feature'''
+		#new
+		patient_info_feature_list = self.diagonosis_info.convert_to_predictDiagnosis().convert_to_list()
+		(p_with,p_without) = self.svmModel.predict(patient_info_feature_list,image_features_dic)
+		
+		self.diagonosis_info.set_probability(p_with,p_without)
+		#save_diagnosis_record(self.diagonosis_info.convert_to_list(), patient_info_feature_list,image_features_dic, (p1, p2),0,False)
+		
+		self.show_result_dialog(p1,p2)
+		
+		#old
 		predict_value = self.svmModel.predict(vectorList)
 		self.show_result_dialog(predict_value)
 	
-	def show_result_dialog(self,result):
+	def show_result_dialog(self,pv1,pv2):
 		'''Show the prediction result,with buttons the confirm the result'''
-		form = ShowResultDialog(parent=self,predict_value=result)
+		form = ShowResultDialog(parent=self,predict_value1=pv1,predict_value2=pv2)
 		if form.exec_():
 			#To Do:
 			#If doctor confirms the diagnosis,add new test cases.

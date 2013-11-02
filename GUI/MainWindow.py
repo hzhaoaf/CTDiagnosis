@@ -276,7 +276,7 @@ class MainWindow(QtGui.QMainWindow):
 		#If you don't pass the self argument,it will be recycled by garbage collector!
 		form = PatientInfoDialog(parent=self)
 		if form.exec_():
-			self.diagonosis = form.getDiagnosisInfo()
+			self.diagonosis = form.getDiagnosisInfo()#get UI_Diagnosis
 			print(self.diagonosis)
 			
 		#form.exec_()#?

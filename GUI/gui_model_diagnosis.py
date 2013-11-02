@@ -105,9 +105,19 @@ class UI_Diagnosis():
 			#self.images = []
 			#[001,002,003]
 			#(image_feature + pat_info)
-			#self.probability_of_illness = ''
-	
-	def normalize(self):
+
+			self.probability_with_info = ''
+			self.probability_without_info = ''
+			
+	def set_probability(self,pwith =0,pwithout=0):
+		'''设置两个概率'''
+		self.probability_with_info = pwith
+		self.probability_without_info = pwithout
+		
+	def convert_to_predictDiagnosis(self):
+		'''
+		Return the converted predictDiagnosis instance
+		'''
 		pd = PredictDiagnosis()
 		pd.linchuangzhenduanyijian = int(self.linchuangzhenduanyijian) if self.linchuangzhenduanyijian else 0
 		
@@ -139,7 +149,7 @@ class UI_Diagnosis():
 		pd.kongdong = int(self.kongdong) if self.kongdong else 0
 		pd.xiongmoaoxian = int(self.xiongmoaoxian) if self.xiongmoaoxian else 0
 		pd.xiongshui = int(self.xiongshui)if self.xiongshui else 0
-		print(pd)
+		#print(pd)
 		return pd#将转换好的预测类返回
 
 
