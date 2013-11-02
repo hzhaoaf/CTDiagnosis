@@ -28,7 +28,7 @@ class PredictDiagnosis():
 			self.xiongshui = ""
 	
 	def convert_to_list(self):	
-		dic = self.convert_to_dict()
+		dic = self.__dict__
 		res = sorted(dic.items(),key = lambda d:d[0])
 		return [k[1] for k in res]
 		
@@ -109,7 +109,7 @@ class UI_Diagnosis():
 			self.probability_with_info = ''
 			self.probability_without_info = ''
 			
-	def set_probability(self,pwith =0,pwithout=0):
+	def set_probability(self,pwith ="0",pwithout="0"):
 		'''设置两个概率'''
 		self.probability_with_info = pwith
 		self.probability_without_info = pwithout
@@ -158,7 +158,10 @@ class UI_Diagnosis():
 		return "\n".join(items)
 	
 	def convert_to_dict(self):
-		return self.__dict__	
+		temp_dic = {}
+		for k,v in self.__dict__.items():
+			temp_dic[k] = v.decode('utf-8')
+		return temp_dic
 		
 
 if __name__ == "__main__":

@@ -117,8 +117,9 @@ class GUIDAL:
             根据患者id，查找已有诊断记录
             将患者姓名一起放到返回的dict中
         '''
-        sql = 'select patient_info from diagnosis_record where id = ?';
-        self.cursor.execute(sql, patient_id)
+        sql = 'select patient_info from diagnosis_record where id = %d' %patient_id
+       # self.cursor.execute(sql, patient_id)
+        self.cursor.execute(sql)
         res = self.cursor.fetchone()
         patient_info = json.loads(res[0])
         return patient_info

@@ -411,10 +411,10 @@ class AbsWindow(QtGui.QMainWindow):
 		patient_info_feature_list = self.diagonosis_info.convert_to_predictDiagnosis().convert_to_list()
 		#(p_with,p_without) = self.svmModel.predict(patient_info_feature_list,image_features_dic)
 		p_with,p_without = 1,0
-		self.diagonosis_info.set_probability(p_with,p_without)
-		
+		self.diagonosis_info.set_probability(str(p_with),str(p_without))
+		patien_info_dic = self.diagonosis_info.convert_to_dict()
 		try:
-			self.guidal.save_diagnosis_record(self.diagonosis_info.convert_to_dict(),
+			self.guidal.save_diagnosis_record(patien_info_dic,
 				                          patient_info_feature_list,
 				                          image_features_dic,
 				                          (p_with,p_without),
@@ -450,19 +450,22 @@ class AbsWindow(QtGui.QMainWindow):
 	def show_select_diagonosis_dialog(self):
 		'''Just for test'''
 		all_diagnosis = self.guidal.get_all_diagnosis_info()# [[id,张三，13-02-01，98%，100%],[],[]]
-		res = []
-		for one_dia in all_diagnosis:
-			whole_string = ''
-			for item in one_dia:
-				whole_string+='\t' + str(item)
-			res.append(whole_string)
+		#res = []
+		#for one_dia in all_diagnosis:
+			#whole_string = ''
+			#for item in one_dia:
+				#if isinstance(item,unicode):
+					#whole_string+=item + '\t' 
+				#else:
+					#whole_string+=str(item)+'\t'
+			#res.append(whole_string)
 				
-		fruit = [u"香蕉\t你个扒拉", "Apple", "Elderberry", "Clementine", "Fig",
-			 "Guava", "Mango", "Honeydew Melon", "Date", "Watermelon",
-			 "Tangerine", "Ugli Fruit", "Juniperberry", "Kiwi",
-			 "Lemon", "Nectarine", "Plum", "Raspberry", "Strawberry",
-			 "Orange"]
-		form = DiagnosisListDlg("Fruit", res)
+		#fruit = [u"香蕉\t你个扒拉", "Apple", "Elderberry", "Clementine", "Fig",
+			 #"Guava", "Mango", "Honeydew Melon", "Date", "Watermelon",
+			 #"Tangerine", "Ugli Fruit", "Juniperberry", "Kiwi",
+			 #"Lemon", "Nectarine", "Plum", "Raspberry", "Strawberry",
+			 #"Orange"]
+		form = DiagnosisListDlg( u"过往诊断", all_diagnosis)
 		if form.exec_():
 			print "\n".join([unicode(x) for x in form.stringlist])		
 
