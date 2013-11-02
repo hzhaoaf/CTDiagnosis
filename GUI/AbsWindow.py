@@ -27,6 +27,7 @@ from ImageControlWidget import ImageControlWidget
 from ImageHelper import ImageItemsList
 from RegionGrow.reseg import RegionGrow
 from gui_constants import *
+from gui_dal import GUIDAL
 
 #class MainWindow(QtGui.QWidget):
 class AbsWindow(QtGui.QMainWindow):
@@ -57,6 +58,7 @@ class AbsWindow(QtGui.QMainWindow):
 		self.setMouseStyleCross()#将鼠标设置成十字的
 		
 		#Initialize attributes
+		self.guidal = GUIDAL()
 		self.svmModel = SVM()
 		self.region_grow_module = RegionGrow()
 		self.image_item_list = ImageItemsList()#Hold all the images
@@ -403,16 +405,25 @@ class AbsWindow(QtGui.QMainWindow):
 		'''Predict the probability of a feature'''
 		#new
 		patient_info_feature_list = self.diagonosis_info.convert_to_predictDiagnosis().convert_to_list()
-		(p_with,p_without) = self.svmModel.predict(patient_info_feature_list,image_features_dic)
-		
+		#(p_with,p_without) = self.svmModel.predict(patient_info_feature_list,image_features_dic)
+		p_with,p_without = 1,0
 		self.diagonosis_info.set_probability(p_with,p_without)
-		#save_diagnosis_record(self.diagonosis_info.convert_to_list(), patient_info_feature_list,image_features_dic, (p1, p2),0,False)
 		
-		self.show_result_dialog(p1,p2)
+		try:
+			self.guidal.save_diagnosis_record(self.diagonosis_info.convert_to_dict(),
+				                          patient_info_feature_list,
+				                          image_features_dic,
+				                          (p_with,p_without),
+				                          0,
+				                          False)
+		except Exception as e:
+			print "Database save error %s" % e
+		
+		self.show_result_dialog(p_with,p_without)
 		
 		#old
-		predict_value = self.svmModel.predict(vectorList)
-		self.show_result_dialog(predict_value)
+		#predict_value = self.svmModel.predict(vectorList)
+		#self.show_result_dialog(predict_value)
 	
 	def show_result_dialog(self,pv1,pv2):
 		'''Show the prediction result,with buttons the confirm the result'''

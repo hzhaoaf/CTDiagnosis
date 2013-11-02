@@ -84,15 +84,16 @@ class GUIDAL:
         for filename, features in images_features.items():
             image = {}
             image['name'] = filename
-            image['features'] = features
+            image['features'] = json.dumps(features)
             image['type'] = 0 if add_to_training else 1 # 0表示训练，1表示不用作训练集
             image['label'] = label
-            images.add(image)
+            images.append(image)
 
         image_ids = self.save_images(images)
         image_ids = json.dumps(image_ids)
         patient_name = patient_info.get('patient_name', '')
-        diagnose_time = patient_info['diagnose_time'] if patient_info.get(diagnose_time) else datetime.now()
+        #diagnose_time = patient_info['jianchariqi'] if patient_info.get("jianchariqi") else datetime.now()
+        diagnose_time = datetime.now()
         patient_info = json.dumps(patient_info)
         patient_info_features = json.dumps(patient_info_features)
         probabilities = json.dumps(probabilities)
@@ -107,8 +108,8 @@ class GUIDAL:
         records = []
         for r in self.cursor.fetchall():
             probabilities = json.loads(r['probabilities'])
-            records.add([[r['id'], r['patient_name'], r['diagnose_time'], probabilities[0], probabilities[1]])
-         return records
+            records.append([r['id'], r['patient_name'], r['diagnose_time'], probabilities[0], probabilities[1]])
+        return records
 
     def get_one_diagosis_info(self, patient_id):
         '''
