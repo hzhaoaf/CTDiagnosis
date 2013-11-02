@@ -7,10 +7,10 @@ from PyQt4.QtGui import *
 
 MAC = "qt_mac_set_native_menubar" in dir()
 
-class StringListDlg(QDialog):
+class DiagnosisListDlg(QDialog):
 
     def __init__(self, name, stringlist=None, parent=None):
-        super(StringListDlg, self).__init__(parent)
+        super(DiagnosisListDlg, self).__init__(parent)
         self.name = name
         self.listWidget = QListWidget()
         if stringlist:
@@ -18,7 +18,7 @@ class StringListDlg(QDialog):
             self.listWidget.setCurrentRow(0)
 
         buttonLayout = QVBoxLayout()
-        for text, slot in ((u"查看", self.edit),
+        for text, slot in ((u"查看", self.show_dignosis_info_dialog),
                            (u"删除", self.remove),
                            (u"排序", self.listWidget.sortItems),
                            (u"关闭", self.accept)):
@@ -35,7 +35,7 @@ class StringListDlg(QDialog):
         self.setLayout(layout)
         self.setWindowTitle( u"查看 %s 列表" % self.name)
 
-    def edit(self):
+    def show_dignosis_info_dialog(self):
         row = self.listWidget.currentRow()
         item = self.listWidget.item(row)
         if item is not None:
@@ -81,6 +81,6 @@ if __name__ == "__main__":
              "Lemon", "Nectarine", "Plum", "Raspberry", "Strawberry",
              "Orange"]
     app = QApplication(sys.argv)
-    form = StringListDlg("Fruit", fruit)
+    form = DiagnosisListDlg("Fruit", fruit)
     form.exec_()
     print "\n".join([unicode(x) for x in form.stringlist])

@@ -1,92 +1,111 @@
 # -*- coding: utf-8 -*-
 class PredictDiagnosis():
-	def __init__(self):
-		self.linchuangzhenduanyijian = ""
-		self.xingbie  =""
-		self.nianling = ""
-		self.zhongliubingshicunzai = ""
-		self.feijiehebingshicunzai = ""
-		self.fenchenxirushicunzai = ""
-		self.yichuanbingshicunzai = ""
-		self.xiyanshicunzai = ""
-		self.linbajiezhong= ""
-		self.jiejiebuwei = ""
-		self.jiejiedaxiao = ""
-		self.jiejiemidu = ""
-		self.shixingjiejie = ""
-		self.maobolimi = ""
-		self.jiejiebianyuan = ""
-		self.jiejiefenye = ""
-		self.jiejiekongpao = ""
-		self.jiejiegaihua = ""
-		self.kongdong = ""
-		self.xiongmoaoxian = ""
-		self.xiongshui = ""
+	def __init__(self,info_dic={}):
+		if info_dic:
+			for k, v in info_dic.items():
+				setattr(self,k, v)
+		else:
+			self.linchuangzhenduanyijian = ""
+			self.xingbie  =""
+			self.nianling = ""
+			self.zhongliubingshicunzai = ""
+			self.feijiehebingshicunzai = ""
+			self.fenchenxirushicunzai = ""
+			self.yichuanbingshicunzai = ""
+			self.xiyanshicunzai = ""
+			self.linbajiezhong= ""
+			self.jiejiebuwei = ""
+			self.jiejiedaxiao = ""
+			self.jiejiemidu = ""
+			self.shixingjiejie = ""
+			self.maobolimi = ""
+			self.jiejiebianyuan = ""
+			self.jiejiefenye = ""
+			self.jiejiekongpao = ""
+			self.jiejiegaihua = ""
+			self.kongdong = ""
+			self.xiongmoaoxian = ""
+			self.xiongshui = ""
+	
+	def convert_to_list(self):	
+		dic = self.convert_to_dict()
+		res = sorted(dic.items(),key = lambda d:d[0])
+		return [k[1] for k in res]
+		
+	def convert_to_dict(self):
+		return self.__dict__
+	
 	def __str__(self):
 		items = [x+":"+str(getattr(self, x))  for x in dir(self)]
-		return "\n".join(items)	
+		return "\n".join(items)
+
+
 
 class UI_Diagnosis():
-	def __init__(self):
-		#Tab 1
-		self.xingming = ''
-		self.xingbie = ''
-		self.nianling = ''
-		self.zhiye = ''
-		self.minzu = ''
-		self.jiatingzhuzhi = ''
-		self.wenhuachengdu = ''
-		#Tab 2 
-		self.zhongliubingshicunzai = ''
-		self.zhongliubingshineirong = ''
-		self.feijiehebingshicunzai = ''
-		self.feijiehebingshineirong = ''
-		self.fenchenxirushicunzai = ''
-		self.xirugongzuonianxian = ''
-		self.gongzhong = ''
-		self.yichuanbingshicunzai = ''
-		self.yichuanbingshineirong = ''
-		self.xiyanshicunzai = ''
-		self.xiyannianxian = ''
-		self.meitianxiyanzhishu = ''
-		self.huxibingshihuoqitacunzai = ''
-		self.huxibingshihuoqitaneirong = ''
-		#Tab 3
-		self.zhusu = ''
-		self.fare = ''
-		self.kesou = ''
-		self.tanzhongdaixue = ''
-		self.kexue = ''
-		self.xiongmen = ''
-		self.xiongtong = ''
-		self.shengyinsiya = ''
-		self.qitayuhuxiyouguandelinchuangbiaoxian = ''
-		self.linchuangzhenduanyijian = ''
-		#Tab 4
-		self.CThao = ''
-		self.jianchafangshi = ''
-		self.jianchariqi = ''
-		self.jiejiedaxiao = ''
-		self.jiejiebuwei = ''#左肺上叶(0) 左肺下叶(1) 右肺上叶(2) 右肺中叶(3) 右肺下叶(4)
-		self.linbajiezhong = ''
-		self.jiejiemidu = ''
-		self.maobolimi = ''
-		self.shixingjiejie = ''
-		self.jiejiebianyuan = ''
-		self.youyunzheng = ''
-		self.jiejiekongpao = ''
-		self.jiejiefenye = ''
-		self.kongdong = ''
-		self.jiejiegaihua = ''
-		self.xiongshui = ''
-		self.xiongmoaoxian = ''
-		self.CTzhenduan = ''
-
-		#Others
-		self.images = []
-		#[001,002,003]
-		#(image_feature + pat_info)
-		self.probability_of_illness = ''
+	def __init__(self,info_dic={}):
+		if info_dic:
+			for k, v in info_dic.items():
+				setattr(self,k, v)
+		else:
+			#Tab 1
+			self.xingming = ''
+			self.xingbie = ''
+			self.nianling = ''
+			self.zhiye = ''
+			self.minzu = ''
+			self.jiatingzhuzhi = ''
+			self.wenhuachengdu = ''
+			#Tab 2 
+			self.zhongliubingshicunzai = ''
+			self.zhongliubingshineirong = ''
+			self.feijiehebingshicunzai = ''
+			self.feijiehebingshineirong = ''
+			self.fenchenxirushicunzai = ''
+			self.xirugongzuonianxian = ''
+			self.gongzhong = ''
+			self.yichuanbingshicunzai = ''
+			self.yichuanbingshineirong = ''
+			self.xiyanshicunzai = ''
+			self.xiyannianxian = ''
+			self.meitianxiyanzhishu = ''
+			self.huxibingshihuoqitacunzai = ''
+			self.huxibingshihuoqitaneirong = ''
+			#Tab 3
+			self.zhusu = ''
+			self.fare = ''
+			self.kesou = ''
+			self.tanzhongdaixue = ''
+			self.kexue = ''
+			self.xiongmen = ''
+			self.xiongtong = ''
+			self.shengyinsiya = ''
+			self.qitayuhuxiyouguandelinchuangbiaoxian = ''
+			self.linchuangzhenduanyijian = ''
+			#Tab 4
+			self.CThao = ''
+			self.jianchafangshi = ''
+			self.jianchariqi = ''
+			self.jiejiedaxiao = ''
+			self.jiejiebuwei = ''#左肺上叶(0) 左肺下叶(1) 右肺上叶(2) 右肺中叶(3) 右肺下叶(4)
+			self.linbajiezhong = ''
+			self.jiejiemidu = ''
+			self.maobolimi = ''
+			self.shixingjiejie = ''
+			self.jiejiebianyuan = ''
+			self.youyunzheng = ''
+			self.jiejiekongpao = ''
+			self.jiejiefenye = ''
+			self.kongdong = ''
+			self.jiejiegaihua = ''
+			self.xiongshui = ''
+			self.xiongmoaoxian = ''
+			self.CTzhenduan = ''
+	
+			#Others
+			#self.images = []
+			#[001,002,003]
+			#(image_feature + pat_info)
+			#self.probability_of_illness = ''
 	
 	def normalize(self):
 		pd = PredictDiagnosis()
@@ -121,9 +140,21 @@ class UI_Diagnosis():
 		pd.xiongmoaoxian = int(self.xiongmoaoxian) if self.xiongmoaoxian else 0
 		pd.xiongshui = int(self.xiongshui)if self.xiongshui else 0
 		print(pd)
+		return pd#将转换好的预测类返回
 
 
 	def __str__(self):
 		items = [x+":"+str(getattr(self, x))  for x in dir(self)]
 		return "\n".join(items)
+	
+	def convert_to_dict(self):
+		return self.__dict__	
 		
+
+if __name__ == "__main__":
+	#temp
+	pd = PredictDiagnosis()
+	res = pd.convert_to_list()
+		
+	print(len(res))
+	#print(pd.__dict__)

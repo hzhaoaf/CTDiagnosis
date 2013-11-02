@@ -18,4 +18,5 @@ for patients_name in patients_name_list:
 				image_path = os.path.join(patient_dir,img_name)
 				info_dic[patients_name].append(image_path)
 				
+
 print(13)
