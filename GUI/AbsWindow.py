@@ -28,6 +28,8 @@ from ImageHelper import ImageItemsList
 from RegionGrow.reseg import RegionGrow
 from gui_constants import *
 from gui_dal import GUIDAL
+import traceback
+
 
 #class MainWindow(QtGui.QWidget):
 class AbsWindow(QtGui.QMainWindow):
@@ -418,13 +420,14 @@ class AbsWindow(QtGui.QMainWindow):
 				                          False)
 		except Exception as e:
 			print "Database save error %s" % e
+			traceback.print_exc()
 		
 		self.show_result_dialog(p_with,p_without)
 		
 		#old
 		#predict_value = self.svmModel.predict(vectorList)
 		#self.show_result_dialog(predict_value)
-	
+
 	def show_result_dialog(self,pv1,pv2):
 		'''Show the prediction result,with buttons the confirm the result'''
 		form = ShowResultDialog(parent=self,predict_value1=pv1,predict_value2=pv2)
@@ -444,7 +447,8 @@ class AbsWindow(QtGui.QMainWindow):
 		
 	def show_select_diagonosis_dialog(self):
 		'''Just for test'''
-		self.show_patientinfo_readonly_dialog(self.diagonosis_info)
+		#self.show_patientinfo_readonly_dialog(self.diagonosis_info)
+		
 		
 	#def show_select_diagonosis_dialog(self):
 		#form = SelectDiagonosisDialog(parent = self)
