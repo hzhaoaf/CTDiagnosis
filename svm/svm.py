@@ -55,15 +55,16 @@ class SVM:
         '''
             增加训练集后，重新训练模型
         '''
-        self.get_trainning_data()
+        #self.get_trainning_data()
+        self.get_trainning_data_from_file(train_data)
         self.train_svm()
         self.load_svm()
 
     def train_svm(self):
-        features, labels, names = self.get_trainning_data()
+        features, labels, names = self.get_trainning_data_from_file(train_data)
         X = np.array(features)
         y = np.array(labels)
-        clf = NuSVC(kernel='linear')
+        clf = NuSVC(kernel='rbf')
         clf.fit(X, y)
         joblib.dump(clf, self.svm_path, compress=9)
 
@@ -79,9 +80,10 @@ class SVM:
 
 if __name__ == '__main__':
     svm = SVM()
-    features, labels, names = svm.get_trainning_data(train_data)
-    test_features, test_labels, test_names = features[-5:], labels[-5:], names[-5:]
-    print svm.predict(test_features)
+    #features, labels, names = svm.get_trainning_data(train_data)
+    #test_features, test_labels, test_names = features[-5:], labels[-5:], names[-5:]
+    #print svm.predict(test_features)
+    svm.update_svm()
 
 
 
