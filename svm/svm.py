@@ -23,7 +23,8 @@ def merge_arrays(array1, array2):
 class SVM:
 
     def __init__(self):
-        self.svm_path = svm_path
+        self.withP_svm_path = withP_svm_path
+        self.withoutP_svm_path = withoutP_svm_path
         self.load_svm()
         self.dal = SVMDAL()
 
@@ -112,7 +113,6 @@ if __name__ == '__main__':
     #features, labels, names = svm.get_trainning_data(train_data)
     #test_features, test_labels, test_names = features[-5:], labels[-5:], names[-5:]
     #print svm.predict(test_features)
-    svm.update_svm()
 
 
 
