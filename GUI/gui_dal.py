@@ -103,7 +103,7 @@ class GUIDAL:
         self.cursor.execute(sql, (patient_name, probabilities, image_ids, patient_info, patient_info_features, diagnose_time))
         self.conn.commit()
 
-    def get_all_diagnosis_info():
+    def get_all_diagnosis_info(self):
         sql = 'select id, patient_name, diagnose_time, probabilities from diagnosis_record'
         self.cursor.execute(sql)
         records = []

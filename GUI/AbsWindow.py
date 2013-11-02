@@ -22,6 +22,8 @@ from Curvelet import ccf
 from scipy import misc
 from PatientInfoDialog import PatientInfoDialog,PatientInfoReadOnlyDialog
 from ShowResultDialog import ShowResultDialog
+from DiagnosisListDialog import DiagnosisListDlg
+
 from gui_model_diagnosis import UI_Diagnosis
 from ImageControlWidget import ImageControlWidget
 from ImageHelper import ImageItemsList
@@ -447,6 +449,24 @@ class AbsWindow(QtGui.QMainWindow):
 		
 	def show_select_diagonosis_dialog(self):
 		'''Just for test'''
+		all_diagnosis = self.guidal.get_all_diagnosis_info()# [[id,张三，13-02-01，98%，100%],[],[]]
+		res = []
+		for one_dia in all_diagnosis:
+			whole_string = ''
+			for item in one_dia:
+				whole_string+='\t' + str(item)
+			res.append(whole_string)
+				
+		fruit = [u"香蕉\t你个扒拉", "Apple", "Elderberry", "Clementine", "Fig",
+			 "Guava", "Mango", "Honeydew Melon", "Date", "Watermelon",
+			 "Tangerine", "Ugli Fruit", "Juniperberry", "Kiwi",
+			 "Lemon", "Nectarine", "Plum", "Raspberry", "Strawberry",
+			 "Orange"]
+		form = DiagnosisListDlg("Fruit", res)
+		if form.exec_():
+			print "\n".join([unicode(x) for x in form.stringlist])		
+
+
 		#self.show_patientinfo_readonly_dialog(self.diagonosis_info)
 		
 		
