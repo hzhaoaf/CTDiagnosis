@@ -17,9 +17,9 @@ class SVMDAL:
 
     def select_trainning_data(self):
         '''
-            从image表中选出type为0的记录，读入其features和label
+            从training_data表中选出type为0的记录，读入其features和label
         '''
-        sql = 'select features, label from image where type = 0'
+        sql = 'select patient_features, image_features, label from training_data'
         self.cursor.execute(sql)
         return self.cursor.fetchall()
 
