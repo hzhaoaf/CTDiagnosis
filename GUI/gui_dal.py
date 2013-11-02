@@ -67,7 +67,7 @@ class GUIDAL:
         image_names = [img['name'] for img in images]
         self.cursor.execute(sql, image_names)
         res = self.cursor.fetchall()
-        return [r['id'] for r in res]
+        return [r[0] for r in res]
 
     def save_diagnosis_record(self, patient_info={}, patient_info_features=[], images_features={},
                               probabilities=(0.0, 0.0), label=0, add_to_training=False):
@@ -108,8 +108,8 @@ class GUIDAL:
         self.cursor.execute(sql)
         records = []
         for r in self.cursor.fetchall():
-            probabilities = json.loads(r['probabilities'])
-            records.append([r['id'], r['patient_name'], r['diagnose_time'], probabilities[0], probabilities[1]])
+            probabilities = json.loads(r[3])
+            records.append([r[0], r[1], r[2], probabilities[0], probabilities[1]])
         return records
 
     def get_one_diagosis_info(self, patient_id):
@@ -120,7 +120,7 @@ class GUIDAL:
         sql = 'select patient_info from diagnosis_record where id = ?';
         self.cursor.execute(sql, patient_id)
         res = self.cursor.fetchone()
-        patient_info = json.loads(res['patient_info'])
+        patient_info = json.loads(res[0])
         return patient_info
 
     def create_tables(self):
