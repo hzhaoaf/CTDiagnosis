@@ -43,9 +43,13 @@ class PredictDiagnosis():
 
 class UI_Diagnosis():
 	def __init__(self,info_dic={}):
+		'''所有的属性都是字符串，数据库中的都是unicode，而该类里面都是utf-8'''
 		if info_dic:
 			for k, v in info_dic.items():
-				setattr(self,k, v)
+				if isinstance(v,unicode):
+					setattr(self,k, v.encode('utf-8'))
+				else:
+					setattr(self,k, v)
 		else:
 			#Tab 1
 			self.xingming = ''

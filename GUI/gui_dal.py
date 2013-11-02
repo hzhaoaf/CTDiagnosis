@@ -92,7 +92,7 @@ class GUIDAL:
 
         image_ids = self.save_images(images)
         image_ids = json.dumps(image_ids)
-        patient_name = patient_info.get('patient_name', '')
+        patient_name = patient_info.get('xingming', '')
         #diagnose_time = patient_info['jianchariqi'] if patient_info.get("jianchariqi") else datetime.now()
         diagnose_time = datetime.now()
         patient_info = json.dumps(patient_info)
