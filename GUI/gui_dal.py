@@ -75,7 +75,7 @@ class GUIDAL:
             patient_info: 用户的相关信息, 包括diagnose_time, patient_name
             patient_info_features: 根据用户信息提取出来进行训练预测的特征
             images_features: 该次诊断涉及到的图片的特征信息, filename: [140]这样的形式
-            probabilities: 两个概率值, 分别表示是否添加用户信息特征进行训练和预测的结果
+            probabilities: 两个概率值, 分别表示使用和不使用用户信息特征进行训练和预测的结果
             label: 是否患病，经过人确定之后的结果，用来作为训练数据
             add_to_training: 表示本次训练的图片是否要加到训练集
 
