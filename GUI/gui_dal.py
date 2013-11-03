@@ -51,7 +51,7 @@ class GUIDAL:
         '''
         records = []
         for d in training_data:
-            row = (d['diagnosis_id'], d['patient_features'], d['image_name'], d['image_features'], img['label'])
+            row = (d['diagnose_id'], d['patient_features'], d['image_name'], d['image_features'], d['label'])
             records.append(row)
         sql = "insert into training_data(diagnosis_id, patient_features, image_name, image_features, label) values (?, ?, ?, ?, ?)"
         self.cursor.executemany(sql, records)
@@ -88,7 +88,7 @@ class GUIDAL:
                 d = {}
                 d['diagnose_id'] = diagnose_id
                 d['image_name'] = filename
-                d['patient_features'] = json.dumps(patient_features)
+                d['patient_features'] = json.dumps(patient_info_features)
                 d['image_features'] = json.dumps(features)
                 d['label'] = label
                 training_data.append(d)

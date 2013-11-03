@@ -30,6 +30,6 @@ class ShowResultDialog(QDialog,ui_ShowResultDialog.Ui_Dialog):
 		1: Yes,youbing
 		2: No,meibing
 		'''
-		return self.sure_value_comboBox.currentIndex
+		return self.sure_value_comboBox.currentIndex()
 		
 	
