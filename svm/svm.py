@@ -1,5 +1,5 @@
 #coding=utf8
-import time, json
+import time, json, doctest
 import numpy as np
 from sklearn.svm import NuSVC
 from sklearn.externals import joblib
@@ -12,11 +12,14 @@ withoutP_svm_path = '../data/svm/without_patients_model.joblib.pkl'
 
 def merge_arrays(array1, array2):
     '''
-        将两个矩阵的每一行合并起来
+    将两个矩阵的每一行合并起来
+    >>> merge_arrays([[1, 2], [3, 4]], [[5, 6], [7, 8]])
+    [[1, 2, 5, 6], [3, 4, 7, 8]]
     '''
+
     merged_list = []
-    for i in len(array1):
-        merged_list.append(array1[i].extend(array2))
+    for i in range(0, len(array1)):
+        merged_list.append(array1[i] + array2[i])
     return merged_list
 
 
@@ -96,7 +99,7 @@ class SVM:
         withoutP_pred_data = []
         for filename, image_features in images_features.items():
             withP_pred_data.append(image_features)
-            withoutP_pred_data.append(patient_info_feature.extend(image_features))
+            withoutP_pred_data.append(patient_info_feature + image_features)
         withP_res = self.withP_clf.predict(withP_pred_data)
         print withP_res
         positive_num = len([r for r in withP_res if r == 1])
@@ -109,11 +112,13 @@ class SVM:
         return (withP_probability, withoutP_probability)
 
 if __name__ == '__main__':
-    svm = SVM()
+    #svm = SVM()
+    a = [[1, 2], [3, 4], [5, 6]]
+    b = [[4, 5], [8, 9], [10, 11]]
+    print merge_arrays(a, b)
     #features, labels, names = svm.get_trainning_data(train_data)
     #test_features, test_labels, test_names = features[-5:], labels[-5:], names[-5:]
     #print svm.predict(test_features)
-
-
+    doctest.testmod()
 
 
