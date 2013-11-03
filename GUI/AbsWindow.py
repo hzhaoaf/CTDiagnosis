@@ -63,7 +63,7 @@ class AbsWindow(QtGui.QMainWindow):
 		
 		#Initialize attributes
 		self.guidal = GUIDAL()
-		self.svmModel = SVM()
+		#self.svmModel = SVM()
 		self.region_grow_module = RegionGrow()
 		self.image_item_list = ImageItemsList()#Hold all the images
 		self.image_file_path = img_save_path#The path to save the image

@@ -31,6 +31,15 @@ class PredictDiagnosis():
 		dic = self.__dict__
 		res = sorted(dic.items(),key = lambda d:d[0])
 		return [k[1] for k in res]
+		#函数执行之后的顺序
+		#['feijiehebingshicunzai', 'fenchenxirushicunzai', 'jiejiebianyuan', 'jiejiebuwei', 'jiejiedaxiao', 
+		#'jiejiefenye', 'jiejiegaihua', 'jiejiekongpao', 'jiejiemidu', 'kongdong', 'linbajiezhong', 
+		#'linchuangzhenduanyijian', 'maobolimi', 'nianling', 
+		#'shixingjiejie', 'xingbie', 'xiongmoaoxian', 'xiongshui', 
+		#'xiyanshicunzai', 'yichuanbingshicunzai', 
+		#'zhongliubingshicunzai']	
+		#给的资料里面的顺序
+		#res[11,15,13,20,0,1,19,18,10,3,4,8,14,12,2,5,7,6,9,16,17] = ppt.line[1:]#因为第一个是name
 		
 	def convert_to_dict(self):
 		return self.__dict__
