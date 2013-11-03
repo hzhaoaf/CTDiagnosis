@@ -44,7 +44,7 @@
     </font>
    </property>
    <property name="currentIndex">
-    <number>2</number>
+    <number>0</number>
    </property>
    <widget class="QWidget" name="tab">
     <attribute name="title">
@@ -1529,8 +1529,6 @@
       </item>
      </layout>
     </widget>
-    <zorder>layoutWidget</zorder>
-    <zorder>label_14</zorder>
    </widget>
   </widget>
   <widget class="QPushButton" name="acceptButton">

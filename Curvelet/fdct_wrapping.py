@@ -45,6 +45,10 @@ from numpy.fft import fft2,ifftshift,fftshift,ifft2
 from fdct_wrapping_window import fdct_wrapping_window
 from memory_profiler import profile
 
+#http://stackoverflow.com/questions/18982650/differences-between-matlab-and-numpy-and-pythons-round-function
+
+mysishewuru = numpy.vectorize(lambda x: round(x))
+
 #@profile
 numpy.set_printoptions(threshold='nan',linewidth='nan')
 def  fdct_wrapping(x, is_real , finest, nbscales, nbangles_coarse):
@@ -143,12 +147,12 @@ def  fdct_wrapping(x, is_real , finest, nbscales, nbangles_coarse):
             M_vert = M1 * ((quadrant % 2)==1) + M2 * ((quadrant % 2)==0);                
             if nbangles_perquad % 2 == 0:
                 step = 1.0/(2.0*nbangles_perquad)
-                wedge_ticks_left = numpy.round(numpy.arange(0,0.5+step,step) * 2 * math.floor(4.0 * M_horiz) + 1)
+                wedge_ticks_left = mysishewuru(numpy.arange(0,0.5+step,step) * 2 * math.floor(4.0 * M_horiz) + 1)
                 wedge_ticks_right = 2.0 * math.floor(4.0 * M_horiz) + 2 - wedge_ticks_left
                 wedge_ticks = numpy.concatenate((wedge_ticks_left,wedge_ticks_right[-2::-1]))#从倒数第二个数依次向前
             else:
                 step = 1.0/(2.0*nbangles_perquad)
-                wedge_ticks_left = numpy.round(numpy.arange(0,0.5+step,step) * 2 * math.floor(4.0 * M_horiz) + 1)
+                wedge_ticks_left = mysishewuru(numpy.arange(0,0.5+step,step) * 2 * math.floor(4.0 * M_horiz) + 1)
                 wedge_ticks_right = 2.0 * math.floor(4.0 * M_horiz) + 2 - wedge_ticks_left
                 wedge_ticks = numpy.concatenate((wedge_ticks_left,wedge_ticks_right[-1::-1]))#从倒数第一个数依次向前
             wedge_endpoints = wedge_ticks[1:-1:2] #%integers
@@ -161,7 +165,7 @@ def  fdct_wrapping(x, is_real , finest, nbscales, nbangles_coarse):
             XX,YY = numpy.meshgrid(numpy.arange(1,(2 * math.floor(4.0 * M_horiz) + 2)) ,Y_corner)
             width_wedge = wedge_endpoints[1] + wedge_endpoints[0] - 1
             slope_wedge = (math.floor(4.0 * M_horiz) + 1 - wedge_endpoints[0]) / math.floor(4.0 * M_vert)
-            left_line = numpy.round(2 - wedge_endpoints[0] + slope_wedge * (Y_corner - 1))#% integers                
+            left_line = mysishewuru(2 - wedge_endpoints[0] + slope_wedge * (Y_corner - 1))#% integers                
             wrapped_data = numpy.zeros((length_corner_wedge,width_wedge))
             wrapped_data = wrapped_data.astype(numpy.complex)
             #if not convert data type,->ComplexWarning: Casting complex values to real discards the imaginary part
@@ -175,11 +179,12 @@ def  fdct_wrapping(x, is_real , finest, nbscales, nbangles_coarse):
             #% Coordinates of the top-left corner of the wedge wrapped
             #% around the origin. Some subtleties when the wedge is
             #% even-sized because of the forthcoming 90 degrees rotation               
-            for row in Y_corner:
+            for row in Y_corner:            
                 cols = left_line[int(row) - 1] + numpy.mod((numpy.arange(0,width_wedge) -  (left_line[int(row) - 1] - first_col)  ),width_wedge)
-                admissible_cols = numpy.round(1.0 / 2.0 * (cols + 1 + numpy.abs(cols - 1)))
+                admissible_cols = mysishewuru(1.0 / 2.0 * (cols + 1 + numpy.abs(cols - 1)))
                 admissible_cols = admissible_cols.astype(int) - 1#类型转换
                 new_row = 1 + (row - first_row) %  length_corner_wedge
+
                 wrapped_data[new_row - 1, : ] = Xhi[row - 1,admissible_cols] * (cols > 0)#all zero?
                 
                 wrapped_XX[new_row - 1,:] = XX[row - 1,admissible_cols]#Needn't to copy,yeah? yeah!
@@ -218,7 +223,7 @@ def  fdct_wrapping(x, is_real , finest, nbscales, nbangles_coarse):
                 width_wedge = wedge_endpoints[subl] - wedge_endpoints[subl-2] + 1
                 
                 slope_wedge = ((math.floor(4.0 * M_horiz) + 1) - wedge_endpoints[subl - 1])/math.floor(4.0 * M_vert)
-                left_line = numpy.round(wedge_endpoints[subl-2] + slope_wedge * (Y - 1))
+                left_line = mysishewuru(wedge_endpoints[subl-2] + slope_wedge * (Y - 1))
                 wrapped_data = numpy.zeros((length_wedge,width_wedge),dtype=numpy.complex)
                 #wrapped_data = wrapped_data.astype(numpy.complex)
                 wrapped_XX = numpy.zeros((length_wedge,width_wedge))
@@ -258,7 +263,7 @@ def  fdct_wrapping(x, is_real , finest, nbscales, nbangles_coarse):
             lll += 1
             width_wedge = 4 * math.floor(4.0 * M_horiz) + 3 - wedge_endpoints[-1] - wedge_endpoints[-2]
             slope_wedge = ((math.floor(4.0 * M_horiz) + 1) - wedge_endpoints[-1])/math.floor(4.0 * M_vert)
-            left_line = numpy.round(wedge_endpoints[-2] + slope_wedge * (Y_corner - 1))
+            left_line = mysishewuru(wedge_endpoints[-2] + slope_wedge * (Y_corner - 1))
 
             wrapped_data = numpy.zeros((length_corner_wedge,width_wedge),dtype=numpy.complex)
             wrapped_XX = numpy.zeros((length_corner_wedge,width_wedge))
@@ -270,7 +275,7 @@ def  fdct_wrapping(x, is_real , finest, nbscales, nbangles_coarse):
             
             for row in Y_corner:
                 cols = left_line[int(row) - 1] + numpy.mod((numpy.arange(0,width_wedge) -  (left_line[int(row) - 1] - first_col)  ),width_wedge)
-                admissible_cols = numpy.round(1.0 / 2.0 * (cols + 2*math.floor(4.0*M_horiz) + \
+                admissible_cols = mysishewuru(1.0 / 2.0 * (cols + 2*math.floor(4.0*M_horiz) + \
                                                            1 - numpy.abs(cols - (2 * math.floor(4 * M_horiz)+1))))
                 admissible_cols = admissible_cols.astype(int) - 1#类型转换
                 new_row = 1 + (row - first_row) %  length_corner_wedge

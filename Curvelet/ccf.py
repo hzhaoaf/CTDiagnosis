@@ -190,17 +190,18 @@ def ccf( x, graylevel=16, is_real = 1, finest = 2, nbscales = 3, nbangles_coarse
 
 
 
-#if __name__ == "__main__":
-    ##XX = misc.imread('../data/images/123.png')
-    #XX = misc.imread('test1.jpg')
-    
-    ##If it's a gray image, shape of XX would be 2d ,sth like (73,63)
-    #if len(XX.shape) == 2:
-        #pass
-    #else:
-        #XX= XX[:,:,0] if XX.shape[2] > 1 else XX#if RGB,only tackle R
-    #[MEAN,SD,CT,HG,MP,ENG,INE,IDM,ENT,COR,SM,DM,SE,DE,ANGLES] = ccf(XX)
-    #print([MEAN,SD,CT,HG,MP,ENG,INE,IDM,ENT,COR,SM,DM,SE,DE,ANGLES])
+if __name__ == "__main__":
+    XX = misc.imread('../data/images/result_7.bmp')
+    #result_7.bmp
+    #path = u'C:\\Users\\Charles\\Desktop\\dcmProgram\\\u75c5\u4f8b\\\u826f\u6027\\zhang zhuo yang\\\u8f74\\result_10.bmp'
+    #XX = misc.imread(path)
+    #If it's a gray image, shape of XX would be 2d ,sth like (73,63)
+    if len(XX.shape) == 2:
+        pass
+    else:
+        XX= XX[:,:,0] if XX.shape[2] > 1 else XX#if RGB,only tackle R
+    [MEAN,SD,CT,HG,MP,ENG,INE,IDM,ENT,COR,SM,DM,SE,DE,ANGLES] = ccf(XX)
+    print([MEAN,SD,CT,HG,MP,ENG,INE,IDM,ENT,COR,SM,DM,SE,DE,ANGLES])
     
     #Uncomment this if you want to know the time efficient of the program.
     #import cProfile
