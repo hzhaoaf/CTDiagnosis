@@ -38,16 +38,23 @@ class SVM:
     def get_trainning_data(self):
         '''
             从数据库中获取全部训练数据
+            返回两套训练数据，一个有用户信息，一个没有用户信息
         '''
         res = self.dal.select_trainning_data()
         patients_features = []
         images_features = []
+        withoutP_features = []
         labels = []
         for r in res:
-            patients_features.append(json.loads(r[0]))
-            images_features.append(json.loads(r[1]))
+            if r[0]:
+                patients_features.append(json.loads(r[0]))
+                images_features.append(json.loads(r[1]))
+
+            #当patient_features没有值的时候，表示这个数据只用来训练无用户信息的svm
+            withoutP_features.append(json.loads(r[1]))
             labels.append(r[2])
-        return patients_features, images_features, labels
+        withP_features = merged_list(patient_features, images_features)
+        return withP_features, withoutP_features, labels
 
     def get_trainning_data_from_file(self, filename):
         '''
@@ -74,15 +81,14 @@ class SVM:
             从数据库中取出训练数据，然后训练生成两个svm，一个使用用户特征，一个不使用用户特征
         '''
         #features, labels, names = self.get_trainning_data_from_file(train_data)
-        patients_features, images_features, labels = self.get_trainning_data()
-        X = np.array(images_features)
+        withP_features, withoutP_features, labels = self.get_trainning_data()
+        X = np.array(withoutP_features)
         y = np.array(labels)
         clf = NuSVC(kernel='rbf')
         clf.fit(X, y)
         joblib.dump(clf, self.withoutP_svm_path, compress=9)
 
-        features = merge_arrays(patients_features, images_features)
-        X = np.array(features)
+        X = np.array(withP_features)
         clf = NuSVC(kernel='rbf')
         clf.fit(X, y)
         joblib.dump(clf, self.withP_svm_path, compress=9)
