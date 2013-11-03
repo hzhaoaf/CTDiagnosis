@@ -39,6 +39,7 @@ class SVM:
     def load_svm(self):
         self.withP_clf = joblib.load(self.withP_svm_path)
         self.withoutP_clf = joblib.load(self.withoutP_svm_path)
+        print 'finished load svm!!'
 
     def get_trainning_data(self):
         '''
@@ -108,7 +109,7 @@ class SVM:
         withP_features, withoutP_features, withP_labels, withoutP_labels = self.get_trainning_data()
         X = np.array(withoutP_features)
         y = np.array(withoutP_labels)
-        import pdb;pdb.set_trace()
+        #import pdb;pdb.set_trace()
         clf = SVC(kernel='rbf')
         clf.fit(X, y)
         joblib.dump(clf, self.withoutP_svm_path, compress=9)
