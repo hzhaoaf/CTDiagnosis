@@ -25,7 +25,7 @@ table_sqls = ['''create table if not exists diagnosis_record (
               '''create table if not exists training_data (
                 id integer primary key autoincrement,
                 diagnosis_id int default 0, --对应到诊断记录中的id，默认为0, 表示没有诊断记录
-                patient_features text, -- 根据患者信息提取出来的特征，以json存储的list
+                patient_features text default "", -- 根据患者信息提取出来的特征，以json存储的list, 一旦为""， 表示该条数据只用来训练无用户信息的svm
                 image_name text, --图片名
                 image_features text, --图片的全部特征
                 label int, --图片的label 0：不患病 1: 患病
@@ -33,8 +33,6 @@ table_sqls = ['''create table if not exists diagnosis_record (
                 )
               '''
             ]
-
-
 
 class GUIDAL:
 
