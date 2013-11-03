@@ -63,7 +63,7 @@ class AbsWindow(QtGui.QMainWindow):
 		self.image_file_path = img_save_path#The path to save the image
 		#Initialize attributes
 		self.guidal = GUIDAL()
-		#self.svmModel = SVM()
+		self.svmModel = SVM()
 		self.region_grow_module = RegionGrow()
 		self.reset_attribute()#Initialize
 		
@@ -408,8 +408,8 @@ class AbsWindow(QtGui.QMainWindow):
 	def svmPredict(self,image_features_dic):
 		'''Predict the probability of a feature'''
 		patient_info_feature_list = self.diagonosis_info.convert_to_predictDiagnosis().convert_to_list()
-		#(p_with,p_without) = self.svmModel.predict(patient_info_feature_list,image_features_dic)
-		p_with,p_without = 1,0
+		(p_with,p_without) = self.svmModel.predict(patient_info_feature_list,image_features_dic)
+		#p_with,p_without = 1,0
 		self.diagonosis_info.set_probability(str(p_with),str(p_without))#set the probability attribute
 		patien_info_dic = self.diagonosis_info.convert_to_dict()
 		
@@ -417,7 +417,7 @@ class AbsWindow(QtGui.QMainWindow):
 
 	def show_result_dialog_and_savetodatavase(self,p_with,p_without,patien_info_dic,patient_info_feature_list,image_features_dic):
 		'''Show the prediction result,with buttons the confirm the result'''
-		form = ShowResultDialog(parent=self,predict_value1=pv1,predict_value2=pv2)
+		form = ShowResultDialog(parent=self,predict_value1=p_with,predict_value2=p_without)
 		if form.exec_():
 			#If doctor confirms the diagnosis,add new test cases and save .else, just save 
 			label = -1

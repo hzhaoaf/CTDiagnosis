@@ -125,11 +125,10 @@ class SVM:
         X = np.array(withP_features)
         y = np.array(withP_labels)
         clf = SVC(kernel='rbf')
-        clf = SVC(kernel='rbf')
         clf.fit(X, y)
         joblib.dump(clf, self.withP_svm_path, compress=9)
 
-    def predict(patient_info_feature=[], images_features={}):
+    def predict(self,patient_info_feature=[], images_features={}):
         '''
             传入N组数据进行预测，分布使用含用户信息的svm和不含用户信息的svm进行预测患病概率（患病数/N）
             返回一个tuple(p1, p2)
@@ -140,8 +139,8 @@ class SVM:
         withP_pred_data = []
         withoutP_pred_data = []
         for filename, image_features in images_features.items():
-            withP_pred_data.append(image_features)
-            withoutP_pred_data.append(patient_info_feature + image_features)
+            withoutP_pred_data.append(image_features)
+            withP_pred_data.append(patient_info_feature + image_features)
         withP_res = self.withP_clf.predict(withP_pred_data)
         print withP_res
         positive_num = len([r for r in withP_res if r == 1])
