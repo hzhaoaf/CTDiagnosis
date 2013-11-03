@@ -39,7 +39,7 @@ class PredictDiagnosis():
 		#'xiyanshicunzai', 'yichuanbingshicunzai', 
 		#'zhongliubingshicunzai']	
 		#给的资料里面的顺序
-		#res[11,15,13,20,0,1,19,18,10,3,4,8,14,12,2,5,7,6,9,16,17] = ppt.line[1:]#因为第一个是name
+		#[14,12,19,0,1,18,17,10,3,4,8,13,11,2,5,7,6,9,15,16]= ppt.line[1:]#因为第一个是name
 		
 	def convert_to_dict(self):
 		return self.__dict__
@@ -163,7 +163,6 @@ class UI_Diagnosis():
 		#print(pd)
 		return pd#将转换好的预测类返回
 
-
 	def __str__(self):
 		items = [x+":"+str(getattr(self, x))  for x in dir(self)]
 		return "\n".join(items)
@@ -173,7 +172,6 @@ class UI_Diagnosis():
 		for k,v in self.__dict__.items():
 			temp_dic[k] = v.decode('utf-8')
 		return temp_dic
-		
 
 if __name__ == "__main__":
 	#temp

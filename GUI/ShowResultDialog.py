@@ -24,3 +24,12 @@ class ShowResultDialog(QDialog,ui_ShowResultDialog.Ui_Dialog):
 		_pstring = str(self._predict_value2*100)+"%"
 		self.predict_value2_label.setText(ps2qs(_pstring))
 	
+	def get_sure_value(self):
+		'''
+		0: unknow
+		1: Yes,youbing
+		2: No,meibing
+		'''
+		return self.sure_value_comboBox.currentIndex
+		
+	

@@ -60,17 +60,19 @@ class AbsWindow(QtGui.QMainWindow):
 		self.setCentralWidget(splitter)
 		self.createMenus()#创建菜单
 		self.setMouseStyleCross()#将鼠标设置成十字的
-		
+		self.image_file_path = img_save_path#The path to save the image
 		#Initialize attributes
 		self.guidal = GUIDAL()
 		#self.svmModel = SVM()
 		self.region_grow_module = RegionGrow()
+		self.reset_attribute()#Initialize
+		
+	def reset_attribute(self):
 		self.image_item_list = ImageItemsList()#Hold all the images
-		self.image_file_path = img_save_path#The path to save the image
 		self.diagonosis_info = None#The info (patients info ,images,predictions)
 		self.imgNameSuffix = 1#names of image starts from 001 to 999
+		#self.reload_cur_image()
 		
-
 	def setMouseStyleCross(self):
 		'''Set the mouse style to cross +'''
 		self.main.setCursor(Qt.CrossCursor)
@@ -185,7 +187,6 @@ class AbsWindow(QtGui.QMainWindow):
 
 	def openFile(self,name):
 		'''Open image with given name'''
-
 		if not self.main.loadImage(name):
 			print("[Abswindow]:Image null %s "% name)
 			return
@@ -403,40 +404,44 @@ class AbsWindow(QtGui.QMainWindow):
 			image_features_dic[name] = vec
 			
 		self.svmPredict(image_features_dic)
-		self.cleanAfterPredict()
-		
+
 	def svmPredict(self,image_features_dic):
 		'''Predict the probability of a feature'''
-		#new
 		patient_info_feature_list = self.diagonosis_info.convert_to_predictDiagnosis().convert_to_list()
 		#(p_with,p_without) = self.svmModel.predict(patient_info_feature_list,image_features_dic)
 		p_with,p_without = 1,0
-		self.diagonosis_info.set_probability(str(p_with),str(p_without))
+		self.diagonosis_info.set_probability(str(p_with),str(p_without))#set the probability attribute
 		patien_info_dic = self.diagonosis_info.convert_to_dict()
-		try:
-			self.guidal.save_diagnosis_record(patien_info_dic,
-				                          patient_info_feature_list,
-				                          image_features_dic,
-				                          (p_with,p_without),
-				                          0,
-				                          False)
-		except Exception as e:
-			print "Database save error %s" % e
-			traceback.print_exc()
 		
-		self.show_result_dialog(p_with,p_without)
-		
-		#old
-		#predict_value = self.svmModel.predict(vectorList)
-		#self.show_result_dialog(predict_value)
+		self.show_result_dialog_and_savetodatavase(p_with,p_without,patien_info_dic,patient_info_feature_list,image_features_dic)
 
-	def show_result_dialog(self,pv1,pv2):
+	def show_result_dialog_and_savetodatavase(self,p_with,p_without,patien_info_dic,patient_info_feature_list,image_features_dic):
 		'''Show the prediction result,with buttons the confirm the result'''
 		form = ShowResultDialog(parent=self,predict_value1=pv1,predict_value2=pv2)
 		if form.exec_():
-			#To Do:
-			#If doctor confirms the diagnosis,add new test cases.
-			print("Finished show result")		
+			#If doctor confirms the diagnosis,add new test cases and save .else, just save 
+			label = -1
+			add_to_traning = False
+			sure_value = form.get_sure_value()
+			if sure_value == 1:#Yes,youbing
+				label = 1
+				add_to_traning = True
+			elif sure_value == 2:#No,meibing
+				label = 0
+				add_to_traning = True
+				
+			#save it into database		
+			try:
+				self.guidal.save_diagnosis_record(patien_info_dic,
+					                          patient_info_feature_list,
+					                          image_features_dic,
+					                          (p_with,p_without),
+					                          label,
+					                          add_to_traning)
+			except Exception as e:
+				print "Database save error %s" % e
+				traceback.print_exc()			
+		self.cleanAfterPredict()
 
 	def showPatientInfoDialog(self):
 		#http://stackoverflow.com/questions/5874025/pyqt4-how-to-show-a-modeless-dialog
@@ -450,35 +455,10 @@ class AbsWindow(QtGui.QMainWindow):
 	def show_select_diagonosis_dialog(self):
 		'''Just for test'''
 		all_diagnosis = self.guidal.get_all_diagnosis_info()# [[id,张三，13-02-01，98%，100%],[],[]]
-		#res = []
-		#for one_dia in all_diagnosis:
-			#whole_string = ''
-			#for item in one_dia:
-				#if isinstance(item,unicode):
-					#whole_string+=item + '\t' 
-				#else:
-					#whole_string+=str(item)+'\t'
-			#res.append(whole_string)
-				
-		#fruit = [u"香蕉\t你个扒拉", "Apple", "Elderberry", "Clementine", "Fig",
-			 #"Guava", "Mango", "Honeydew Melon", "Date", "Watermelon",
-			 #"Tangerine", "Ugli Fruit", "Juniperberry", "Kiwi",
-			 #"Lemon", "Nectarine", "Plum", "Raspberry", "Strawberry",
-			 #"Orange"]
 		form = DiagnosisListDlg( u"过往诊断", all_diagnosis)
 		if form.exec_():
-			print "\n".join([unicode(x) for x in form.stringlist])		
-
-
-		#self.show_patientinfo_readonly_dialog(self.diagonosis_info)
-		
-		
-	#def show_select_diagonosis_dialog(self):
-		#form = SelectDiagonosisDialog(parent = self)
-		#if form.exec_():
-			#diagnosis_to_show = form.selected_diagnosis()
-			#self.show_patientinfo_readonly_dialog(diagnosis_to_show)
-			#print("Select a diagonosis")
+			pass
+			#print "\n".join([unicode(x) for x in form.stringlist])		
 			
 	def show_patientinfo_readonly_dialog(self,diagnosis_to_show):
 		'''Create and show readonly diagnosis info Dialog window'''
