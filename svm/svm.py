@@ -1,5 +1,5 @@
 #coding=utf8
-import time, json, doctest
+import time, json, doctest, os
 import numpy as np
 from sklearn.svm import SVC
 from sklearn.externals import joblib
