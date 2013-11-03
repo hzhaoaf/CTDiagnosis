@@ -22,6 +22,10 @@ def merge_arrays(array1, array2):
         merged_list.append(array1[i] + array2[i])
     return merged_list
 
+def create_file(filename):
+    f = open('filename', 'w+')
+    f.close()
+
 
 class SVM:
 
@@ -37,7 +41,11 @@ class SVM:
             self.load_svm()
 
     def load_svm(self):
+        if not os.path.isfile(self.withP_svm_path):
+            create_file(self.withP_svm_path)
         self.withP_clf = joblib.load(self.withP_svm_path)
+        if not os.path.isfile(self.withoutP_svm_path):
+            create_file(self.withoutP_svm_path)
         self.withoutP_clf = joblib.load(self.withoutP_svm_path)
         print 'finished load svm!!'
 
