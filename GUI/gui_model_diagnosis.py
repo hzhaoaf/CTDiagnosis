@@ -5,7 +5,7 @@ class PredictDiagnosis():
 			for k, v in info_dic.items():
 				setattr(self,k, v)
 		else:
-			self.linchuangzhenduanyijian = ""
+#self.linchuangzhenduanyijian = ""
 			self.xingbie  =""
 			self.nianling = ""
 			self.zhongliubingshicunzai = ""
@@ -47,8 +47,6 @@ class PredictDiagnosis():
 	def __str__(self):
 		items = [x+":"+str(getattr(self, x))  for x in dir(self)]
 		return "\n".join(items)
-
-
 
 class UI_Diagnosis():
 	def __init__(self,info_dic={}):
@@ -132,7 +130,7 @@ class UI_Diagnosis():
 		Return the converted predictDiagnosis instance
 		'''
 		pd = PredictDiagnosis()
-		pd.linchuangzhenduanyijian = int(self.linchuangzhenduanyijian) if self.linchuangzhenduanyijian else 0
+		#pd.linchuangzhenduanyijian = int(self.linchuangzhenduanyijian) if self.linchuangzhenduanyijian else 0
 		
 		pd.xingbie = 0 + 1 * (self.xingbie.decode('utf8') == u"女")
 		pd.nianling = int(self.nianling) if self.nianling.isdigit() else 0 #promise this is a digit number
