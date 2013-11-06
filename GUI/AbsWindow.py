@@ -226,7 +226,7 @@ class AbsWindow(QtGui.QMainWindow):
 	def load(self):
 		'''Action 1'''
 		'''Open image without given name'''
-		img_paths = openFileDialog(self,QString("Open Image"),QString(),self.filters(),QString())#TEmp
+		img_paths = openFileDialog(self,QString(u"打开图片"),QString(),self.filters(),QString())#TEmp
 		if not img_paths:
 			return
 		
