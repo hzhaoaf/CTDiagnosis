@@ -7,8 +7,8 @@ sys.path.append("..")
 from scipy import misc
 import numpy as np
 
-imageDir = u"C:\\Users\\Charles\\Desktop\\dcmProgram\\处理过病例\\良性"
-save_path = u"C:\\Users\\Charles\\Desktop\\dcmProgram\\Python处理过病例\\良性"
+imageDir = u"C:\\Users\\Charles\\Desktop\\dcmProgram\\处理过病例\\恶性"
+save_path = u"C:\\Users\\Charles\\Desktop\\dcmProgram\\Python处理过病例\\恶性"
 
 #os.chdir(imageDir)
 info_dic = {}
