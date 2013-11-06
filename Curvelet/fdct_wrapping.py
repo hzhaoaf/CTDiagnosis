@@ -193,7 +193,7 @@ def  fdct_wrapping(x, is_real , finest, nbscales, nbangles_coarse):
             slope_wedge_right = (math.floor(4.0 * M_horiz) + 1 - wedge_midpoints[0] ) / math.floor(4.0 * M_vert)
             mid_line_right = wedge_midpoints[0] + slope_wedge_right * (wrapped_YY - 1)#% not integers in general
             coord_right = 0.5 + math.floor(4.0 * M_vert) / (wedge_endpoints[1] - wedge_endpoints[0]) * \
-                (wrapped_XX - mid_line_right) / (math.floor(4.0 * M_vert) + 1 - wrapped_YY)
+                (wrapped_XX - mid_line_right) / (math.floor(4.0 * M_vert) + 1 - wrapped_YY)#报错因为被除的数组中含有0
             C2 = 1.0 / (1.0 / (2.0 * math.floor(4.0 * M_horiz) / (wedge_endpoints[0] - 1) - 1) + \
                         1.0 / (2.0 * math.floor(4 * M_vert) / (first_wedge_endpoint_vert - 1) - 1))
             C1 = C2 / (2.0 * math.floor(4.0 * M_vert) / (first_wedge_endpoint_vert - 1) - 1)

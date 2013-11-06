@@ -191,7 +191,8 @@ def ccf( x, graylevel=16, is_real = 1, finest = 2, nbscales = 3, nbangles_coarse
 
 
 if __name__ == "__main__":
-    XX = misc.imread('../data/images/result_7.bmp')
+    #XX = misc.imread('../data/images/result_7.bmp')
+    XX = misc.imread('result_2.bmp')
     #result_7.bmp
     #path = u'C:\\Users\\Charles\\Desktop\\dcmProgram\\\u75c5\u4f8b\\\u826f\u6027\\zhang zhuo yang\\\u8f74\\result_10.bmp'
     #XX = misc.imread(path)

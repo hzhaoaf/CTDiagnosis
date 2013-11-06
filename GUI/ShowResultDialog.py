@@ -18,10 +18,12 @@ class ShowResultDialog(QDialog,ui_ShowResultDialog.Ui_Dialog):
 		self.updateUi()
 			
 	def updateUi(self):
-		_pstring = str(self._predict_value1*100)+"%"
+		_diaplayValue = "%.2f" % (self._predict_value1*100)
+		_pstring = _diaplayValue +"%"
 		self.predict_value1_label.setText(ps2qs(_pstring))
 		
-		_pstring = str(self._predict_value2*100)+"%"
+		_diaplayValue = "%.2f" % (self._predict_value2*100)
+		_pstring = _diaplayValue +"%"
 		self.predict_value2_label.setText(ps2qs(_pstring))
 	
 	def get_sure_value(self):
