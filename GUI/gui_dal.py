@@ -7,21 +7,21 @@ from datetime import datetime
 import time
 import os
 #filename = 'myfilename.tga'
-database_path = 'ctdiagnosis.db'
+database_path = '../data/database/ctdiagnosis.db'
 
-if getattr(sys, 'frozen', None):
-     basedir = sys._MEIPASS
-else:
-     basedir = os.path.dirname(__file__)
-
-
-
-print database_path
-database_path = os.path.join(basedir, database_path)
-#database_path = resource_path(database_path)
-print database_path
-#if '_MEIPASS2' in os.environ:
-#    database_path = os.path.join(os.environ['_MEIPASS2'], database_path)
+#if getattr(sys, 'frozen', None):
+#     basedir = sys._MEIPASS
+#else:
+#     basedir = os.path.dirname(__file__)
+#
+#
+#
+#print database_path
+#database_path = os.path.join(basedir, database_path)
+##database_path = resource_path(database_path)
+#print database_path
+##if '_MEIPASS2' in os.environ:
+##    database_path = os.path.join(os.environ['_MEIPASS2'], database_path)
 
 
 sys.path.append('../')

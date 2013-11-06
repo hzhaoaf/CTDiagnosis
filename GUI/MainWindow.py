@@ -7,10 +7,10 @@ from ImageView import ImageView
 from Image import Image
 import sys
 
-from svm import SVM
 
 sys.path.append("..")
 
+from svm.svm import SVM
 
 from append import *
 from Curvelet import ccf

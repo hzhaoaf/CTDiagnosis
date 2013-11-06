@@ -1,5 +1,5 @@
 #coding=utf8
-import time, json, doctest, os
+import time, json, doctest, os, sys
 import numpy as np
 from sklearn.svm import SVC
 from sklearn.externals import joblib
@@ -7,8 +7,8 @@ from sklearn.externals import joblib
 from svm_dal import SVMDAL
 
 train_data = '../data/trainData-36-9-19.txt'
-withP_svm_path = 'with_patients_model.joblib.pkl'
-withoutP_svm_path = 'without_patients_model.joblib.pkl'
+withP_svm_path = '../data/svm/with_patients_model.joblib.pkl'
+withoutP_svm_path = '../data/svm/without_patients_model.joblib.pkl'
 
 def resource_name(filename):
     if getattr(sys, 'frozen', None):
@@ -17,8 +17,8 @@ def resource_name(filename):
          basedir = os.path.dirname(__file__)
     return os.path.join(basedir, filename)
 
-withoutP_svm_path = resource_name(withoutP_svm_path)
-withP_svm_path = resource_name(withP_svm_path)
+#withoutP_svm_path = resource_name(withoutP_svm_path)
+#withP_svm_path = resource_name(withP_svm_path)
 
 
 def merge_arrays(array1, array2):
@@ -46,6 +46,7 @@ class SVM:
         self.dal = SVMDAL()
         try:
             self.load_svm()
+            #pass
         except Exception as e:
             print 'retraining'
             self.train_svm()
@@ -106,16 +107,18 @@ class SVM:
         return features, labels, names
 
     def save_withP_training_data_from_file(self):
-        filename = '../man-made-features.txt'
+        filename = '../normalized_well_features.txt'
         lines = open(filename, 'r')
         lines = [l.strip() for l in lines if l]
         rows = []
-        for l in lines:
+        for cnt, l in enumerate(lines):
             parts = l.split('----')
             label = int(parts[1])
             patient_features = parts[2].split(',')
             patient_features = [float(p) for p in patient_features]
             image_features = parts[3].split(',')
+            #for i, p in enumerate(image_features):
+            #    print cnt, float(p)
             image_features = [float(p) for p in image_features]
             rows.append((json.dumps(patient_features), json.dumps(image_features), label))
         self.dal.save_withP_training_data(rows)
