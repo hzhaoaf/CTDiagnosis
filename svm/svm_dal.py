@@ -9,21 +9,21 @@ sys.path.append('../')
 #from config import database_path
 ##这里需要根据config所在路径计算database_path的最终路径
 #database_path = '%s/%s' % (os.path.dirname(config.__file__), database_path)
-database_path = 'ctdiagnosis.db'
+database_path = '../data/database/ctdiagnosis.db'
 
-database_path = 'ctdiagnosis.db'
-
-if getattr(sys, 'frozen', None):
-     basedir = sys._MEIPASS
-else:
-     basedir = os.path.dirname(__file__)
-
-
-
-print database_path
-database_path = os.path.join(basedir, database_path)
-#database_path = resource_path(database_path)
-print database_path
+#database_path = 'ctdiagnosis.db'
+#
+#if getattr(sys, 'frozen', None):
+#     basedir = sys._MEIPASS
+#else:
+#     basedir = os.path.dirname(__file__)
+#
+#
+#
+#print database_path
+#database_path = os.path.join(basedir, database_path)
+##database_path = resource_path(database_path)
+#print database_path
 #
 class SVMDAL:
 

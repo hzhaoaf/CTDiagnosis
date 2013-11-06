@@ -6,7 +6,8 @@
 import os, json
 #import pdb;pdb.set_trace()
 well_dir = u'F:\良性'
-files = os.listdir(well_dir)
+ill_dir = u'F:\恶性'
+files = os.listdir(ill_dir)
 name_labels = {}
 name_features = {}
 name_images = {}
@@ -22,7 +23,7 @@ def convert_feature_list(converting_list):
 
 for f in files:
     print f
-    lines = open('%s/%s' % (well_dir, f), 'r').readlines()
+    lines = open('%s/%s' % (ill_dir, f), 'r').readlines()
     if f == 'patient_features.txt':
         lines = lines[1:]
         lines = [l.strip().split('\t') for l in lines if l]
@@ -41,7 +42,7 @@ for name, images_features in name_images.items():
         patient_features = name_features.get(name.encode('utf8'), [])
         res.append([name.encode('utf8'), label, ','.join(patient_features), ','.join(image_features)])
 
-f = open('normalized_features.txt', 'w+')
+f = open('normalized_ill_features.txt', 'w+')
 for r in res:
     #print r
     line = '%s\n' % '----'.join(r)

@@ -19,8 +19,8 @@ from ImageView import ImageView
 
 from Image import Image
 from append import *
-from svm import SVM
 sys.path.append("..")
+from svm.svm import SVM
 from Curvelet import ccf
 from scipy import misc
 from PatientInfoDialog import PatientInfoDialog,PatientInfoReadOnlyDialog
