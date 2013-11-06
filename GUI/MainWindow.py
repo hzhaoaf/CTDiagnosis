@@ -292,6 +292,8 @@ class ImageWindow(AbsWindow):
 		
 if __name__ == '__main__':
 	import sys
+
+
 	#QSetting http://blog.sina.com.cn/s/blog_4b5039210100h3zb.html
 	globalSettings = QtCore.QSettings("JiZhe","CTAnalysis")
 	globalSettings.setValue("view/scale",QtCore.QVariant(True))

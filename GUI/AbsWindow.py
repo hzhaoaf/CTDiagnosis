@@ -391,7 +391,8 @@ class AbsWindow(QtGui.QMainWindow):
 		
 		image_features_dic = {}#{'../data/images/131102_110830004_croped_regiongrowed.png':[6.9639934,2,23]}
 		for _qname in all_image_paths:
-			name = qs2ps(_qname)
+			name = qs2ps_for_path(_qname)
+			#name = qs2ps(_qname)
 			XX = misc.imread(name)
 			#If it's a gray image, shape of XX would be 2d ,sth like (73,63)
 			if len(XX.shape) == 2:

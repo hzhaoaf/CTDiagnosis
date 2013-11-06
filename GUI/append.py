@@ -15,6 +15,11 @@ def qs2ps(zhongwen):
 	http://www.cnblogs.com/babykick/archive/2011/05/16/2048155.html'''
 	return unicode(zhongwen,'gbk','ignore').encode('gb2312')
 
+def qs2ps_for_path(zhongwen):
+	'''PyQt的QString和python的string的区别
+	http://www.cnblogs.com/babykick/archive/2011/05/16/2048155.html'''
+	return unicode(zhongwen,'utf8')
+
 def dcm2Png(filePath):
 	'''Input:  .dcm file path
 	Output: .png file path'''
