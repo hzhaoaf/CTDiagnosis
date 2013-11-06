@@ -5,13 +5,32 @@ import sqlite3
 
 from datetime import datetime
 import time
+import os
+#filename = 'myfilename.tga'
+database_path = 'ctdiagnosis.db'
+
+if getattr(sys, 'frozen', None):
+     basedir = sys._MEIPASS
+else:
+     basedir = os.path.dirname(__file__)
+
+
+
+print database_path
+database_path = os.path.join(basedir, database_path)
+#database_path = resource_path(database_path)
+print database_path
+#if '_MEIPASS2' in os.environ:
+#    database_path = os.path.join(os.environ['_MEIPASS2'], database_path)
+
 
 sys.path.append('../')
 
-import config
-from config import database_path
+#import config
+#from config import database_path
 #这里需要根据config所在路径计算database_path的最终路径
-database_path = '%s/%s' % (os.path.dirname(config.__file__), database_path)
+#database_path = '%s/%s' % (os.path.dirname(config.__file__), database_path)
+
 
 table_sqls = ['''create table if not exists diagnosis_record (
                 id integer primary key autoincrement,
@@ -133,7 +152,7 @@ class GUIDAL:
 
 if __name__ == '__main__':
     gui_dal = GUIDAL()
-    gui_dal.create_tables()
+    #gui_dal.create_tables()
     #gui_dal.show_tables()
     #images = [{'name': 'file2', 'features': '{}', 'type': 1, 'label': 2},
     #          {'name': 'file3', 'features': '{}', 'type': 1, 'label': 2},

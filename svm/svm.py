@@ -7,8 +7,19 @@ from sklearn.externals import joblib
 from svm_dal import SVMDAL
 
 train_data = '../data/trainData-36-9-19.txt'
-withP_svm_path = '../data/svm/with_patients_model.joblib.pkl'
-withoutP_svm_path = '../data/svm/without_patients_model.joblib.pkl'
+withP_svm_path = 'with_patients_model.joblib.pkl'
+withoutP_svm_path = 'without_patients_model.joblib.pkl'
+
+def resource_name(filename):
+    if getattr(sys, 'frozen', None):
+         basedir = sys._MEIPASS
+    else:
+         basedir = os.path.dirname(__file__)
+    return os.path.join(basedir, filename)
+
+withoutP_svm_path = resource_name(withoutP_svm_path)
+withP_svm_path = resource_name(withP_svm_path)
+
 
 def merge_arrays(array1, array2):
     '''

@@ -7,7 +7,7 @@ from sklearn.utils import weight_vector,lgamma
 from sklearn.decomposition import PCA, FastICA
 from sklearn.pls import PLSRegression
 #from skimage import transform,graph,draw
-from skimage._shared import geometry
+#from skimage._shared import geometry
 import time
 from PyQt4 import QtGui, QtCore
 from PyQt4.QtCore import Qt
@@ -16,8 +16,8 @@ from ImageView import ImageView
 
 from Image import Image
 from append import *
+from svm import SVM
 sys.path.append("..")
-from svm.svm import SVM
 from Curvelet import ccf
 from scipy import misc
 from PatientInfoDialog import PatientInfoDialog,PatientInfoReadOnlyDialog

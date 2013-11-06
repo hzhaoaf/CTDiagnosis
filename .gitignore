@@ -47,3 +47,5 @@ nosetests.xml
 
 #data/images/
 images/
+
+*.pkl

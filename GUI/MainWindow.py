@@ -5,12 +5,14 @@ from PyQt4.QtCore import Qt
 from PyQt4.QtCore import QRect,QString
 from ImageView import ImageView
 from Image import Image
-from append import *
 import sys
+
+from svm import SVM
 
 sys.path.append("..")
 
-from svm.svm import SVM
+
+from append import *
 from Curvelet import ccf
 from scipy import misc
 from PatientInfoDialog import PatientInfoDialog
