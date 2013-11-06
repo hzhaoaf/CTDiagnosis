@@ -6,8 +6,11 @@ import sys
 from sklearn.utils import weight_vector,lgamma
 from sklearn.decomposition import PCA, FastICA
 from sklearn.pls import PLSRegression
-#from skimage import transform,graph,draw
-#from skimage._shared import geometry
+
+from skimage import transform,graph,draw
+from skimage._shared import geometry,interpolation,transform
+from skimage._shared import *
+
 import time
 from PyQt4 import QtGui, QtCore
 from PyQt4.QtCore import Qt
