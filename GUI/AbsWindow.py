@@ -404,7 +404,7 @@ class AbsWindow(QtGui.QMainWindow):
 			vec = []
 			for r in results[:-1]:#The last item has 3 cells
 				vec+= r
-			
+			print(vec)
 			image_features_dic[name] = vec
 			
 		self.svmPredict(image_features_dic)

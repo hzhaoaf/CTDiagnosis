@@ -44,13 +44,13 @@
    <property name="title">
     <string>患病信息</string>
    </property>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>70</x>
       <y>21</y>
       <width>161</width>
-      <height>91</height>
+      <height>94</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout">
@@ -74,7 +74,7 @@
          <property name="font">
           <font>
            <family>Arial</family>
-           <pointsize>18</pointsize>
+           <pointsize>14</pointsize>
           </font>
          </property>
          <property name="text">
@@ -107,7 +107,7 @@
          <property name="font">
           <font>
            <family>Arial</family>
-           <pointsize>18</pointsize>
+           <pointsize>14</pointsize>
           </font>
          </property>
          <property name="text">
