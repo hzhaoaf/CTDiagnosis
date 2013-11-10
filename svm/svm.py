@@ -166,8 +166,34 @@ class SVM:
         withoutP_probability = positive_num / float(pred_num)
         return (withP_probability, withoutP_probability)
 
+    def test_withoutP_svm(self):
+        label = 1
+        test_data = self.dal.get_withoutP_test_data(label=label, limit=2000)
+        test_data = [json.loads(r[0]) for r in test_data]
+        test_res = self.withoutP_clf.predict(test_data)
+        print test_res
+        label_res = [r for r in test_res if r == label]
+        print len(label_res), '/', len(test_res)
+
+    def test_withP_svm(self):
+        label = 0
+        test_data = self.dal.get_withP_test_data(label=label, limit=2000)
+        test_features = []
+        for r in test_data:
+            patient_features = json.loads(r[0])
+            image_features = json.loads(r[1])
+            test_features.append(patient_features + image_features)
+        test_res = self.withP_clf.predict(test_features)
+        print test_res
+        label_res = [r for r in test_res if r == label]
+        print len(label_res), '/', len(test_res)
+
+
+
 if __name__ == '__main__':
     svm = SVM()
+    #svm.test_withoutP_svm()
+    svm.test_withP_svm()
     #svm.save_trainning_data_from_file(train_data)
     #svm.save_withP_training_data_from_file()
     #a = [[1, 2], [3, 4], [5, 6]]
