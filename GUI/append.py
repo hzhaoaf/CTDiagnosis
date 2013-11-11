@@ -50,7 +50,7 @@ def openFileDialog(parent,caption,settingName,filters,savePath):
 		fd.setWindowTitle(caption)
 	if savePath.isNull():
 	        #No save path specified -> start in current directory
-		fd.setDirectory(".")
+		fd.setDirectory("..")#open the parent file folder
         else:
 		#Try to set last used saved path, if it exists
 		globalSettings = QtCore.QSettings("JiZhe","CTAnalysis")

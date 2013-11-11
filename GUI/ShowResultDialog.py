@@ -12,8 +12,8 @@ from append import qs2ps,ps2qs
 class ShowResultDialog(QDialog,ui_ShowResultDialog.Ui_Dialog):
 	def __init__(self,predict_value1=0,predict_value2 = 0,parent=None):
 		super(ShowResultDialog,self).__init__(parent)
-		self._predict_value1 = predict_value1
-		self._predict_value2 = predict_value2
+		self._predict_value2 = predict_value1#with
+		self._predict_value1 = predict_value2#with_out
 		self.setupUi(self)
 		self.updateUi()
 			
