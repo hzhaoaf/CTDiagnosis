@@ -55,6 +55,16 @@ class SVMDAL:
         self.cursor.executemany(sql, rows)
         self.conn.commit()
 
+    def get_withoutP_test_data(self, label=0, limit=10):
+        sql = 'select image_features from training_data where label = ? limit ?'
+        self.cursor.execute(sql, (label, limit))
+        return self.cursor.fetchall()
+
+
+    def get_withP_test_data(self, label=0, limit=10):
+        sql = 'select patient_features, image_features from training_data where patient_features != "" and label = ? limit ?'
+        self.cursor.execute(sql, (label, limit))
+        return self.cursor.fetchall()
 
 
 
