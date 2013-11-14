@@ -1,4 +1,4 @@
-CTdiagnosis
+CTDiagnosis
 ===========
 
 ###What is it?
