@@ -20,10 +20,14 @@ CT images sequence.
 
 ###Technologies
 
-- [PyQt](http://www.riverbankcomputing.co.uk/software/pyqt/download/) 
+- [PyQt](http://www.riverbankcomputing.co.uk/software/pyqt/download/) for the GUI 
 and [Installation Guide](http://blog.csdn.net/bookeezhou/article/details/6229011)
-- scikit-learn [details on github](https://github.com/scikit-learn/scikit-learn)
-- [numpy](http://www.numpy.org/)
+- scikit-learn [details on github](https://github.com/scikit-learn/scikit-learn) for SVM
+- [numpy](http://www.numpy.org/) for Region Grow and CDFT
+- [skimage](http://scikit-image.org/docs/dev/api/skimage.html) for Image Processing
+- sqlite3 for the database
+- [PyInstaller](http://www.pyinstaller.org/) for building stand-alone executables program
+- [pydicom](http://code.google.com/p/pydicom/) for dealing the dicom type Image
 
 
 ###Special Thanks
