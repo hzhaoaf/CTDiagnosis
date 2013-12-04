@@ -14,6 +14,9 @@ def get_LUT_value(data, window, level):
                         [0, 255, lambda data: ((data - (level - 0.5)) / (window - 1) + 0.5) * (255 - 0)])
 
 def dcm2pil(dataset):
+    #originalValue * rescaleSlope + rescaleIntercept
+
+        
     if ('WindowWidth' not in dataset) or ('WindowCenter' not in dataset):  # can only apply LUT if these values exist
         bits = dataset.BitsAllocated
         samples = dataset.SamplesPerPixel
@@ -30,12 +33,21 @@ def dcm2pil(dataset):
         size = (dataset.Columns, dataset.Rows)
         im = PIL.Image.frombuffer(mode, size, dataset.PixelData, "raw", mode, 0, 1)  # Recommended to specify all details by http://www.pythonware.com/library/pil/handbook
     else:
-            image = get_LUT_value(dataset.pixel_array, dataset.WindowWidth, dataset.WindowCenter)
+        if ('RescaleIntercept' in dataset) and ('RescaleSlope' in dataset) :
+            #according to http://stackoverflow.com/questions/8756096/window-width-and-center-calculation-of-dicom-image
+            #finalValue = originalValue * rescaleSlope + rescaleIntercept
+            slope = dataset.RescaleSlope 
+            intecept = dataset.RescaleIntercept
+            newdata = dataset.pixel_array * slope + intecept        
+            image = get_LUT_value(newdata, dataset.WindowWidth, dataset.WindowCenter)
             im = PIL.Image.fromarray(image).convert('L')  # Convert mode to L since LUT has only 256 values: http://www.pythonware.com/library/pil/handbook/image.htm
+        else:
+            image = get_LUT_value(dataset.pixel_array, dataset.WindowWidth, dataset.WindowCenter)
+            im = PIL.Image.fromarray(image).convert('L')  # Convert mode to L since LUT has only 256 values: http://www.pythonware.com/library/pil/handbook/image.htm            
     return im
 
 def testCase():
-    plan=dicom.read_file("1.DCM")
+    plan=dicom.read_file("1.dcm")
     im = dcm2pil(plan)
     im.save(os.getcwd()+"/converted.png")
 
